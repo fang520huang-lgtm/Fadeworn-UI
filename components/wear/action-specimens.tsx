@@ -37,7 +37,7 @@ export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { re
   const leftWear = record.trace.slice(0, 12).reduce((a, b) => a + b, 0) / 12;
   const rightWear = record.trace.slice(12).reduce((a, b) => a + b, 0) / 12;
   return (
-    <SpecimenFrame index="02" title="Two-State Lever" material="BAKELITE / STEEL" note="LEVER PATH FRICTION" record={record} onReset={onReset}>
+    <SpecimenFrame index="02" title="Two-State Lever" material="BAKELITE" note="REST-SIDE FRICTION" record={record} onReset={onReset}>
       <div className="control-bay toggle-bay">
         <div className="toggle-assembly">
           <span className="toggle-label">OFF</span>
@@ -49,7 +49,7 @@ export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { re
               onCheckedChange={(value) => {
                 setChecked(value);
                 markUse("toggle", 1.1);
-                markTrace("toggle", value ? 0.88 : 0.12, 1.6);
+                markTrace("toggle", value ? 0.82 : 0.18, 1.6);
               }}
             />
           </div>

@@ -109,7 +109,7 @@ export default function Home() {
 
       <section className="gallery-section" id="specimens">
         <div className="section-heading">
-          <div><p className="section-index">02 / INTERACTIVE SPECIMENS</p><h2>十个会记住你的控件</h2></div>
+          <div><p className="section-index">02 / INTERACTIVE SPECIMENS</p><h2>会记住你的控件</h2></div>
           <p>连续操作它们。相同的材质语言，产生不同的磨损机制。</p>
         </div>
         <div className="specimen-grid">
