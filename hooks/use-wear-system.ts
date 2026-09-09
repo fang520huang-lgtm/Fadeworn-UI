@@ -36,12 +36,15 @@ export type WearState = Record<ComponentId, WearRecord>;
 
 const LEGACY_STORAGE_KEY = "wear-ui-lab/v2";
 const TRACE_SEGMENTS = 24;
+const WEARABLE_COMPONENT_IDS = COMPONENT_IDS.filter(
+  (id): id is Exclude<ComponentId, "input"> => id !== "input",
+);
 
 const increments: Record<ComponentId, number> = {
   button: 0.034,
   toggle: 0.042,
   slider: 0.009,
-  input: 0.004,
+  input: 0,
   tabs: 0.028,
   navigation: 0.025,
   card: 0.036,
@@ -181,7 +184,7 @@ export function useWearSystem() {
   const accelerate = useCallback(() => {
     setWearState((current) => {
       const next = { ...current } as WearState;
-      COMPONENT_IDS.forEach((id, componentIndex) => {
+      WEARABLE_COMPONENT_IDS.forEach((id, componentIndex) => {
         const record = current[id];
         const focus = ((componentIndex * 7 + 5) % TRACE_SEGMENTS) / (TRACE_SEGMENTS - 1);
         const center = Math.round(focus * (TRACE_SEGMENTS - 1));
@@ -206,10 +209,10 @@ export function useWearSystem() {
   }, []);
 
   const stats = useMemo(() => {
-    const records = Object.values(wearState);
+    const records = WEARABLE_COMPONENT_IDS.map((id) => wearState[id]);
     const interactions = records.reduce((sum, item) => sum + item.usageCount, 0);
     const averageWear = records.reduce((sum, item) => sum + item.wearLevel, 0) / records.length;
-    const mostUsed = COMPONENT_IDS.reduce((best, id) =>
+    const mostUsed = WEARABLE_COMPONENT_IDS.reduce((best, id) =>
       wearState[id].usageCount > wearState[best].usageCount ? id : best,
     );
     return { interactions, averageWear, mostUsed };

@@ -204,37 +204,45 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 }
 .control-bay > p { margin: 24px 0 0; color: #6e786e; font-size: 12px; letter-spacing: .05em; }
 
-/* Button: each actuation fades the complete painted face. */
+/* Button: repeated actuation polishes matte paint before exposing the metal below. */
 .lab-push-button {
   width: min(64%, 270px) !important; height: 102px !important; position: relative; isolation: isolate; overflow: hidden;
-  border: 1px solid #596158 !important; border-radius: calc(10px + var(--level) * 5px) !important;
+  border: 1px solid #596158 !important; border-radius: 10px !important;
   color: #e7e2d3 !important;
-  background: linear-gradient(180deg, #353d35, #1a201b) !important;
-  box-shadow: 0 calc(11px - var(--level) * 5px) 0 #080a08, 0 18px 30px #0009, inset 0 1px #747c72, inset 0 -1px #090b09 !important;
-  filter: saturate(calc(1 - var(--level) * .46)) brightness(calc(1 + var(--level) * .14));
-  transform: translateY(calc(var(--level) * 4px)); transition: transform .12s ease, box-shadow .18s ease, border-radius .3s ease, filter .25s ease;
+  background: radial-gradient(ellipse at 50% 8%, rgba(122,132,120,.17), transparent 48%), linear-gradient(180deg, #353d35, #1a201b) !important;
+  box-shadow: 0 11px 0 #080a08, 0 18px 30px #0009, inset 0 1px #747c72, inset 0 -1px #090b09 !important;
+  filter: saturate(calc(1 - var(--level) * .22)) brightness(calc(1 + var(--level) * .04));
+  transition: transform .12s ease, box-shadow .18s ease, filter .25s ease;
 }
 .lab-push-button::before {
-  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  opacity: calc(var(--level) * .9);
-  background: linear-gradient(180deg, rgba(184,178,151,.66), rgba(125,124,108,.48));
+  content: ""; position: absolute; inset: 3px; z-index: 0; pointer-events: none; border-radius: 7px;
+  opacity: calc(var(--level) * .96);
+  background:
+    radial-gradient(ellipse at 50% 44%, rgba(214,211,190,.72) 0 16%, rgba(160,164,146,.48) 34%, rgba(113,121,107,.2) 52%, transparent 70%),
+    radial-gradient(ellipse at 37% 69%, rgba(211,199,165,.24), transparent 42%);
   mix-blend-mode: screen;
+  filter: blur(.35px);
 }
+.lab-push-button::after { content: ""; position: absolute; inset: 3px; z-index: 1; pointer-events: none; border-radius: 7px; opacity: clamp(0, calc((var(--level) - .18) * 1.45), 1); background: radial-gradient(circle at 12% 8%, rgba(222,211,176,.58) 0 2px, transparent 4px), radial-gradient(circle at 91% 17%, rgba(211,198,159,.46) 0 3px, transparent 5px), radial-gradient(circle at 83% 92%, rgba(220,209,172,.5) 0 2px, transparent 4px), radial-gradient(ellipse at 50% 102%, rgba(199,190,158,.45), transparent 39%); box-shadow: inset 0 0 0 1px rgba(218,207,174,.2); mix-blend-mode: screen; }
 .lab-push-button:active { transform: translateY(8px); box-shadow: 0 3px 0 #080a08, 0 8px 15px #0008, inset 0 1px #777f75 !important; }
 .button-caption { position: relative; z-index: 5; display: flex; flex-direction: column; gap: 8px; text-shadow: 0 1px 2px #000; }
 .button-caption b { font-size: 16px; letter-spacing: .2em; }.button-caption small { color: #8e978c; font: 9px/1 Consolas, monospace; letter-spacing: .16em; }
 .hit-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; border-radius: inherit; }
 .hit-layer i { width: 74px; height: 48px; position: absolute; border-radius: 50%; background: radial-gradient(ellipse, rgba(230,201,139,.86), rgba(156,126,73,.28) 45%, transparent 73%); mix-blend-mode: screen; filter: blur(3px); transition: opacity .25s ease; }
 
-/* Toggle: the parked side becomes locally polished. */
+/* Toggle: a physical lever and its shoe travel together across a worn horizontal slot. */
 .toggle-assembly { display: flex; align-items: center; gap: 18px; }
 .toggle-label { color: #7c867b; font: 10px/1 Consolas, monospace; letter-spacing: .16em; }
-.toggle-shell { --left-wear: 0; --right-wear: 0; position: relative; padding: 22px 24px; border: 1px solid #3c443c; background: #141814; box-shadow: inset 0 3px 11px #000; }
-.toggle-shell::before, .toggle-shell::after { content: ""; position: absolute; top: 8px; bottom: 8px; width: 42%; border-radius: 50%; background: radial-gradient(ellipse, rgba(207,176,112,.64), transparent 69%); filter: blur(4px); mix-blend-mode: screen; pointer-events: none; }
-.toggle-shell::before { left: 4px; opacity: var(--left-wear); }.toggle-shell::after { right: 4px; opacity: var(--right-wear); }
-.lab-switch { width: 118px !important; height: 52px !important; position: relative; flex: none; overflow: hidden; border: 1px solid #5b635a !important; border-radius: 5px !important; background: linear-gradient(180deg, #242b25, #101411) !important; box-shadow: inset 0 4px 10px #000, 0 1px #61685f !important; }
-.lab-switch [data-slot="switch-thumb"] { --tw-translate-x: 0px !important; --tw-translate-y: 0px !important; width: 50px !important; height: 42px !important; position: absolute; left: 4px; top: 4px; margin: 0; border-radius: 4px !important; border: 1px solid #71776c; background: repeating-linear-gradient(90deg, #383d36 0 2px, #252a25 2px 5px) !important; box-shadow: 0 4px 10px #000, inset 0 1px #94998e; transform: none !important; transition: left .34s cubic-bezier(.2,.85,.2,1.15) !important; }
-.lab-switch[data-state="checked"] [data-slot="switch-thumb"] { left: 62px; transform: none !important; }
+.toggle-shell { --left-wear: 0; --right-wear: 0; position: relative; padding: 18px 20px; border: 1px solid #3c443c; background: #111511; box-shadow: inset 0 4px 13px #000, 0 1px rgba(107,116,105,.2); }
+.lab-switch { width: 176px !important; height: 78px !important; position: relative; flex: none; overflow: hidden; border: 1px solid #646c61 !important; border-radius: 8px !important; background: linear-gradient(180deg, #1b211c, #0c100d) !important; box-shadow: inset 0 5px 14px #000, inset 0 -1px #555e54, 0 1px #596157 !important; }
+.lab-switch::before { content: ""; position: absolute; z-index: 0; left: 13px; right: 13px; top: 53px; height: 8px; border: 1px solid #485047; border-radius: 5px; background: linear-gradient(180deg, #080a08, #202620); box-shadow: inset 0 2px 4px #000, 0 1px rgba(126,137,122,.26); pointer-events: none; }
+.lab-switch::after { content: ""; position: absolute; z-index: 1; inset: 4px; pointer-events: none; background: radial-gradient(ellipse at 18% 72%, rgb(220 190 126 / calc(var(--left-wear) * .78)), transparent 24%), radial-gradient(ellipse at 82% 72%, rgb(220 190 126 / calc(var(--right-wear) * .78)), transparent 24%); filter: blur(2px); mix-blend-mode: screen; }
+.lab-switch [data-slot="switch-thumb"] { --tw-translate-x: 0px !important; --tw-translate-y: 0px !important; width: 54px !important; height: 25px !important; position: absolute; z-index: 3; left: 10px; top: 41px; margin: 0; overflow: visible; border-radius: 5px 5px 7px 7px !important; border: 1px solid #777e73; background: linear-gradient(180deg, #424940, #252b26) !important; box-shadow: 0 5px 8px #000c, inset 0 1px #a3a99e, inset 0 -2px #171b18; transform: none !important; transition: left .36s cubic-bezier(.2,.82,.2,1), filter .2s ease !important; }
+.lab-switch [data-slot="switch-thumb"]::before { content: ""; position: absolute; left: 18px; bottom: 17px; width: 17px; height: 37px; border: 1px solid #7f867a; border-radius: 7px 7px 3px 3px; background: linear-gradient(90deg, #252b26, #535b51 48%, #292f2a); box-shadow: 3px 3px 7px #0009, inset 1px 0 rgba(188,193,181,.3); transform: rotate(-8deg); transform-origin: 50% 100%; transition: transform .36s cubic-bezier(.2,.82,.2,1); }
+.lab-switch [data-slot="switch-thumb"]::after { content: ""; position: absolute; inset: 5px 8px 7px; border-top: 1px solid rgba(190,197,183,.45); border-radius: 4px; background: linear-gradient(90deg, transparent, rgba(184,190,176,.16), transparent); }
+.lab-switch[data-state="checked"] [data-slot="switch-thumb"] { left: calc(100% - 64px); transform: none !important; }
+.lab-switch[data-state="checked"] [data-slot="switch-thumb"]::before { transform: rotate(8deg); }
+.lab-switch:active [data-slot="switch-thumb"] { filter: brightness(1.16); }
 .toggle-bay > p { color: #a78a55; font-family: Consolas, monospace; letter-spacing: .15em; }
 
 /* Slider: a stored, continuous travel heatmap. */
@@ -250,22 +258,12 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .slider-ticks { position: absolute; inset: auto 0 4px; display: flex; justify-content: space-between; }
 .slider-ticks i { width: 1px; height: 7px; background: #4a5249; }
 
-/* Input: focusing the terminal fades the complete printed face. */
+/* Input: intentionally stable; content changes, the surface does not age. */
 .input-bay { padding: 12%; align-items: stretch; }
 .input-bay > label { margin-bottom: 10px; color: #818a80; font: 10px/1 Consolas, monospace; letter-spacing: .16em; }
-.input-shell { --input-wear: 0; height: 64px; position: relative; border: 1px solid #4b544b; background: #111511; box-shadow: inset 0 4px 10px #000; overflow: hidden; }
-.input-shell::after {
-  content: ""; position: absolute; pointer-events: none; inset: 1px;
-  opacity: calc(var(--input-wear) * .82);
-  background:
-    repeating-linear-gradient(104deg, transparent 0 42px, rgba(224,207,164,.09) 43px 44px, transparent 45px 70px),
-    linear-gradient(180deg, rgba(192,188,166,.27), rgba(158,150,122,.17));
-  mix-blend-mode: screen;
-  transition: opacity .25s ease;
-}
+.input-shell { height: 64px; position: relative; border: 1px solid #4b544b; background: #111511; box-shadow: inset 0 4px 10px #000; overflow: hidden; }
 .lab-input { height: 100% !important; position: relative; z-index: 4; padding: 0 19px !important; border: 0 !important; border-radius: 0 !important; color: #e4dfcf !important; background: transparent !important; box-shadow: none !important; font: 16px/1.4 Consolas, monospace !important; }
 .lab-input::placeholder { color: #626b62 !important; }
-.input-shell .hit-layer i { width: 40px; height: 30px; }
 .input-bay > p { align-self: flex-start; font: 10px/1 Consolas, monospace; letter-spacing: .12em; }
 
 /* Tabs: frequency-specific bleaching per segment. */
@@ -409,7 +407,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   .hero-copy h1 { font-size: 45px; }.lede { font-size: 16px; }.hero-actions { flex-direction: column; }.hero-actions button { width: 100%; }
   .instrument-panel { padding: 11px; }.overall-gauge { padding: 36px 18px; }.material-strip { gap: 6px; }
   .section-heading h2, .inspector-copy h2 { font-size: 38px; }.specimen-card__head { padding: 21px 22px 16px !important; }.specimen-card__head h3 { font-size: 23px; }.specimen-card__body { padding: 11px !important; }.specimen-card__foot { padding-inline: 21px; }
-  .control-bay { min-height: 320px; }.lab-push-button { width: 74% !important; }.slider-bay, .tabs-bay, .nav-bay, .choice-bay { padding-inline: 7%; }
+  .control-bay { min-height: 320px; }.lab-push-button { width: 74% !important; }.toggle-assembly { gap: 9px; }.toggle-shell { padding-inline: 13px; }.lab-switch { width: 160px !important; }.slider-bay, .tabs-bay, .nav-bay, .choice-bay { padding-inline: 7%; }
   .folio-bay { padding-inline: 6%; }.wear-folio { padding-right: 20px !important; }.wear-folio h4 { font-size: 23px; }
   .knob-bay { flex-direction: column; gap: 25px; }.knob-readout { align-items: center; }
   .ledger-head, .ledger-row { grid-template-columns: 1fr 62px 100px; gap: 9px; }.ledger-head span:nth-child(2) { font-size: 0; }.ledger-head span:nth-child(2)::after { content: "USES"; font-size: 9px; }.ledger-row > span:first-child { gap: 9px; font-size: 11px; }.ledger-row > span:first-child i { display: none; }

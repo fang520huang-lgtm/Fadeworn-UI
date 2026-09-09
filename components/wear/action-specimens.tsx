@@ -37,7 +37,7 @@ export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { re
   const leftWear = record.trace.slice(0, 12).reduce((a, b) => a + b, 0) / 12;
   const rightWear = record.trace.slice(12).reduce((a, b) => a + b, 0) / 12;
   return (
-    <SpecimenFrame index="02" title="Two-State Lever" material="BAKELITE" note="REST-SIDE FRICTION" record={record} onReset={onReset}>
+    <SpecimenFrame index="02" title="Two-State Lever" material="BAKELITE / STEEL" note="LEVER PATH FRICTION" record={record} onReset={onReset}>
       <div className="control-bay toggle-bay">
         <div className="toggle-assembly">
           <span className="toggle-label">OFF</span>
@@ -49,7 +49,7 @@ export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { re
               onCheckedChange={(value) => {
                 setChecked(value);
                 markUse("toggle", 1.1);
-                markTrace("toggle", value ? 0.82 : 0.18, 1.6);
+                markTrace("toggle", value ? 0.88 : 0.12, 1.6);
               }}
             />
           </div>
@@ -61,25 +61,24 @@ export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { re
   );
 }
 
-export function WearInputSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
+export function WearInputSpecimen({ record, onReset }: { record: WearRecord } & Resettable) {
   const [value, setValue] = useState("");
   return (
-    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="UNIFORM FACE FADE" record={record} onReset={onReset}>
+    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="MONITORED / NO AGING" record={record} onReset={onReset}>
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
-        <div className="input-shell" style={{ "--input-wear": record.wearLevel } as React.CSSProperties}>
+        <div className="input-shell">
           <Input
             id="field-terminal"
             className="lab-input"
             value={value}
             placeholder="Type to leave a trace…"
-            onPointerDown={() => markUse("input", 1)}
             onChange={(event) => {
               setValue(event.target.value);
             }}
           />
         </div>
-        <p>{value.length ? `${value.length} IMPRESSIONS RECORDED` : "WAITING FOR INPUT"}</p>
+        <p>{value.length ? `${value.length} CHARACTERS ENTERED` : "NO SURFACE AGING"}</p>
       </div>
     </SpecimenFrame>
   );
