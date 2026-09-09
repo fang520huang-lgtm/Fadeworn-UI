@@ -118,7 +118,9 @@ export function useWearSystem() {
     (id: ComponentId, intensity = 1, point?: { x: number; y: number }) => {
       setWearState((current) => {
         const record = current[id];
-        const hitPositions = point
+        const wearLevel = clamp(record.wearLevel + increments[id] * intensity);
+        const canAddWear = wearLevel > record.wearLevel;
+        const hitPositions = point && canAddWear
           ? [
               ...record.hitPositions,
               {
@@ -134,7 +136,7 @@ export function useWearSystem() {
           [id]: {
             ...record,
             usageCount: record.usageCount + 1,
-            wearLevel: clamp(record.wearLevel + increments[id] * intensity),
+            wearLevel,
             lastUsed: Date.now(),
             hitPositions,
           },
@@ -148,18 +150,24 @@ export function useWearSystem() {
     (id: ComponentId, position: number, intensity = 1, countAsUse = false) => {
       setWearState((current) => {
         const record = current[id];
+        const requestedWear = increments[id] * intensity;
+        const wearLevel = clamp(record.wearLevel + requestedWear);
+        const appliedWear = wearLevel - record.wearLevel;
+        const appliedIntensity = requestedWear > 0
+          ? intensity * (appliedWear / requestedWear)
+          : 0;
         const center = Math.round(clamp(position) * (TRACE_SEGMENTS - 1));
         const trace = record.trace.map((value, index) => {
           const distance = Math.abs(index - center);
           const addition = distance === 0 ? 0.055 : distance === 1 ? 0.024 : 0;
-          return clamp(value + addition * intensity);
+          return clamp(value + addition * appliedIntensity);
         });
         return {
           ...current,
           [id]: {
             ...record,
             usageCount: record.usageCount + (countAsUse ? 1 : 0),
-            wearLevel: clamp(record.wearLevel + increments[id] * intensity),
+            wearLevel,
             lastUsed: Date.now(),
             trace,
           },
@@ -186,6 +194,7 @@ export function useWearSystem() {
       const next = { ...current } as WearState;
       WEARABLE_COMPONENT_IDS.forEach((id, componentIndex) => {
         const record = current[id];
+        const isFullyWorn = record.wearLevel >= 1;
         const focus = ((componentIndex * 7 + 5) % TRACE_SEGMENTS) / (TRACE_SEGMENTS - 1);
         const center = Math.round(focus * (TRACE_SEGMENTS - 1));
         next[id] = {
@@ -194,7 +203,7 @@ export function useWearSystem() {
           wearLevel: clamp(Math.max(record.wearLevel, 0.62 + (componentIndex % 3) * 0.08)),
           lastUsed: Date.now(),
           hitPositions: record.hitPositions,
-          trace: record.trace.map((value, index) =>
+          trace: isFullyWorn ? record.trace : record.trace.map((value, index) =>
             clamp(
               Math.max(
                 value,
