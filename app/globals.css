@@ -314,27 +314,52 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .lab-nav svg { width: 17px; }.lab-nav button > span { font: 10px/1 Consolas, monospace; letter-spacing: .16em; }
 .lab-nav button > i { height: 2px; background: linear-gradient(90deg, rgba(227,194,129,calc(.25 + var(--nav-wear) * .72)), transparent); }
 
-/* Folio: page edges and spine age with opening count. */
+/* Folio: neutral paper grain remains visible while opening count drives oxidation. */
 .folio-bay { padding: 28px 11%; }
-.wear-folio { width: min(100%, 430px); min-height: 245px; position: relative; isolation: isolate; display: block !important; gap: 0 !important; padding: 29px 29px 23px 43px !important; overflow: hidden; cursor: pointer; border-radius: calc(2px + var(--level) * 11px) 2px calc(4px + var(--level) * 8px) 2px !important; border: 1px solid #726b54 !important; color: #2d2e29 !important; background: linear-gradient(96deg, #9c9475, #c0b996 4%, #aaa383 97%, #777057) !important; box-shadow: -7px 8px 0 #55513e, -10px 13px 18px #0009, inset 0 0 calc(var(--level) * 20px) rgba(68,54,31,.5) !important; filter: saturate(calc(1 - var(--level) * .48)) brightness(calc(1 + var(--level) * .12)); transform: rotate(calc((var(--level) - .5) * .7deg)); transition: transform .2s ease, border-radius .3s ease, filter .3s ease; }
+.wear-folio {
+  width: min(100%, 430px); min-height: 245px; position: relative; isolation: isolate; display: block !important; gap: 0 !important;
+  padding: 29px 29px 23px 43px !important; overflow: hidden; cursor: pointer;
+  border-radius: calc(1px + var(--level) * 10px) 2px calc(3px + var(--level) * 8px) 2px !important;
+  border: 1px solid #8d856c !important; color: #302f27 !important;
+  background:
+    radial-gradient(circle at 14% 19%, rgba(255,255,255,.26), transparent 24%),
+    radial-gradient(ellipse at 75% 68%, rgba(90,82,63,.08), transparent 31%),
+    linear-gradient(92deg, #b9b7ad 0, #dad8cf 4.5%, #d5d3ca 96%, #afada3 100%) !important;
+  box-shadow:
+    -3px 3px 0 #c6c3b8,
+    -6px 6px 0 #a7a49a,
+    -9px 11px 20px #0009,
+    inset 0 0 calc(var(--level) * 18px) rgba(90,62,25,.22) !important;
+  transform: rotate(calc((var(--level) - .5) * .7deg));
+  transition: transform .2s ease, border-radius .3s ease, box-shadow .3s ease;
+}
 .wear-folio::before {
   content: ""; position: absolute; z-index: 0; inset: 0; pointer-events: none;
-  opacity: calc(var(--level) * .9);
-  background:
-    radial-gradient(ellipse at 72% 24%, rgba(238,229,192,.62), transparent 41%),
-    radial-gradient(ellipse at 29% 78%, rgba(235,224,188,.48), transparent 46%),
-    linear-gradient(108deg, rgba(229,218,180,.3), rgba(92,79,51,.14));
-  mix-blend-mode: screen;
+  opacity: .34;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72 .16' numOctaves='3' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23paper)' opacity='.42'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(0deg, rgba(76,68,50,.08) 0 1px, transparent 1px 5px);
+  background-size: 180px 180px, 100% 5px;
+  mix-blend-mode: multiply;
 }
 .wear-folio > * { position: relative; z-index: 1; }
-.wear-folio::after { content: ""; position: absolute; z-index: 2; inset: 0; opacity: var(--level); background: radial-gradient(ellipse at 88% 76%, rgba(65,55,37,.22), transparent 36%), linear-gradient(90deg, rgba(52,45,32,.18), transparent 18%, transparent 83%, rgba(239,228,187,.2)); pointer-events: none; }
-.folio-spine { position: absolute; top: 0; bottom: 0; left: 21px; width: 2px; background: rgba(65,58,43,.56); box-shadow: calc(var(--level) * 3px) 0 calc(var(--level) * 5px) rgba(37,31,22,.46); }
+.wear-folio::after {
+  content: ""; position: absolute; z-index: 0; inset: 0; pointer-events: none;
+  opacity: calc(var(--level) * .96);
+  background:
+    radial-gradient(ellipse at 14% 52%, rgba(139,92,28,.66), rgba(178,126,48,.22) 35%, transparent 62%),
+    radial-gradient(ellipse at 87% 18%, rgba(176,121,42,.42), transparent 36%),
+    radial-gradient(ellipse at 76% 88%, rgba(143,91,25,.48), transparent 41%),
+    linear-gradient(90deg, rgba(121,78,24,.38), rgba(193,143,63,.13) 21%, rgba(205,158,77,.08) 72%, rgba(132,84,25,.34));
+  mix-blend-mode: multiply;
+}
+.folio-spine { position: absolute; top: 0; bottom: 0; left: 21px; width: 1px; background: rgba(74,67,52,.5); box-shadow: 1px 0 rgba(255,250,225,.34), calc(var(--level) * 3px) 0 calc(var(--level) * 5px) rgba(75,48,18,.4); }
 .folio-topline { display: grid; grid-template-columns: 19px 1fr auto; align-items: center; gap: 10px; font: 9px/1 Consolas, monospace; letter-spacing: .14em; }
 .folio-topline svg { width: 15px; height: 15px; }.folio-topline svg:last-child { transition: transform .25s ease; }.folio-topline svg.is-open { transform: rotate(180deg); }
 .wear-folio h4 { margin: 29px 0 13px; font: 700 26px/1.05 Georgia, serif; }.wear-folio > p { max-width: 330px; margin: 0; font-size: 13px; line-height: 1.5; }
 .folio-detail { max-height: 0; overflow: hidden; display: flex; flex-direction: column; opacity: 0; transform: translateY(-6px); transition: all .28s ease; }.folio-detail.is-open { max-height: 80px; opacity: 1; transform: none; margin-top: 22px; padding-top: 13px; border-top: 1px solid rgba(54,51,40,.4); }
 .folio-detail span { font: 8px/1 Consolas, monospace; letter-spacing: .15em; }.folio-detail b { margin-top: 7px; font: 400 12px/1.4 Arial, sans-serif; }
-.folio-corner { position: absolute; right: -1px; bottom: -1px; width: calc(14px + var(--level) * 28px); height: calc(14px + var(--level) * 28px); background: linear-gradient(135deg, rgba(59,54,40,.3) 49%, #d0c8a3 51%); clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.folio-corner { position: absolute; right: -1px; bottom: -1px; width: calc(14px + var(--level) * 28px); height: calc(14px + var(--level) * 28px); background: linear-gradient(135deg, rgba(78,68,47,.25) 49%, rgb(calc(214 - var(--level) * 35), calc(211 - var(--level) * 50), calc(199 - var(--level) * 72)) 51%); box-shadow: -1px -1px rgba(90,79,55,.26); clip-path: polygon(100% 0, 100% 100%, 0 100%); }
 
 /* Choice controls: local contact halos, never state ambiguity. */
 .choice-bay { padding: 38px 12%; align-items: stretch; gap: 30px; }

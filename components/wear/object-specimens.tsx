@@ -16,7 +16,7 @@ type Resettable = { onReset: () => void };
 export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   const [open, setOpen] = useState(false);
   return (
-    <SpecimenFrame index="07" title="Reference Folio" material="FIBER BOARD" note="EDGE FATIGUE / CREASES" record={record} onReset={onReset}>
+    <SpecimenFrame index="07" title="Reference Folio" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} onReset={onReset}>
       <div className="control-bay folio-bay">
         <Card
           role="button"
@@ -38,7 +38,7 @@ export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRec
           <span className="folio-spine" aria-hidden="true" />
           <div className="folio-topline"><FileText aria-hidden="true" /><span>CASE FILE / 017</span><ChevronDown className={open ? "is-open" : ""} aria-hidden="true" /></div>
           <h4>Interface material<br />fatigue study</h4>
-          <p>Repeated opening softens the edge, deepens the spine and leaves diagonal page creases.</p>
+          <p>Repeated opening softens the fibers, warms the exposed paper and deepens the folded spine.</p>
           <div className={`folio-detail ${open ? "is-open" : ""}`}>
             <span>OBSERVATION</span>
             <b>History remains legible after surface loss.</b>
