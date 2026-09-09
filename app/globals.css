@@ -235,8 +235,8 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .toggle-shell::before, .toggle-shell::after { content: ""; position: absolute; top: 8px; bottom: 8px; width: 42%; border-radius: 50%; background: radial-gradient(ellipse, rgba(207,176,112,.64), transparent 69%); filter: blur(4px); mix-blend-mode: screen; pointer-events: none; }
 .toggle-shell::before { left: 4px; opacity: var(--left-wear); }.toggle-shell::after { right: 4px; opacity: var(--right-wear); }
 .lab-switch { width: 118px !important; height: 52px !important; position: relative; flex: none; overflow: hidden; border: 1px solid #5b635a !important; border-radius: 5px !important; background: linear-gradient(180deg, #242b25, #101411) !important; box-shadow: inset 0 4px 10px #000, 0 1px #61685f !important; }
-.lab-switch [data-slot="switch-thumb"] { width: 50px !important; height: 42px !important; position: absolute; left: 4px; top: 4px; margin: 0; border-radius: 4px !important; border: 1px solid #71776c; background: repeating-linear-gradient(90deg, #383d36 0 2px, #252a25 2px 5px) !important; box-shadow: 0 4px 10px #000, inset 0 1px #94998e; translate: 0 0 !important; transform: none !important; transition: left .34s cubic-bezier(.2,.85,.2,1.15) !important; }
-.lab-switch[data-state="checked"] [data-slot="switch-thumb"] { left: 62px; translate: 0 0 !important; transform: none !important; }
+.lab-switch [data-slot="switch-thumb"] { --tw-translate-x: 0px !important; --tw-translate-y: 0px !important; width: 50px !important; height: 42px !important; position: absolute; left: 4px; top: 4px; margin: 0; border-radius: 4px !important; border: 1px solid #71776c; background: repeating-linear-gradient(90deg, #383d36 0 2px, #252a25 2px 5px) !important; box-shadow: 0 4px 10px #000, inset 0 1px #94998e; transform: none !important; transition: left .34s cubic-bezier(.2,.85,.2,1.15) !important; }
+.lab-switch[data-state="checked"] [data-slot="switch-thumb"] { left: 62px; transform: none !important; }
 .toggle-bay > p { color: #a78a55; font-family: Consolas, monospace; letter-spacing: .15em; }
 
 /* Slider: a stored, continuous travel heatmap. */
