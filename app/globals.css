@@ -273,7 +273,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .input-bay { padding: 12%; align-items: stretch; }
 .input-bay > label { margin-bottom: 10px; color: #818a80; font: 10px/1 Consolas, monospace; letter-spacing: .16em; }
 .input-shell { height: 64px; position: relative; border: 1px solid #4b544b; background: #111511; box-shadow: inset 0 4px 10px #000; overflow: hidden; }
-.input-wear-track { position: absolute; z-index: 2; left: 19px; right: 19px; top: 18px; height: 28px; pointer-events: none; border-radius: 42%; filter: blur(3.5px); mix-blend-mode: screen; opacity: .78; mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent); }
+.input-wear-track { position: absolute; z-index: 2; left: 19px; right: 19px; top: 18px; height: 28px; pointer-events: none; border-radius: 0; mix-blend-mode: screen; opacity: .78; mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent); }
 .lab-input { height: 100% !important; position: relative; z-index: 4; padding: 0 19px !important; border: 0 !important; border-radius: 0 !important; color: #e4dfcf !important; background: transparent !important; box-shadow: none !important; font: 16px/1.4 Consolas, monospace !important; }
 .lab-input::placeholder { color: #626b62 !important; }
 .input-bay > p { align-self: flex-start; font: 10px/1 Consolas, monospace; letter-spacing: .12em; }
