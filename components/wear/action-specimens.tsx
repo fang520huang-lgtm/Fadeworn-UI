@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
-import { traceGradient, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
+import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
 type Marks = {
@@ -90,7 +90,7 @@ export function WearToggleSpecimen({ record, markTrace, onReset }: { record: Wea
   );
 }
 
-export function WearInputSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Pick<Marks, "markTrace"> & Resettable) {
+export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record: WearRecord; markInputGlyph: (start: number, end: number, intensity?: number) => void } & Resettable) {
   const [value, setValue] = useState("");
   const [atLimit, setAtLimit] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -115,12 +115,13 @@ export function WearInputSpecimen({ record, markTrace, onReset }: { record: Wear
     const letterSpacing = Number.parseFloat(styles.letterSpacing) || 0;
     const padding = (Number.parseFloat(styles.paddingLeft) || 0)
       + (Number.parseFloat(styles.paddingRight) || 0);
-    const availableWidth = Math.max(1, input.clientWidth - padding - 4);
+    const contentWidth = Math.max(1, input.clientWidth - padding);
+    const availableWidth = Math.max(1, contentWidth - 4);
     const measure = (text: string) => {
       const characterCount = splitGraphemes(text).length;
       return context.measureText(text).width + Math.max(0, characterCount - 1) * letterSpacing;
     };
-    return { availableWidth, measure };
+    return { availableWidth, contentWidth, measure };
   };
 
   const commitValue = (proposedValue: string) => {
@@ -161,17 +162,22 @@ export function WearInputSpecimen({ record, markTrace, onReset }: { record: Wear
     const previousCharacters = splitGraphemes(previousValue);
     const acceptedCharacters = splitGraphemes(acceptedValue);
     const acceptedEdit = textEdit(previousCharacters, acceptedCharacters);
-    const positionOf = (characters: string[], index: number) => {
-      const before = metrics.measure(characters.slice(0, index).join(""));
-      const after = metrics.measure(characters.slice(0, index + 1).join(""));
-      return Math.min(1, Math.max(0, ((before + after) / 2) / metrics.availableWidth));
+    const boundsOf = (characters: string[], index: number) => {
+      const start = metrics.measure(characters.slice(0, index).join("")) / metrics.contentWidth;
+      const end = metrics.measure(characters.slice(0, index + 1).join("")) / metrics.contentWidth;
+      return {
+        start: Math.min(1, Math.max(0, start)),
+        end: Math.min(1, Math.max(0, end)),
+      };
     };
 
     acceptedEdit.removed.forEach((_, offset) => {
-      markTrace("input", positionOf(previousCharacters, acceptedEdit.start + offset), 1, true);
+      const bounds = boundsOf(previousCharacters, acceptedEdit.start + offset);
+      markInputGlyph(bounds.start, bounds.end, 1);
     });
     acceptedEdit.added.forEach((_, offset) => {
-      markTrace("input", positionOf(acceptedCharacters, acceptedEdit.start + offset), 1, true);
+      const bounds = boundsOf(acceptedCharacters, acceptedEdit.start + offset);
+      markInputGlyph(bounds.start, bounds.end, 1);
     });
 
     committedValueRef.current = acceptedValue;
@@ -185,11 +191,18 @@ export function WearInputSpecimen({ record, markTrace, onReset }: { record: Wear
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell">
-          <span
-            className="input-wear-track"
-            style={{ backgroundImage: traceGradient(record.trace, "196, 160, 91", 0) }}
-            aria-hidden="true"
-          />
+          <span className="input-wear-track" aria-hidden="true">
+            {record.glyphWear.map((zone) => (
+              <i
+                key={`${zone.start}-${zone.end}`}
+                style={{
+                  left: `${zone.start * 100}%`,
+                  width: `${Math.max(0.2, (zone.end - zone.start) * 100)}%`,
+                  opacity: Math.min(0.9, zone.wear * 0.82),
+                }}
+              />
+            ))}
+          </span>
           <Input
             ref={inputRef}
             id="field-terminal"

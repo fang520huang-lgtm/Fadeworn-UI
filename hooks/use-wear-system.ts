@@ -24,12 +24,20 @@ export type WearPoint = {
   createdAt: number;
 };
 
+export type InputGlyphWear = {
+  start: number;
+  end: number;
+  wear: number;
+  createdAt: number;
+};
+
 export type WearRecord = {
   usageCount: number;
   wearLevel: number;
   lastUsed: number | null;
   hitPositions: WearPoint[];
   trace: number[];
+  glyphWear: InputGlyphWear[];
 };
 
 export type WearState = Record<ComponentId, WearRecord>;
@@ -53,6 +61,7 @@ const increments: Record<ComponentId, number> = {
 
 const TOGGLE_LEFT_TRACE_INDICES = [3, 4, 5];
 const TOGGLE_RIGHT_TRACE_INDICES = [18, 19, 20];
+const INPUT_GLYPH_WEAR_INCREMENT = 0.055;
 
 function emptyRecord(): WearRecord {
   return {
@@ -61,6 +70,7 @@ function emptyRecord(): WearRecord {
     lastUsed: null,
     hitPositions: [],
     trace: Array.from({ length: TRACE_SEGMENTS }, () => 0),
+    glyphWear: [],
   };
 }
 
@@ -180,6 +190,46 @@ export function useWearSystem() {
     [],
   );
 
+  const markInputGlyph = useCallback((start: number, end: number, intensity = 1) => {
+    setWearState((current) => {
+      const record = current.input;
+      const normalizedStart = Math.round(clamp(start) * 10000) / 10000;
+      const normalizedEnd = Math.round(clamp(Math.max(end, start + 0.001)) * 10000) / 10000;
+      const matchIndex = record.glyphWear.findIndex((zone) =>
+        Math.abs(zone.start - normalizedStart) < 0.001
+        && Math.abs(zone.end - normalizedEnd) < 0.001,
+      );
+      const glyphWear = matchIndex >= 0
+        ? record.glyphWear.map((zone, index) => index === matchIndex
+          ? {
+              ...zone,
+              wear: clamp(zone.wear + INPUT_GLYPH_WEAR_INCREMENT * intensity),
+              createdAt: Date.now(),
+            }
+          : zone)
+        : [
+            ...record.glyphWear,
+            {
+              start: normalizedStart,
+              end: normalizedEnd,
+              wear: clamp(INPUT_GLYPH_WEAR_INCREMENT * intensity),
+              createdAt: Date.now(),
+            },
+          ].slice(-96);
+
+      return {
+        ...current,
+        input: {
+          ...record,
+          usageCount: record.usageCount + 1,
+          wearLevel: clamp(record.wearLevel + increments.input * intensity),
+          lastUsed: Date.now(),
+          glyphWear,
+        },
+      };
+    });
+  }, []);
+
   const resetAll = useCallback(() => {
     const fresh = createFreshWearState();
     setWearState(fresh);
@@ -211,6 +261,21 @@ export function useWearSystem() {
             lastUsed: Date.now(),
             hitPositions: record.hitPositions,
             trace: toggleTrace,
+          };
+          return;
+        }
+        if (id === "input") {
+          next[id] = {
+            ...record,
+            usageCount: record.usageCount + 40,
+            wearLevel: Math.max(record.wearLevel, 0.7),
+            lastUsed: Date.now(),
+            glyphWear: Array.from({ length: 18 }, (_, index) => ({
+              start: index / 38,
+              end: (index + 0.82) / 38,
+              wear: Math.max(record.glyphWear[index]?.wear ?? 0, 0.7 - (index % 4) * 0.06),
+              createdAt: Date.now(),
+            })),
           };
           return;
         }
@@ -297,6 +362,7 @@ export function useWearSystem() {
     stats,
     markUse,
     markTrace,
+    markInputGlyph,
     resetOne,
     resetAll,
     accelerate,

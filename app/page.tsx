@@ -38,7 +38,7 @@ const labels: Record<ComponentId, string> = {
 };
 
 export default function Home() {
-  const { wearState, markUse, markTrace, resetOne, resetAll, accelerate, stats, hydrated } = useWearSystem();
+  const { wearState, markUse, markTrace, markInputGlyph, resetOne, resetAll, accelerate, stats, hydrated } = useWearSystem();
   const averagePercent = Math.round(stats.averageWear * 100);
 
   return (
@@ -116,7 +116,7 @@ export default function Home() {
           <WearButtonSpecimen record={wearState.button} markUse={markUse} onReset={() => resetOne("button")} />
           <WearToggleSpecimen record={wearState.toggle} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("toggle")} />
           <WearSliderSpecimen record={wearState.slider} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("slider")} />
-          <WearInputSpecimen record={wearState.input} markTrace={markTrace} onReset={() => resetOne("input")} />
+          <WearInputSpecimen record={wearState.input} markInputGlyph={markInputGlyph} onReset={() => resetOne("input")} />
           <WearTabsSpecimen record={wearState.tabs} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("tabs")} />
           <WearNavigationSpecimen record={wearState.navigation} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("navigation")} />
           <WearCardSpecimen record={wearState.card} markUse={markUse} onReset={() => resetOne("card")} />
