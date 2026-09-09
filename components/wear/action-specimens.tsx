@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,45 @@ type Marks = {
 };
 
 type Resettable = { onReset: () => void };
+
+const graphemeSegmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
+
+function splitGraphemes(value: string) {
+  return Array.from(graphemeSegmenter.segment(value), ({ segment }) => segment);
+}
+
+function textEdit(previous: string[], next: string[]) {
+  let start = 0;
+  while (start < previous.length && start < next.length && previous[start] === next[start]) {
+    start += 1;
+  }
+
+  let suffixLength = 0;
+  while (
+    suffixLength < previous.length - start
+    && suffixLength < next.length - start
+    && previous[previous.length - 1 - suffixLength] === next[next.length - 1 - suffixLength]
+  ) {
+    suffixLength += 1;
+  }
+
+  return {
+    start,
+    removed: previous.slice(start, previous.length - suffixLength),
+    added: next.slice(start, next.length - suffixLength),
+    prefix: next.slice(0, start),
+    suffix: suffixLength ? next.slice(next.length - suffixLength) : [],
+  };
+}
+
+function inputWearGradient(trace: number[]) {
+  return trace.map((value, index) => {
+    const x = ((index + 0.5) / trace.length) * 100;
+    const core = Math.min(0.72, value * 0.62).toFixed(3);
+    const fringe = Math.min(0.34, value * 0.28).toFixed(3);
+    return `radial-gradient(ellipse 8% 72% at ${x}% 52%, rgba(224,194,126,${core}) 0%, rgba(160,132,76,${fringe}) 48%, transparent 78%)`;
+  }).join(",");
+}
 
 export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   return (
@@ -60,24 +99,131 @@ export function WearToggleSpecimen({ record, markTrace, onReset }: { record: Wea
   );
 }
 
-export function WearInputSpecimen({ record, onReset }: { record: WearRecord } & Resettable) {
+export function WearInputSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Pick<Marks, "markTrace"> & Resettable) {
   const [value, setValue] = useState("");
+  const [atLimit, setAtLimit] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const committedValueRef = useRef("");
+  const composingRef = useRef(false);
+
+  const getTextMetrics = () => {
+    const input = inputRef.current;
+    if (!input) return null;
+    const styles = window.getComputedStyle(input);
+    canvasRef.current ??= document.createElement("canvas");
+    const context = canvasRef.current.getContext("2d");
+    if (!context) return null;
+    context.font = [
+      styles.fontStyle,
+      styles.fontVariant,
+      styles.fontWeight,
+      styles.fontSize,
+      styles.fontFamily,
+    ].join(" ");
+    const letterSpacing = Number.parseFloat(styles.letterSpacing) || 0;
+    const padding = (Number.parseFloat(styles.paddingLeft) || 0)
+      + (Number.parseFloat(styles.paddingRight) || 0);
+    const availableWidth = Math.max(1, input.clientWidth - padding - 4);
+    const measure = (text: string) => {
+      const characterCount = splitGraphemes(text).length;
+      return context.measureText(text).width + Math.max(0, characterCount - 1) * letterSpacing;
+    };
+    return { availableWidth, measure };
+  };
+
+  const commitValue = (proposedValue: string) => {
+    const metrics = getTextMetrics();
+    if (!metrics) {
+      committedValueRef.current = proposedValue;
+      setValue(proposedValue);
+      return;
+    }
+
+    const previousValue = committedValueRef.current;
+    const proposedCharacters = splitGraphemes(proposedValue);
+    let acceptedValue = proposedValue;
+
+    if (metrics.measure(proposedValue) > metrics.availableWidth) {
+      const proposedEdit = textEdit(splitGraphemes(previousValue), proposedCharacters);
+      const acceptedCharacters: string[] = [];
+      for (const character of proposedEdit.added) {
+        const candidate = [
+          ...proposedEdit.prefix,
+          ...acceptedCharacters,
+          character,
+          ...proposedEdit.suffix,
+        ].join("");
+        if (metrics.measure(candidate) > metrics.availableWidth) break;
+        acceptedCharacters.push(character);
+      }
+      const fittedValue = [
+        ...proposedEdit.prefix,
+        ...acceptedCharacters,
+        ...proposedEdit.suffix,
+      ].join("");
+      acceptedValue = metrics.measure(fittedValue) <= metrics.availableWidth
+        ? fittedValue
+        : previousValue;
+    }
+
+    const previousCharacters = splitGraphemes(previousValue);
+    const acceptedCharacters = splitGraphemes(acceptedValue);
+    const acceptedEdit = textEdit(previousCharacters, acceptedCharacters);
+    const positionOf = (characters: string[], index: number) => {
+      const before = metrics.measure(characters.slice(0, index).join(""));
+      const after = metrics.measure(characters.slice(0, index + 1).join(""));
+      return Math.min(1, Math.max(0, ((before + after) / 2) / metrics.availableWidth));
+    };
+
+    acceptedEdit.removed.forEach((_, offset) => {
+      markTrace("input", positionOf(previousCharacters, acceptedEdit.start + offset), 1, true);
+    });
+    acceptedEdit.added.forEach((_, offset) => {
+      markTrace("input", positionOf(acceptedCharacters, acceptedEdit.start + offset), 1, true);
+    });
+
+    committedValueRef.current = acceptedValue;
+    setValue(acceptedValue);
+    setAtLimit(acceptedValue !== proposedValue);
+  };
+
+  const characterCount = splitGraphemes(value).length;
   return (
-    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="MONITORED / NO AGING" record={record} onReset={onReset}>
+    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} onReset={onReset}>
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell">
+          <span
+            className="input-wear-track"
+            style={{ backgroundImage: inputWearGradient(record.trace) }}
+            aria-hidden="true"
+          />
           <Input
+            ref={inputRef}
             id="field-terminal"
             className="lab-input"
             value={value}
             placeholder="Type to leave a trace…"
+            onCompositionStart={() => {
+              composingRef.current = true;
+            }}
+            onCompositionEnd={(event) => {
+              composingRef.current = false;
+              commitValue(event.currentTarget.value);
+            }}
             onChange={(event) => {
-              setValue(event.target.value);
+              const isComposing = composingRef.current
+                || Boolean((event.nativeEvent as InputEvent).isComposing);
+              if (isComposing) {
+                setValue(event.target.value);
+                return;
+              }
+              commitValue(event.target.value);
             }}
           />
         </div>
-        <p>{value.length ? `${value.length} CHARACTERS ENTERED` : "NO SURFACE AGING"}</p>
+        <p>{atLimit ? `WIDTH LIMIT · ${characterCount} GLYPHS` : value.length ? `${characterCount} GLYPHS ENTERED` : "TYPE OR ERASE TO WEAR"}</p>
       </div>
     </SpecimenFrame>
   );

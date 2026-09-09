@@ -116,7 +116,7 @@ export default function Home() {
           <WearButtonSpecimen record={wearState.button} markUse={markUse} onReset={() => resetOne("button")} />
           <WearToggleSpecimen record={wearState.toggle} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("toggle")} />
           <WearSliderSpecimen record={wearState.slider} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("slider")} />
-          <WearInputSpecimen record={wearState.input} onReset={() => resetOne("input")} />
+          <WearInputSpecimen record={wearState.input} markTrace={markTrace} onReset={() => resetOne("input")} />
           <WearTabsSpecimen record={wearState.tabs} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("tabs")} />
           <WearNavigationSpecimen record={wearState.navigation} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("navigation")} />
           <WearCardSpecimen record={wearState.card} markUse={markUse} onReset={() => resetOne("card")} />

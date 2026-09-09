@@ -36,15 +36,13 @@ export type WearState = Record<ComponentId, WearRecord>;
 
 const LEGACY_STORAGE_KEY = "wear-ui-lab/v2";
 const TRACE_SEGMENTS = 24;
-const WEARABLE_COMPONENT_IDS = COMPONENT_IDS.filter(
-  (id): id is Exclude<ComponentId, "input"> => id !== "input",
-);
+const WEARABLE_COMPONENT_IDS = COMPONENT_IDS;
 
 const increments: Record<ComponentId, number> = {
   button: 0.034,
   toggle: 0.042,
   slider: 0.009,
-  input: 0,
+  input: 0.012,
   tabs: 0.028,
   navigation: 0.025,
   card: 0.036,
