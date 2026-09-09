@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { RotateCcw } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { WearRecord } from "@/hooks/use-wear-system";
 
@@ -10,6 +11,7 @@ type SpecimenFrameProps = {
   record: WearRecord;
   children: ReactNode;
   className?: string;
+  onReset?: () => void;
 };
 
 export function SpecimenFrame({
@@ -20,6 +22,7 @@ export function SpecimenFrame({
   record,
   children,
   className = "",
+  onReset,
 }: SpecimenFrameProps) {
   const percent = Math.round(record.wearLevel * 100);
   return (
@@ -29,9 +32,16 @@ export function SpecimenFrame({
           <p className="specimen-no">{index} / {material}</p>
           <h3>{title}</h3>
         </div>
-        <div className="mini-gauge" aria-label={`磨损 ${percent}%`}>
-          <span style={{ height: `${Math.max(3, percent)}%` }} />
-          <b>{percent}%</b>
+        <div className="specimen-head-actions">
+          {onReset ? (
+            <button className="specimen-reset" type="button" onClick={onReset} aria-label={`复原 ${title}`} title="单独复原这个组件">
+              <RotateCcw aria-hidden="true" />
+            </button>
+          ) : null}
+          <div className="mini-gauge" aria-label={`磨损 ${percent}%`}>
+            <span style={{ height: `${Math.max(3, percent)}%` }} />
+            <b>{percent}%</b>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="specimen-card__body">{children}</CardContent>

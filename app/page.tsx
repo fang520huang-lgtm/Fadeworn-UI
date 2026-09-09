@@ -38,7 +38,7 @@ const labels: Record<ComponentId, string> = {
 };
 
 export default function Home() {
-  const { wearState, markUse, markTrace, resetAll, accelerate, stats, hydrated } = useWearSystem();
+  const { wearState, markUse, markTrace, resetOne, resetAll, accelerate, stats, hydrated } = useWearSystem();
   const averagePercent = Math.round(stats.averageWear * 100);
 
   return (
@@ -113,16 +113,16 @@ export default function Home() {
           <p>连续操作它们。相同的材质语言，产生不同的磨损机制。</p>
         </div>
         <div className="specimen-grid">
-          <WearButtonSpecimen record={wearState.button} markUse={markUse} />
-          <WearToggleSpecimen record={wearState.toggle} markUse={markUse} markTrace={markTrace} />
-          <WearSliderSpecimen record={wearState.slider} markUse={markUse} markTrace={markTrace} />
-          <WearInputSpecimen record={wearState.input} markUse={markUse} markTrace={markTrace} />
-          <WearTabsSpecimen record={wearState.tabs} markUse={markUse} markTrace={markTrace} />
-          <WearNavigationSpecimen record={wearState.navigation} markUse={markUse} markTrace={markTrace} />
-          <WearCardSpecimen record={wearState.card} markUse={markUse} />
-          <WearChoiceSpecimen record={wearState.choice} markUse={markUse} markTrace={markTrace} />
-          <WearScrollbarSpecimen record={wearState.scrollbar} markUse={markUse} markTrace={markTrace} />
-          <WearKnobSpecimen record={wearState.knob} markUse={markUse} markTrace={markTrace} />
+          <WearButtonSpecimen record={wearState.button} markUse={markUse} onReset={() => resetOne("button")} />
+          <WearToggleSpecimen record={wearState.toggle} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("toggle")} />
+          <WearSliderSpecimen record={wearState.slider} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("slider")} />
+          <WearInputSpecimen record={wearState.input} markUse={markUse} onReset={() => resetOne("input")} />
+          <WearTabsSpecimen record={wearState.tabs} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("tabs")} />
+          <WearNavigationSpecimen record={wearState.navigation} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("navigation")} />
+          <WearCardSpecimen record={wearState.card} markUse={markUse} onReset={() => resetOne("card")} />
+          <WearChoiceSpecimen record={wearState.choice} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("choice")} />
+          <WearScrollbarSpecimen record={wearState.scrollbar} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("scrollbar")} />
+          <WearKnobSpecimen record={wearState.knob} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("knob")} />
         </div>
       </section>
 
@@ -153,7 +153,7 @@ export default function Home() {
         <div className="notes-grid">
           <h2>磨损是历史，<br /><em>不是状态。</em></h2>
           <div className="principles">
-            <article><span>01</span><h3>因果可见</h3><p>点击坐标、停留侧、线性轨迹与常用角度，被映射到对应表面，而非随机做旧。</p></article>
+            <article><span>01</span><h3>因果可见</h3><p>点击次数、停留侧、线性轨迹与常用角度，都被映射成清晰可辨的表面变化。</p></article>
             <article><span>02</span><h3>材质有别</h3><p>喷漆金属会掉漆，黄铜会发亮，橡胶会被抛光，纸纤维会软化起皱。</p></article>
             <article><span>03</span><h3>功能不退化</h3><p>即使达到重度磨损，文字、当前状态、焦点与所有交互仍然保持清晰。</p></article>
           </div>

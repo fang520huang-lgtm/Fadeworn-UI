@@ -11,12 +11,14 @@ type Marks = {
   markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
 };
 
+type Resettable = { onReset: () => void };
+
 const tabItems = ["SIGNAL", "HISTORY", "NOTES"];
 
-export function WearTabsSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+export function WearTabsSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [tab, setTab] = useState("SIGNAL");
   return (
-    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record}>
+    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} onReset={onReset}>
       <div className="control-bay tabs-bay">
         <Tabs
           value={tab}
@@ -59,10 +61,10 @@ const navItems = [
   { label: "CONFIG", icon: Settings2 },
 ];
 
-export function WearNavigationSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+export function WearNavigationSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [active, setActive] = useState(0);
   return (
-    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record}>
+    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} onReset={onReset}>
       <div className="control-bay nav-bay">
         <nav className="lab-nav" aria-label="实验台导航">
           {navItems.map(({ label, icon: Icon }, index) => {
@@ -76,7 +78,7 @@ export function WearNavigationSpecimen({ record, markUse, markTrace }: { record:
                 onClick={() => {
                   setActive(index);
                   markUse("navigation", 1);
-                  markTrace("navigation", index / (navItems.length - 1), 1.55);
+                  markTrace("navigation", index / (navItems.length - 1), 3.8);
                 }}
               >
                 <Icon aria-hidden="true" />

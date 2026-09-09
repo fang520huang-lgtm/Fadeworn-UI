@@ -204,6 +204,13 @@ export function useWearSystem() {
     window.localStorage.removeItem(STORAGE_KEY);
   }, []);
 
+  const resetOne = useCallback((id: ComponentId) => {
+    setWearState((current) => ({
+      ...current,
+      [id]: emptyRecord(),
+    }));
+  }, []);
+
   const accelerate = useCallback(() => {
     setWearState((current) => {
       const next = { ...current } as WearState;
@@ -216,14 +223,7 @@ export function useWearSystem() {
           usageCount: record.usageCount + 28 + componentIndex * 3,
           wearLevel: clamp(Math.max(record.wearLevel, 0.62 + (componentIndex % 3) * 0.08)),
           lastUsed: Date.now(),
-          hitPositions:
-            id === "button"
-              ? [
-                  ...record.hitPositions,
-                  { x: 0.44, y: 0.53, pressure: 0.9, createdAt: Date.now() },
-                  { x: 0.58, y: 0.47, pressure: 0.8, createdAt: Date.now() },
-                ].slice(-18)
-              : record.hitPositions,
+          hitPositions: record.hitPositions,
           trace: record.trace.map((value, index) =>
             clamp(
               Math.max(
@@ -299,6 +299,7 @@ export function useWearSystem() {
     stats,
     markUse,
     markTrace,
+    resetOne,
     resetAll,
     accelerate,
   };

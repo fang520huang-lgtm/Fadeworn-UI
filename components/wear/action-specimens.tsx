@@ -7,42 +7,37 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
-import { HitMarks, SpecimenFrame } from "./specimen-frame";
+import { SpecimenFrame } from "./specimen-frame";
 
 type Marks = {
   markUse: (id: ComponentId, intensity?: number, point?: { x: number; y: number }) => void;
   markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
 };
 
-export function WearButtonSpecimen({ record, markUse }: { record: WearRecord } & Pick<Marks, "markUse">) {
+type Resettable = { onReset: () => void };
+
+export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   return (
-    <SpecimenFrame index="01" title="Actuation Button" material="PAINTED STEEL" note="CLICK POSITION MAP" record={record}>
+    <SpecimenFrame index="01" title="Actuation Button" material="PAINTED STEEL" note="UNIFORM SURFACE FADE" record={record} onReset={onReset}>
       <div className="control-bay button-bay">
         <Button
           className="lab-push-button"
-          onClick={(event) => {
-            const rect = event.currentTarget.getBoundingClientRect();
-            markUse("button", 1, {
-              x: (event.clientX - rect.left) / rect.width,
-              y: (event.clientY - rect.top) / rect.height,
-            });
-          }}
+          onClick={() => markUse("button", 1)}
         >
-          <HitMarks record={record} />
           <span className="button-caption"><b>ENGAGE</b><small>HOLD / TEST</small></span>
         </Button>
-        <p>每次点击只磨损实际触碰的位置</p>
+        <p>每次点击让整块表面均匀褪色</p>
       </div>
     </SpecimenFrame>
   );
 }
 
-export function WearToggleSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [checked, setChecked] = useState(false);
   const leftWear = record.trace.slice(0, 12).reduce((a, b) => a + b, 0) / 12;
   const rightWear = record.trace.slice(12).reduce((a, b) => a + b, 0) / 12;
   return (
-    <SpecimenFrame index="02" title="Two-State Lever" material="BAKELITE" note="REST-SIDE FRICTION" record={record}>
+    <SpecimenFrame index="02" title="Two-State Lever" material="BAKELITE" note="REST-SIDE FRICTION" record={record} onReset={onReset}>
       <div className="control-bay toggle-bay">
         <div className="toggle-assembly">
           <span className="toggle-label">OFF</span>
@@ -66,10 +61,10 @@ export function WearToggleSpecimen({ record, markUse, markTrace }: { record: Wea
   );
 }
 
-export function WearInputSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+export function WearInputSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   const [value, setValue] = useState("");
   return (
-    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="KEYSTROKE ABRASION" record={record}>
+    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="UNIFORM FACE FADE" record={record} onReset={onReset}>
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell" style={{ "--input-wear": record.wearLevel } as React.CSSProperties}>
@@ -78,13 +73,11 @@ export function WearInputSpecimen({ record, markUse, markTrace }: { record: Wear
             className="lab-input"
             value={value}
             placeholder="Type to leave a trace…"
+            onPointerDown={() => markUse("input", 1)}
             onChange={(event) => {
               setValue(event.target.value);
-              markUse("input", 0.6, { x: Math.min(0.93, 0.11 + event.target.value.length / 34), y: 0.66 });
-              markTrace("input", Math.min(1, event.target.value.length / 24), 0.55);
             }}
           />
-          <HitMarks record={record} />
         </div>
         <p>{value.length ? `${value.length} IMPRESSIONS RECORDED` : "WAITING FOR INPUT"}</p>
       </div>
@@ -92,11 +85,11 @@ export function WearInputSpecimen({ record, markUse, markTrace }: { record: Wear
   );
 }
 
-export function WearChoiceSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+export function WearChoiceSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [checked, setChecked] = useState(false);
   const [mode, setMode] = useState("a");
   return (
-    <SpecimenFrame index="08" title="Selection Bank" material="ENAMELED METAL" note="CONTACT HALO" record={record}>
+    <SpecimenFrame index="08" title="Selection Bank" material="ENAMELED METAL" note="CONTACT HALO" record={record} onReset={onReset}>
       <div className="control-bay choice-bay">
         <label className="check-line">
           <span className="choice-contact" data-hot={checked || undefined}>

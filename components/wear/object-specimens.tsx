@@ -11,10 +11,12 @@ type Marks = {
   markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
 };
 
-export function WearCardSpecimen({ record, markUse }: { record: WearRecord } & Pick<Marks, "markUse">) {
+type Resettable = { onReset: () => void };
+
+export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   const [open, setOpen] = useState(false);
   return (
-    <SpecimenFrame index="07" title="Reference Folio" material="FIBER BOARD" note="EDGE FATIGUE / CREASES" record={record}>
+    <SpecimenFrame index="07" title="Reference Folio" material="FIBER BOARD" note="EDGE FATIGUE / CREASES" record={record} onReset={onReset}>
       <div className="control-bay folio-bay">
         <Card
           role="button"
@@ -49,15 +51,16 @@ export function WearCardSpecimen({ record, markUse }: { record: WearRecord } & P
 }
 
 function knobWearGradient(trace: number[]) {
-  const stops = trace.map((value, index) => {
+  const circularTrace = [...trace, trace[0]];
+  const stops = circularTrace.map((value, index) => {
     const angle = (index / trace.length) * 360;
     const alpha = Math.min(0.82, 0.035 + value * 0.8).toFixed(2);
-    return `rgba(218,179,99,${alpha}) ${angle.toFixed(1)}deg ${(angle + 15.5).toFixed(1)}deg`;
+    return `rgba(218,179,99,${alpha}) ${angle.toFixed(1)}deg`;
   });
   return `conic-gradient(from -135deg, ${stops.join(",")})`;
 }
 
-export function WearKnobSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [value, setValue] = useState(42);
   const dragging = useRef(false);
   const knobRef = useRef<HTMLButtonElement>(null);
@@ -72,11 +75,12 @@ export function WearKnobSpecimen({ record, markUse, markTrace }: { record: WearR
     const clamped = Math.max(0, Math.min(270, degrees <= 315 ? degrees : 0));
     const next = Math.round((clamped / 270) * 100);
     setValue(next);
-    markTrace("knob", next / 100, 0.75);
+    const jitteredPosition = Math.max(0, Math.min(1, next / 100 + (Math.random() - 0.5) * 0.16));
+    markTrace("knob", jitteredPosition, 0.75);
   };
 
   return (
-    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record}>
+    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record} onReset={onReset}>
       <div className="control-bay knob-bay">
         <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace) } as React.CSSProperties}>
           <span className="knob-ticks" aria-hidden="true" />
@@ -106,7 +110,8 @@ export function WearKnobSpecimen({ record, markUse, markTrace }: { record: WearR
               event.preventDefault();
               const next = Math.max(0, Math.min(100, value + (event.key === "ArrowRight" ? 2 : -2)));
               setValue(next);
-              markTrace("knob", next / 100, 1, true);
+              const jitteredPosition = Math.max(0, Math.min(1, next / 100 + (Math.random() - 0.5) * 0.16));
+              markTrace("knob", jitteredPosition, 1, true);
             }}
           >
             <span className="knob-index" style={{ transform: `rotate(${-135 + value * 2.7}deg)` }}><i /></span>

@@ -12,10 +12,12 @@ type Marks = {
   markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
 };
 
-export function WearSliderSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+type Resettable = { onReset: () => void };
+
+export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [value, setValue] = useState([36]);
   return (
-    <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record}>
+    <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} onReset={onReset}>
       <div className="control-bay slider-bay">
         <div className="dial-readout"><span>OUTPUT</span><b>{String(value[0]).padStart(2, "0")}</b><small>%</small></div>
         <div className="slider-shell">
@@ -50,11 +52,11 @@ const logLines = [
   ["02:03", "AWAITING OPERATOR"],
 ];
 
-export function WearScrollbarSpecimen({ record, markUse, markTrace }: { record: WearRecord } & Marks) {
+export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const lastPosition = useRef(0);
   const lastSample = useRef(0);
   return (
-    <SpecimenFrame index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record}>
+    <SpecimenFrame index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} onReset={onReset}>
       <div className="control-bay scroll-bay">
         <div className="scroll-frame">
           <ScrollArea
