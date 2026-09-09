@@ -61,6 +61,7 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
         <div className="scroll-frame">
           <ScrollArea
             className="lab-scroll-area"
+            type="always"
             onScrollCapture={(event) => {
               const target = event.target as HTMLElement;
               if (!target.matches("[data-slot='scroll-area-viewport']")) return;
