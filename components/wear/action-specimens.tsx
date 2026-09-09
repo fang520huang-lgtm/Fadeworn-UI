@@ -32,7 +32,7 @@ export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearR
   );
 }
 
-export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearToggleSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [checked, setChecked] = useState(false);
   const leftWear = record.trace.slice(0, 12).reduce((a, b) => a + b, 0) / 12;
   const rightWear = record.trace.slice(12).reduce((a, b) => a + b, 0) / 12;
@@ -48,8 +48,7 @@ export function WearToggleSpecimen({ record, markUse, markTrace, onReset }: { re
               className="lab-switch"
               onCheckedChange={(value) => {
                 setChecked(value);
-                markUse("toggle", 1.1);
-                markTrace("toggle", value ? 0.82 : 0.18, 1.6);
+                markTrace("toggle", value ? 0.82 : 0.18, 1.6, true);
               }}
             />
           </div>
