@@ -84,7 +84,7 @@ export default function Home() {
               </AlertDialogContent>
             </AlertDialog>
           </div>
-          <p className="persistence-note"><span /> 历史已保存在这台设备上，刷新后仍然保留</p>
+          <p className="persistence-note"><span /> 磨损仅保留在当前页面，刷新后自动归零</p>
         </div>
 
         <div className="instrument-panel">
@@ -99,7 +99,7 @@ export default function Home() {
               <dl>
                 <div><dt>总操作</dt><dd>{String(stats.interactions).padStart(4, "0")}</dd></div>
                 <div><dt>最常使用</dt><dd>{labels[stats.mostUsed]}</dd></div>
-                <div><dt>持久记录</dt><dd>{hydrated ? "ONLINE" : "SYNCING"}</dd></div>
+                <div><dt>记录模式</dt><dd>{hydrated ? "SESSION" : "READYING"}</dd></div>
               </dl>
             </div>
           </div>

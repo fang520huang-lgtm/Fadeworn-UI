@@ -34,7 +34,7 @@ export type WearRecord = {
 
 export type WearState = Record<ComponentId, WearRecord>;
 
-const STORAGE_KEY = "wear-ui-lab/v2";
+const LEGACY_STORAGE_KEY = "wear-ui-lab/v2";
 const TRACE_SEGMENTS = 24;
 
 const increments: Record<ComponentId, number> = {
@@ -70,32 +70,6 @@ function clamp(value: number, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value));
 }
 
-function parseStoredState(raw: string | null): WearState | null {
-  if (!raw) return null;
-  try {
-    const parsed = JSON.parse(raw) as Partial<WearState>;
-    const fresh = createFreshWearState();
-    for (const id of COMPONENT_IDS) {
-      const saved = parsed[id];
-      if (!saved) continue;
-      fresh[id] = {
-        usageCount: Number(saved.usageCount) || 0,
-        wearLevel: clamp(Number(saved.wearLevel) || 0),
-        lastUsed: saved.lastUsed ?? null,
-        hitPositions: Array.isArray(saved.hitPositions)
-          ? saved.hitPositions.slice(-18)
-          : [],
-        trace: Array.from({ length: TRACE_SEGMENTS }, (_, index) =>
-          clamp(Number(saved.trace?.[index]) || 0),
-        ),
-      };
-    }
-    return fresh;
-  } catch {
-    return null;
-  }
-}
-
 type ModelContext = {
   registerTool?: (
     tool: {
@@ -126,9 +100,8 @@ export function useWearSystem() {
   const stateRef = useRef(wearState);
 
   useEffect(() => {
-    const stored = parseStoredState(window.localStorage.getItem(STORAGE_KEY));
+    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
     const frame = window.requestAnimationFrame(() => {
-      if (stored) setWearState(stored);
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
@@ -137,11 +110,6 @@ export function useWearSystem() {
   useEffect(() => {
     stateRef.current = wearState;
   }, [wearState]);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(wearState));
-  }, [hydrated, wearState]);
 
   const markUse = useCallback(
     (id: ComponentId, intensity = 1, point?: { x: number; y: number }) => {
@@ -201,7 +169,6 @@ export function useWearSystem() {
   const resetAll = useCallback(() => {
     const fresh = createFreshWearState();
     setWearState(fresh);
-    window.localStorage.removeItem(STORAGE_KEY);
   }, []);
 
   const resetOne = useCallback((id: ComponentId) => {
