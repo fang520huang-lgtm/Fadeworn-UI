@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
-import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
+import { traceGradient, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
 type Marks = {
@@ -44,15 +44,6 @@ function textEdit(previous: string[], next: string[]) {
     prefix: next.slice(0, start),
     suffix: suffixLength ? next.slice(next.length - suffixLength) : [],
   };
-}
-
-function inputWearGradient(trace: number[]) {
-  return trace.map((value, index) => {
-    const x = ((index + 0.5) / trace.length) * 100;
-    const core = Math.min(0.72, value * 0.62).toFixed(3);
-    const fringe = Math.min(0.34, value * 0.28).toFixed(3);
-    return `radial-gradient(ellipse 8% 72% at ${x}% 52%, rgba(224,194,126,${core}) 0%, rgba(160,132,76,${fringe}) 48%, transparent 78%)`;
-  }).join(",");
 }
 
 export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
@@ -196,7 +187,7 @@ export function WearInputSpecimen({ record, markTrace, onReset }: { record: Wear
         <div className="input-shell">
           <span
             className="input-wear-track"
-            style={{ backgroundImage: inputWearGradient(record.trace) }}
+            style={{ backgroundImage: traceGradient(record.trace, "196, 160, 91", 0) }}
             aria-hidden="true"
           />
           <Input

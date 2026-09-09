@@ -303,11 +303,11 @@ export function useWearSystem() {
   };
 }
 
-export function traceGradient(trace: number[], color = "196, 160, 91") {
+export function traceGradient(trace: number[], color = "196, 160, 91", baseAlpha = 0.04) {
   const stops = trace.flatMap((value, index) => {
     const from = (index / trace.length) * 100;
     const to = ((index + 1) / trace.length) * 100;
-    const alpha = Math.min(0.9, 0.04 + value * 0.82).toFixed(3);
+    const alpha = Math.min(0.9, baseAlpha + value * 0.82).toFixed(3);
     return [`rgba(${color},${alpha}) ${from}%`, `rgba(${color},${alpha}) ${to}%`];
   });
   return `linear-gradient(90deg, ${stops.join(",")})`;
