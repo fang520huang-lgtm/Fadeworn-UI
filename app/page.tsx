@@ -44,17 +44,17 @@ export default function Home() {
   return (
     <main className={`lab-shell ${hydrated ? "is-ready" : ""}`}>
       <header className="masthead">
-        <a className="brand-lockup" href="#top" aria-label="Wear UI 首页">
+        <a className="brand-lockup" href="#top" aria-label="Wear UI home">
           <span className="brand-mark" aria-hidden="true">W</span>
           <span>
             <small>HISTORY / NOT STATE</small>
-            <b>WEAR UI <i>界面使用实验室</i></b>
+            <b>WEAR UI <i>UI AGING LABORATORY</i></b>
           </span>
         </a>
-        <nav className="top-nav" aria-label="页内导航">
-          <a href="#specimens">标本台</a>
-          <a href="#inspector">磨损记录</a>
-          <a href="#notes">设计札记</a>
+        <nav className="top-nav" aria-label="Page navigation">
+          <a href="#specimens">SPECIMENS</a>
+          <a href="#inspector">WEAR LOG</a>
+          <a href="#notes">DESIGN NOTES</a>
         </nav>
         <p className="serial">LAB—17 <span>●</span> RECORDING</p>
       </header>
@@ -62,29 +62,29 @@ export default function Home() {
       <section className="hero-grid" id="top">
         <div className="hero-copy">
           <p className="section-index">01 / ACTIVE SURFACE</p>
-          <h1>每一次触碰，<br /><em>都留下证据。</em></h1>
-          <p className="lede">数字界面通常假装自己从未被使用。这里，每次点击、拖动、选择和滚动都会抛光表面、磨掉涂层，形成只属于你的操作历史。</p>
+          <h1>Every touch<br /><em>leaves evidence.</em></h1>
+          <p className="lede">Digital interfaces pretend they have never been used. Here, every click, drag, selection, and scroll polishes the surface, wears through the finish, and records a history that is yours alone.</p>
           <div className="hero-actions">
             <Button className="initial-wear-button" onClick={applyInitialWear}>
-              <Sparkles aria-hidden="true" /> 初始磨损
+              <Sparkles aria-hidden="true" /> INITIAL WEAR
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" className="reset-button"><RotateCcw aria-hidden="true" /> 无磨损</Button>
+                <Button variant="outline" className="reset-button"><RotateCcw aria-hidden="true" /> NO WEAR</Button>
               </AlertDialogTrigger>
               <AlertDialogContent className="reset-dialog">
                 <AlertDialogHeader>
-                  <AlertDialogTitle>切换为无磨损状态？</AlertDialogTitle>
-                  <AlertDialogDescription>10 个组件的点击、轨迹、使用次数与磨损程度都会归零。这个操作无法撤销。</AlertDialogDescription>
+                  <AlertDialogTitle>Restore every surface?</AlertDialogTitle>
+                  <AlertDialogDescription>Usage counts, traces, and wear across all ten specimens will be cleared. This cannot be undone.</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>保留当前磨损</AlertDialogCancel>
-                  <AlertDialogAction onClick={resetAll}>确认清空</AlertDialogAction>
+                  <AlertDialogCancel>KEEP CURRENT WEAR</AlertDialogCancel>
+                  <AlertDialogAction onClick={resetAll}>CLEAR ALL WEAR</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
           </div>
-          <p className="persistence-note"><span /> 磨损仅保留在当前页面，刷新后恢复初始磨损</p>
+          <p className="persistence-note"><span /> SESSION ONLY · REFRESH RESTORES INITIAL WEAR</p>
         </div>
 
         <div className="instrument-panel">
@@ -97,9 +97,9 @@ export default function Home() {
               <p>CURRENT CONDITION</p>
               <h2>{averagePercent < 12 ? "UNMARKED" : averagePercent < 38 ? "IN SERVICE" : averagePercent < 68 ? "WELL USED" : "HEAVILY WORN"}</h2>
               <dl>
-                <div><dt>总操作</dt><dd>{String(stats.interactions).padStart(4, "0")}</dd></div>
-                <div><dt>最常使用</dt><dd>{labels[stats.mostUsed]}</dd></div>
-                <div><dt>记录模式</dt><dd>{hydrated ? "SESSION" : "READYING"}</dd></div>
+                <div><dt>TOTAL ACTUATIONS</dt><dd>{String(stats.interactions).padStart(4, "0")}</dd></div>
+                <div><dt>MOST USED</dt><dd>{labels[stats.mostUsed]}</dd></div>
+                <div><dt>MEMORY MODE</dt><dd>{hydrated ? "SESSION" : "READYING"}</dd></div>
               </dl>
             </div>
           </div>
@@ -109,8 +109,8 @@ export default function Home() {
 
       <section className="gallery-section" id="specimens">
         <div className="section-heading">
-          <div><p className="section-index">02 / INTERACTIVE SPECIMENS</p><h2>会记住你的控件</h2></div>
-          <p>连续操作它们。相同的材质语言，产生不同的磨损机制。</p>
+          <div><p className="section-index">02 / INTERACTIVE SPECIMENS</p><h2>Controls that remember you.</h2></div>
+          <p>Keep using them. A shared material language produces ten distinct histories of wear.</p>
         </div>
         <div className="specimen-grid">
           <WearButtonSpecimen record={wearState.button} markUse={markUse} onReset={() => resetOne("button")} />
@@ -129,8 +129,8 @@ export default function Home() {
       <section className="inspector-section" id="inspector">
         <div className="inspector-copy">
           <p className="section-index">03 / WEAR INSPECTOR</p>
-          <h2>你的操作，<br />塑造了这台机器。</h2>
-          <p>每条横线都是独立的磨损记录。它们只反映操作历史，不代表错误、禁用或加载状态。</p>
+          <h2>Your use<br />shapes this machine.</h2>
+          <p>Each line is an independent wear record. It reflects history—not an error, disabled control, or loading state.</p>
         </div>
         <div className="wear-ledger">
           <div className="ledger-head"><span>COMPONENT</span><span>ACTUATIONS</span><span>WEAR</span></div>
@@ -151,11 +151,11 @@ export default function Home() {
       <section className="notes-section" id="notes">
         <p className="section-index">04 / DESIGN NOTES</p>
         <div className="notes-grid">
-          <h2>磨损是历史，<br /><em>不是状态。</em></h2>
+          <h2>Wear is history.<br /><em>Not state.</em></h2>
           <div className="principles">
-            <article><span>01</span><h3>因果可见</h3><p>点击次数、停留侧、线性轨迹与常用角度，都被映射成清晰可辨的表面变化。</p></article>
-            <article><span>02</span><h3>材质有别</h3><p>喷漆金属会掉漆，黄铜会发亮，纸张会泛黄。</p></article>
-            <article><span>03</span><h3>功能不退化</h3><p>即使达到重度磨损，文字、当前状态、焦点与所有交互仍然保持清晰。</p></article>
+            <article><span>01</span><h3>VISIBLE CAUSALITY</h3><p>Clicks, resting sides, linear travel, and working angles map directly to legible changes in the surface.</p></article>
+            <article><span>02</span><h3>MATERIAL MEMORY</h3><p>Painted steel chips. Brass grows bright. Paper turns yellow with age.</p></article>
+            <article><span>03</span><h3>FUNCTION ENDURES</h3><p>Even at maximum wear, labels, active states, focus, and every control remain clear.</p></article>
           </div>
         </div>
         <footer className="site-footer"><span>WEAR UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><span>2026 / SHANGHAI</span></footer>

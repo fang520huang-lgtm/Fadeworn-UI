@@ -69,7 +69,7 @@ export function WearNavigationSpecimen({ record, markTrace, onReset }: { record:
   return (
     <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} meterLevel={getWearLevelForDisplay("navigation", record)} onReset={onReset}>
       <div className="control-bay nav-bay">
-        <nav className="lab-nav" aria-label="实验台导航">
+        <nav className="lab-nav" aria-label="Laboratory navigation">
           {navItems.map(({ label, icon: Icon }, index) => {
             return (
               <button

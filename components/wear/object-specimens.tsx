@@ -97,7 +97,7 @@ export function WearKnobSpecimen({ record, markUse, setKnobWear, onReset }: { re
             type="button"
             role="slider"
             className="lab-knob"
-            aria-label="旋转衰减器"
+            aria-label="Rotary wear control"
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={value}

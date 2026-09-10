@@ -29,7 +29,7 @@ export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { re
         <div className="slider-shell">
           <span className="trace-strip" style={{ backgroundImage: traceGradient(record.trace) }} aria-hidden="true" />
           <Slider
-            aria-label="输出校准"
+            aria-label="Output calibration"
             className="lab-slider"
             value={sliderValue}
             onValueChange={(next) => {
@@ -90,7 +90,7 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
           </ScrollArea>
           <span className="scroll-ghost" style={{ backgroundImage: recordTraceVertical(record.trace) }} aria-hidden="true" />
         </div>
-        <p>滚动经过的区段会形成纵向抛光带</p>
+        <p>TRAVEL POLISHES EACH SECTION OF THE RAIL</p>
       </div>
     </SpecimenFrame>
   );

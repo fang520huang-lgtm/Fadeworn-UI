@@ -66,7 +66,7 @@ export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearR
         >
           <span className="button-caption"><b>ENGAGE</b><small>HOLD / TEST</small></span>
         </Button>
-        <p>每次点击让整块表面均匀褪色</p>
+        <p>EACH PRESS FADES THE ENTIRE SURFACE</p>
       </div>
     </SpecimenFrame>
   );
@@ -84,7 +84,7 @@ export function WearToggleSpecimen({ record, markTrace, onReset }: { record: Wea
           <div className="toggle-shell" style={{ "--left-wear": leftWear, "--right-wear": rightWear } as React.CSSProperties}>
             <Switch
               checked={checked}
-              aria-label="主电路切换"
+              aria-label="Main circuit lever"
               className="lab-switch"
               onCheckedChange={(value) => {
                 setChecked(value);

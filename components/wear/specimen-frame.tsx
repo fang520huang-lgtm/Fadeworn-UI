@@ -34,7 +34,7 @@ export function SpecimenFrame({
         </div>
         <div className="specimen-head-actions">
           {onReset ? (
-            <button className="specimen-reset" type="button" onClick={onReset} aria-label={`复原 ${title}`} title="单独复原这个组件">
+            <button className="specimen-reset" type="button" onClick={onReset} aria-label={`Reset ${title}`} title="Reset this specimen">
               <RotateCcw aria-hidden="true" />
             </button>
           ) : null}
