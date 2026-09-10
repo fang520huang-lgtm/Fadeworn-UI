@@ -11,6 +11,7 @@ import {
 import { WearScrollbarSpecimen, WearSliderSpecimen } from "@/components/wear/linear-specimens";
 import { WearNavigationSpecimen, WearTabsSpecimen } from "@/components/wear/navigation-specimens";
 import { WearCardSpecimen, WearKnobSpecimen } from "@/components/wear/object-specimens";
+import { useAnimatedNumber } from "@/hooks/use-animated-number";
 import { COMPONENT_IDS, getWearLevelForDisplay, type ComponentId, useWearSystem } from "@/hooks/use-wear-system";
 
 const labels: Record<ComponentId, string> = {
@@ -29,6 +30,8 @@ const labels: Record<ComponentId, string> = {
 export default function Home() {
   const { wearState, markUse, markTrace, markInputGlyph, setKnobWear, resetOne, resetAll, applyInitialWear, stats, hydrated } = useWearSystem();
   const averagePercent = Math.round(stats.averageWear * 100);
+  const animatedAverage = useAnimatedNumber(averagePercent);
+  const displayedAverage = Math.round(animatedAverage);
 
   return (
     <main className={`lab-shell ${hydrated ? "is-ready" : ""}`}>
@@ -67,12 +70,12 @@ export default function Home() {
         <div className="instrument-panel">
           <div className="panel-label"><span>LIVE WEAR MONITOR</span><span>SERIAL 17—A</span></div>
           <div className="overall-gauge">
-            <div className="gauge-face" style={{ "--gauge": `${averagePercent * 3.6}deg` } as React.CSSProperties}>
-              <span className="gauge-inner"><Gauge aria-hidden="true" /><b>{averagePercent}</b><small>% AVG WEAR</small></span>
+            <div className="gauge-face" style={{ "--gauge": `${animatedAverage * 3.6}deg` } as React.CSSProperties}>
+              <span className="gauge-inner"><Gauge aria-hidden="true" /><b>{displayedAverage}</b><small>% AVG WEAR</small></span>
             </div>
             <div className="gauge-copy">
               <p>CURRENT CONDITION</p>
-              <h2>{averagePercent < 12 ? "UNMARKED" : averagePercent < 38 ? "IN SERVICE" : averagePercent < 68 ? "WELL USED" : "HEAVILY WORN"}</h2>
+              <h2>{displayedAverage < 12 ? "UNMARKED" : displayedAverage < 38 ? "IN SERVICE" : displayedAverage < 68 ? "WELL USED" : "HEAVILY WORN"}</h2>
               <dl>
                 <div><dt>TOTAL ACTUATIONS</dt><dd>{String(stats.interactions).padStart(4, "0")}</dd></div>
                 <div><dt>MOST USED</dt><dd>{labels[stats.mostUsed]}</dd></div>
