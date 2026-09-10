@@ -19,8 +19,7 @@ const INITIAL_SLIDER_VALUE = 76;
 export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [value, setValue] = useState([INITIAL_SLIDER_VALUE]);
   const isInitialPreset = record.lastUsed === null
-    && record.usageCount === 34
-    && Math.abs(Math.max(...record.trace) - 0.76) < 0.001;
+    && record.usageCount === 34;
   const sliderValue = isInitialPreset ? [INITIAL_SLIDER_VALUE] : value;
 
   return (
