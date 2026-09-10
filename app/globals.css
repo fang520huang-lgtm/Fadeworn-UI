@@ -114,7 +114,17 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   font: 400 clamp(50px, 5.7vw, 86px)/1.1 Georgia, serif;
   letter-spacing: -.04em;
 }
-.hero-copy h1 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
+.hero-copy h1 em {
+  display: inline-block;
+  margin-top: .07em;
+  color: #bd9250;
+  font-style: normal;
+  font-weight: 400;
+  background: linear-gradient(90deg, #c29a57 0%, #b68e51 28%, #977d57 58%, #7b7160 81%, #686b62 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
