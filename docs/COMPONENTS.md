@@ -6,22 +6,22 @@ The `Preset` figure is the curated wear shown on first load. **INITIAL WEAR** re
 
 | # | Component | Export | Material | Preset |
 | --- | --- | --- | --- | --- |
-| 01 | [Actuation Button](#01--actuation-button) | `WearButtonSpecimen` | Painted steel | 62% |
-| 02 | [Two-State Lever](#02--two-state-lever) | `WearToggleSpecimen` | Bakelite | 70% |
-| 03 | [Linear Calibrator](#03--linear-calibrator) | `WearSliderSpecimen` | Brass / rubber | 92% |
-| 04 | [Field Terminal](#04--field-terminal) | `WearInputSpecimen` | Anodized alloy | 70% |
-| 05 | [Mode Register](#05--mode-register) | `WearTabsSpecimen` | Printed ABS | 100% |
-| 06 | [Navigation Rail](#06--navigation-rail) | `WearNavigationSpecimen` | Powder coat | 98% |
-| 07 | [Reference Folio](#07--reference-folio) | `WearCardSpecimen` | Archival paper | 70% |
-| 08 | [Selection Bank](#08--selection-bank) | `WearChoiceSpecimen` | Enameled metal | 70% |
-| 09 | [Travel Log](#09--travel-log) | `WearScrollbarSpecimen` | Machined rail | 78% |
-| 10 | [Rotary Attenuator](#10--rotary-attenuator) | `WearKnobSpecimen` | Knurled aluminum | 62% |
+| 01 | [Button](#01--button) | `WearButtonSpecimen` | Painted steel | 62% |
+| 02 | [Toggle](#02--toggle) | `WearToggleSpecimen` | Bakelite | 70% |
+| 03 | [Slider](#03--slider) | `WearSliderSpecimen` | Brass / rubber | 92% |
+| 04 | [Input](#04--input) | `WearInputSpecimen` | Anodized alloy | 70% |
+| 05 | [Tabs](#05--tabs) | `WearTabsSpecimen` | Printed ABS | 100% |
+| 06 | [Navigation](#06--navigation) | `WearNavigationSpecimen` | Powder coat | 98% |
+| 07 | [Card](#07--card) | `WearCardSpecimen` | Archival paper | 70% |
+| 08 | [Checkbox / Radio](#08--checkbox--radio) | `WearChoiceSpecimen` | Enameled metal | 70% |
+| 09 | [Scrollbar](#09--scrollbar) | `WearScrollbarSpecimen` | Machined rail | 78% |
+| 10 | [Knob](#10--knob) | `WearKnobSpecimen` | Knurled aluminum | 62% |
 
 Every specimen shares one frame. `SpecimenFrame` supplies the number, title, material, footer note, reset button, and the `--level` custom property that the stylesheet reads.
 
 ---
 
-## 01 · Actuation Button
+## 01 · Button
 
 | | |
 | --- | --- |
@@ -35,7 +35,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 02 · Two-State Lever
+## 02 · Toggle
 
 | | |
 | --- | --- |
@@ -49,7 +49,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 03 · Linear Calibrator
+## 03 · Slider
 
 | | |
 | --- | --- |
@@ -63,7 +63,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 04 · Field Terminal
+## 04 · Input
 
 | | |
 | --- | --- |
@@ -77,7 +77,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 05 · Mode Register
+## 05 · Tabs
 
 | | |
 | --- | --- |
@@ -91,7 +91,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 06 · Navigation Rail
+## 06 · Navigation
 
 | | |
 | --- | --- |
@@ -105,7 +105,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 07 · Reference Folio
+## 07 · Card
 
 | | |
 | --- | --- |
@@ -119,7 +119,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 08 · Selection Bank
+## 08 · Checkbox / Radio
 
 | | |
 | --- | --- |
@@ -133,7 +133,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 09 · Travel Log
+## 09 · Scrollbar
 
 | | |
 | --- | --- |
@@ -147,7 +147,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 
 ---
 
-## 10 · Rotary Attenuator
+## 10 · Knob
 
 | | |
 | --- | --- |

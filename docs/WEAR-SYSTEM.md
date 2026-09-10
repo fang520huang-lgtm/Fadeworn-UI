@@ -69,7 +69,7 @@ Pass `countAsUse: true` when the trace deposit should also count as an actuation
 
 ### 3. `markInputGlyph(start, end, intensity = 1)` — glyph-position accumulation
 
-Exclusive to `input`. The Field Terminal measures each grapheme with canvas `measureText` against the input's computed font, converts the result to a 0–1 horizontal band, and records that band. Matching bands merge and accumulate; the list keeps the most recent 96 zones.
+Exclusive to `input`. The Input specimen measures each grapheme with canvas `measureText` against the input's computed font, converts the result to a 0–1 horizontal band, and records that band. Matching bands merge and accumulate; the list keeps the most recent 96 zones.
 
 Erasing calls the same function for the removed range, so deletion leaves evidence too.
 
@@ -99,10 +99,10 @@ React never animates the wear surfaces. Components push numbers into CSS custom 
 | Custom property | Set by | Consumed by |
 | --- | --- | --- |
 | `--level` | `SpecimenFrame`, the folio | Painted-metal and paper finishes |
-| `--left-wear`, `--right-wear` | Two-State Lever | Rest-side friction on the switch shell |
-| `--tab-wear` | Mode Register | Per-tab fade |
-| `--nav-wear` | Navigation Rail | Per-route contact wear |
-| `--knob-wear`, `--knob-level` | Rotary Attenuator | Conic-gradient bezel and rotor finish |
+| `--left-wear`, `--right-wear` | Toggle | Rest-side friction on the switch shell |
+| `--tab-wear` | Tabs | Per-tab fade |
+| `--nav-wear` | Navigation | Per-route contact wear |
+| `--knob-wear`, `--knob-level` | Knob | Conic-gradient bezel and rotor finish |
 | `--gauge` | Live Wear Monitor | Overall gauge sweep |
 
 Everything else — slider heatmaps, the scroll rail, glyph zones — is generated as a gradient string by the component or by `traceGradient(trace, color?, baseAlpha?)`.

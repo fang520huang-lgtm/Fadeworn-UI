@@ -61,7 +61,7 @@ function textEdit(previous: string[], next: string[]) {
 
 export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearRecord } & WearAction & Resettable) {
   return (
-    <SpecimenFrame anchor="specimen-button" index="01" title="Actuation Button" material="PAINTED STEEL" note="UNIFORM SURFACE FADE" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-button" index="01" title="Button" material="PAINTED STEEL" note="UNIFORM SURFACE FADE" record={record} onReset={onReset}>
       <div className="control-bay button-bay">
         <Button
           className="lab-push-button"
@@ -80,7 +80,7 @@ export function WearToggleSpecimen({ record, markTrace, onReset }: { record: Wea
   const leftWear = record.trace.slice(0, 12).reduce((a, b) => a + b, 0) / 12;
   const rightWear = record.trace.slice(12).reduce((a, b) => a + b, 0) / 12;
   return (
-    <SpecimenFrame anchor="specimen-toggle" index="02" title="Two-State Lever" material="BAKELITE" note="REST-SIDE FRICTION" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-toggle" index="02" title="Toggle" material="BAKELITE" note="REST-SIDE FRICTION" record={record} onReset={onReset}>
       <div className="control-bay toggle-bay">
         <div className="toggle-assembly">
           <span className="toggle-label">OFF</span>
@@ -200,7 +200,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
 
   const characterCount = splitGraphemes(value).length;
   return (
-    <SpecimenFrame anchor="specimen-input" index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-input" index="04" title="Input" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} onReset={onReset}>
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell">
@@ -255,7 +255,7 @@ export function WearChoiceSpecimen({ record, markUse, onReset }: { record: WearR
   const [checked, setChecked] = useState(false);
   const [mode, setMode] = useState("a");
   return (
-    <SpecimenFrame anchor="specimen-choice" index="08" title="Selection Bank" material="ENAMELED METAL" note="CONTACT HALO" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-choice" index="08" title="Checkbox / Radio" material="ENAMELED METAL" note="CONTACT HALO" record={record} onReset={onReset}>
       <div className="control-bay choice-bay">
         <label className="check-line">
           <span className="choice-contact" data-hot={checked || undefined}>

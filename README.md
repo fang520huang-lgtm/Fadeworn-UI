@@ -41,16 +41,16 @@ Search across names, file paths, materials, and behaviour: `knob`, `paper`, `bra
 
 | # | Component | Material | Records |
 | --- | --- | --- | --- |
-| 01 | [Actuation Button](docs/COMPONENTS.md#01--actuation-button) | Painted steel | Press count → uniform surface fade |
-| 02 | [Two-State Lever](docs/COMPONENTS.md#02--two-state-lever) | Bakelite | Rest-side friction |
-| 03 | [Linear Calibrator](docs/COMPONENTS.md#03--linear-calibrator) | Brass / rubber | Travel friction heatmap |
-| 04 | [Field Terminal](docs/COMPONENTS.md#04--field-terminal) | Anodized alloy | Glyph-position abrasion |
-| 05 | [Mode Register](docs/COMPONENTS.md#05--mode-register) | Printed ABS | Per-tab frequency exposure |
-| 06 | [Navigation Rail](docs/COMPONENTS.md#06--navigation-rail) | Powder coat | Per-route contact wear |
-| 07 | [Reference Folio](docs/COMPONENTS.md#07--reference-folio) | Archival paper | Fiber wear and oxidation |
-| 08 | [Selection Bank](docs/COMPONENTS.md#08--selection-bank) | Enameled metal | Contact halo |
-| 09 | [Travel Log](docs/COMPONENTS.md#09--travel-log) | Machined rail | Scroll path memory |
-| 10 | [Rotary Attenuator](docs/COMPONENTS.md#10--rotary-attenuator) | Knurled aluminum | Direct wear control |
+| 01 | [Button](docs/COMPONENTS.md#01--button) | Painted steel | Press count → uniform surface fade |
+| 02 | [Toggle](docs/COMPONENTS.md#02--toggle) | Bakelite | Rest-side friction |
+| 03 | [Slider](docs/COMPONENTS.md#03--slider) | Brass / rubber | Travel friction heatmap |
+| 04 | [Input](docs/COMPONENTS.md#04--input) | Anodized alloy | Glyph-position abrasion |
+| 05 | [Tabs](docs/COMPONENTS.md#05--tabs) | Printed ABS | Per-tab frequency exposure |
+| 06 | [Navigation](docs/COMPONENTS.md#06--navigation) | Powder coat | Per-route contact wear |
+| 07 | [Card](docs/COMPONENTS.md#07--card) | Archival paper | Fiber wear and oxidation |
+| 08 | [Checkbox / Radio](docs/COMPONENTS.md#08--checkbox--radio) | Enameled metal | Contact halo |
+| 09 | [Scrollbar](docs/COMPONENTS.md#09--scrollbar) | Machined rail | Scroll path memory |
+| 10 | [Knob](docs/COMPONENTS.md#10--knob) | Knurled aluminum | Direct wear control |
 
 [docs/COMPONENTS.md](docs/COMPONENTS.md) documents each one in full: source file, anchor, interaction, wear behaviour, preset level, and props. Selecting a row in the Wear Log jumps to that specimen on the page.
 

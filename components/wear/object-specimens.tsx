@@ -21,7 +21,7 @@ const KNOB_SWEEP = KNOB_MAX_ANGLE - KNOB_MIN_ANGLE;
 export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   const [open, setOpen] = useState(false);
   return (
-    <SpecimenFrame anchor="specimen-card" index="07" title="Reference Folio" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-card" index="07" title="Card" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} onReset={onReset}>
       <div className="control-bay folio-bay">
         <Card
           role="button"
@@ -86,7 +86,7 @@ export function WearKnobSpecimen({ record, markUse, setKnobWear, onReset }: { re
   };
 
   return (
-    <SpecimenFrame anchor="specimen-knob" index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="DIRECT WEAR CONTROL" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-knob" index="10" title="Knob" material="KNURLED ALUMINUM" note="DIRECT WEAR CONTROL" record={record} onReset={onReset}>
       <div className="control-bay knob-bay">
         <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace), "--knob-level": record.wearLevel } as React.CSSProperties}>
           <span className="knob-bezel-wear" aria-hidden="true" />
