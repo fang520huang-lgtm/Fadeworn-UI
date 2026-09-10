@@ -121,14 +121,15 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   font-style: normal;
   font-weight: 400;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='84' viewBox='0 0 144 84'%3E%3Cfilter id='fiber'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018 .5' numOctaves='4' seed='29' result='lengthwise'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.38 .022' numOctaves='2' seed='7' result='crosswise'/%3E%3CfeBlend in='lengthwise' in2='crosswise' mode='multiply' result='woven'/%3E%3CfeColorMatrix in='woven' type='saturate' values='0' result='mono'/%3E%3CfeComponentTransfer in='mono'%3E%3CfeFuncR type='linear' slope='2.2' intercept='-.48'/%3E%3CfeFuncG type='linear' slope='2.2' intercept='-.48'/%3E%3CfeFuncB type='linear' slope='2.2' intercept='-.48'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='144' height='84' filter='url(%23fiber)' opacity='.9'/%3E%3C/svg%3E") 0 0 / 144px 84px,
-    linear-gradient(176deg, rgba(247, 222, 173, .18) 0%, rgba(119, 95, 62, .06) 46%, rgba(43, 46, 42, .2) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='64' viewBox='0 0 160 64'%3E%3Cfilter id='brush'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .78' numOctaves='2' seed='31' result='grain'/%3E%3CfeColorMatrix in='grain' type='saturate' values='0' result='mono'/%3E%3CfeComponentTransfer in='mono'%3E%3CfeFuncR type='linear' slope='2.65' intercept='-.8'/%3E%3CfeFuncG type='linear' slope='2.65' intercept='-.8'/%3E%3CfeFuncB type='linear' slope='2.65' intercept='-.8'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='64' filter='url(%23brush)' opacity='.82'/%3E%3C/svg%3E") 0 0 / 160px 64px,
+    repeating-linear-gradient(0deg, rgba(252, 233, 194, .16) 0 .45px, rgba(60, 49, 35, .2) .55px 1px, transparent 1.2px 2.8px),
+    linear-gradient(180deg, #826a47 0%, #d1ad6d 29%, #8b704a 53%, #c6a466 72%, #62594b 100%),
     linear-gradient(90deg, #c29a57 0%, #b68e51 28%, #977d57 58%, #7b7160 81%, #686b62 100%);
-  background-blend-mode: soft-light, overlay, normal;
+  background-blend-mode: overlay, soft-light, overlay, normal;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: saturate(.76) contrast(1.14) drop-shadow(0 1px 0 rgba(232, 215, 178, .08)) drop-shadow(0 2px 2px rgba(0, 0, 0, .2));
+  filter: saturate(.68) contrast(1.16) drop-shadow(0 1px 0 rgba(238, 219, 179, .1)) drop-shadow(0 2px 2px rgba(0, 0, 0, .22));
 }
 .notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
