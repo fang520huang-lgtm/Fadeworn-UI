@@ -120,10 +120,16 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   color: #bd9250;
   font-style: normal;
   font-weight: 400;
-  background: linear-gradient(90deg, #c29a57 0%, #b68e51 28%, #977d57 58%, #7b7160 81%, #686b62 100%);
+  background:
+    radial-gradient(circle at 3px 4px, rgba(244, 218, 164, .44) 0 .7px, transparent 1.25px) 0 0 / 17px 13px,
+    radial-gradient(circle at 9px 7px, rgba(35, 40, 35, .58) 0 .8px, transparent 1.4px) 0 0 / 23px 19px,
+    repeating-linear-gradient(106deg, transparent 0 12px, rgba(42, 45, 39, .16) 13px 14px, transparent 15px 25px),
+    linear-gradient(90deg, #c29a57 0%, #b68e51 28%, #977d57 58%, #7b7160 81%, #686b62 100%);
+  background-blend-mode: screen, multiply, multiply, normal;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(230, 210, 170, .08)) drop-shadow(0 2px 2px rgba(0, 0, 0, .22));
 }
 .notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
