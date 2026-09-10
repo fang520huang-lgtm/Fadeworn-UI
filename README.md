@@ -2,6 +2,8 @@
 
 **An interface that remembers how it was used.**
 
+**Live demo: [fang520huang-lgtm.github.io/Fadeworn-UI](https://fang520huang-lgtm.github.io/Fadeworn-UI/)** — ten controls that visibly wear as you use them.
+
 Fadeworn UI is an interaction experiment about interfaces that record their own history. Clicks, drags, selections, typing, and scrolling alter each control through material-specific wear instead of decorative random distress.
 
 The showcase opens with a curated initial-wear preset. Its state is session-only: refreshing the page restores that preset, while **No Wear** clears every surface for a clean comparison.
@@ -106,4 +108,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). The short version: wear is history, not 
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE). Built by [@fang520huang-lgtm](https://github.com/fang520huang-lgtm).

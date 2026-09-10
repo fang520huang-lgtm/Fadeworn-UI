@@ -70,17 +70,11 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
               if (now - lastSample.current < 80) return;
               const max = target.scrollHeight - target.clientHeight;
               const position = max > 0 ? target.scrollTop / max : 0;
-              const from = lastPosition.current;
-              const distance = Math.abs(position - from);
-              // Deposit along the whole traversed span. Sampling once per frame
-              // budget would leave isolated blobs on a fast flick; filling the
-              // span keeps the polish continuous however quickly you scroll.
-              const span = Math.max(1, Math.ceil(distance / 0.03));
-              const intensity = Math.min(3.2, Math.max(0.4, distance * 3));
+              const distance = Math.abs(position - lastPosition.current);
+              // Wear is recorded exactly as before: one deposit at the sampled
+              // position. The smoothness comes from the rail animation below.
               startTransition(() => {
-                for (let step = 1; step <= span; step += 1) {
-                  markTrace("scrollbar", from + (position - from) * (step / span), intensity, step === span);
-                }
+                markTrace("scrollbar", position, Math.max(0.35, distance * 5), true);
                 if (distance > 0.16) markUse("scrollbar", 0.6);
               });
               lastPosition.current = position;
@@ -108,16 +102,25 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
 const RAIL_BANDS = 48;
 
 /**
- * Interpolate the 24 wear segments into finer bands. Each band is its own
- * element so the browser can ease its opacity, which is what turns the rail
- * from 24 popping steps into a continuous polish.
+ * Interpolate the 24 wear segments into finer bands and soften them slightly.
+ * The stored wear is untouched — this only decides how it is drawn, so a single
+ * hot segment reads as a soft mound and each band can ease its own opacity.
  */
 function railBands(trace: number[]) {
-  return Array.from({ length: RAIL_BANDS }, (_, index) => {
+  const fine = Array.from({ length: RAIL_BANDS }, (_, index) => {
     const at = (index / (RAIL_BANDS - 1)) * (trace.length - 1);
     const lower = Math.floor(at);
     const upper = Math.min(trace.length - 1, lower + 1);
-    const value = trace[lower] + (trace[upper] - trace[lower]) * (at - lower);
+    return trace[lower] + (trace[upper] - trace[lower]) * (at - lower);
+  });
+
+  const soft = fine.map((value, index) => {
+    const previous = fine[index - 1] ?? value;
+    const next = fine[index + 1] ?? value;
+    return (previous + value * 2 + next) / 4;
+  });
+
+  return soft.map((value) => {
     return Math.min(0.88, 0.04 + value * 0.86);
   });
 }

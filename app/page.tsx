@@ -143,7 +143,14 @@ export default function Home() {
             <article><span>03</span><h3>FUNCTION ENDURES</h3><p>Even when heavily worn, every control remains readable and usable.</p></article>
           </div>
         </div>
-        <footer className="site-footer"><span>FADEWORN UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><span>2026 / SHANGHAI</span></footer>
+        <footer className="site-footer">
+          <span>FADEWORN UI / LAB—17</span>
+          <p>The interface remembers how it was used, until there is nothing left to remember.</p>
+          <div className="footer-links">
+            <a href="https://github.com/fang520huang-lgtm/Fadeworn-UI" target="_blank" rel="noreferrer">SOURCE ON GITHUB ↗</a>
+            <a href="https://github.com/fang520huang-lgtm" target="_blank" rel="noreferrer">BY @FANG520HUANG-LGTM ↗</a>
+          </div>
+        </footer>
       </section>
     </main>
   );

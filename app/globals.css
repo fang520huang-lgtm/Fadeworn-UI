@@ -110,7 +110,8 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .section-index { margin: 0; }
 .hero-copy h1 {
   margin: 29px 0 27px;
-  font: 400 clamp(50px, 5.7vw, 86px)/1.1 Georgia, serif;
+  /* Sized so "leaves evidence." holds one line in the narrower copy column. */
+  font: 400 clamp(46px, 5vw, 72px)/1.1 Georgia, serif;
   letter-spacing: -.04em;
 }
 .hero-copy h1 em {
@@ -405,7 +406,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   box-shadow: inset 1px 0 rgba(206,190,153,.34), inset -1px 0 rgba(12,15,13,.72), 0 1px 3px #0009;
 }
 .scroll-ghost { position: absolute; z-index: 5; right: 5px; top: 7px; bottom: 7px; width: 10px; display: flex; flex-direction: column; opacity: .66; filter: blur(2px); mix-blend-mode: screen; pointer-events: none; }
-.scroll-ghost i { flex: 1 1 0; min-height: 0; background: #d3b169; transition: opacity .3s cubic-bezier(.4, 0, .2, 1); }
+.scroll-ghost i { flex: 1 1 0; min-height: 0; background: #d3b169; transition: opacity .38s cubic-bezier(.22, .61, .36, 1); }
 .log-sheet { padding: 5px 7px 80px; }
 .log-sheet p { display: grid; grid-template-columns: 44px 1fr; align-items: center; min-width: 330px; height: 42px; margin: 0; border-bottom: 1px solid #293029; color: #7f887e; font: 9px/1 Consolas, monospace; letter-spacing: .08em; }
 .log-sheet p span { color: #9b8052; }.log-sheet p b { font-weight: 400; }
@@ -472,6 +473,9 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .principles article > span { color: #b28a4b; font: 10px/1.4 Consolas, monospace; }.principles h3 { margin: 0; font-size: 17px; font-weight: 500; }.principles p { margin: 0; color: #929a90; font-size: 14px; line-height: 1.7; }
 .site-footer { min-height: 112px; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 30px; align-items: end; margin-top: 118px; padding: 24px 0; border-top: 1px solid #3b423b; color: #697269; font: 9px/1.5 Consolas, monospace; letter-spacing: .12em; }
 .site-footer p { margin: 0; color: #aaa99f; text-align: center; font: italic 17px/1.5 Georgia, serif; letter-spacing: 0; }.site-footer span:last-child { text-align: right; }
+.footer-links { justify-self: end; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+.footer-links a { color: #d3b273; transition: color .18s ease; }
+.footer-links a:hover { color: #f0d69b; }
 
 
 @media (max-width: 1120px) {
@@ -491,6 +495,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   .gallery-section { padding-block: 86px; }.specimen-grid { grid-template-columns: 1fr; }.specimen-card { min-height: 465px; }
   .inspector-section, .notes-grid { grid-template-columns: 1fr; gap: 48px; }.inspector-copy { position: static; }.inspector-section { padding-block: 92px; }
   .notes-section { padding-top: 92px; }.site-footer { grid-template-columns: 1fr; align-items: start; }.site-footer p, .site-footer span:last-child { text-align: left; }
+  .footer-links { justify-self: start; align-items: flex-start; }
 }
 
 @media (max-width: 560px) {
