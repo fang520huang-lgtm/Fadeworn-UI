@@ -293,13 +293,14 @@ export function useWearSystem() {
     (id: ComponentId, intensity = 1, point?: { x: number; y: number }) => {
       setWearState((current) => {
         const record = current[id];
+        const wearIntensity = id === "knob" ? intensity / 3 : intensity;
         const hitPositions = point
           ? [
               ...record.hitPositions,
               {
                 x: clamp(point.x),
                 y: clamp(point.y),
-                pressure: clamp(0.35 + intensity * 0.25),
+                pressure: clamp(0.35 + wearIntensity * 0.25),
                 createdAt: Date.now(),
               },
             ].slice(-18)
@@ -312,7 +313,7 @@ export function useWearSystem() {
             wearLevel: clamp(record.wearLevel + (
               DIRECT_CLICK_COMPONENTS.has(id)
                 ? id === "card" ? FOLIO_VISUAL_LIMIT * CLICK_WEAR_INCREMENT : CLICK_WEAR_INCREMENT
-                : increments[id] * intensity
+                : increments[id] * wearIntensity
             )),
             lastUsed: Date.now(),
             hitPositions,
@@ -327,6 +328,7 @@ export function useWearSystem() {
     (id: ComponentId, position: number, intensity = 1, countAsUse = false) => {
       setWearState((current) => {
         const record = current[id];
+        const wearIntensity = id === "knob" ? intensity / 3 : intensity;
         const center = Math.round(clamp(position) * (TRACE_SEGMENTS - 1));
         const toggleIndices = center < TRACE_SEGMENTS / 2
           ? TOGGLE_LEFT_TRACE_INDICES
@@ -342,7 +344,7 @@ export function useWearSystem() {
             return clamp(value + addition);
           }
           const addition = distance === 0 ? 0.055 : distance === 1 ? 0.024 : 0;
-          return clamp(value + addition * intensity);
+          return clamp(value + addition * wearIntensity);
         });
         return {
           ...current,
@@ -353,7 +355,7 @@ export function useWearSystem() {
               ? clamp(record.wearLevel + CLICK_WEAR_INCREMENT)
               : isLocalClick
                 ? visibleTraceLevel(id, trace)
-                : clamp(record.wearLevel + increments[id] * intensity),
+                : clamp(record.wearLevel + increments[id] * wearIntensity),
             lastUsed: Date.now(),
             trace,
           },
