@@ -404,6 +404,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .lab-scroll-area [data-slot="scroll-area-thumb"] {
   z-index: 1;
   min-height: 0;
+  transform: translate3d(0, var(--scrollbar-thumb-offset, 0px), 0) !important;
   border: 1px solid #716a58;
   border-radius: 2px !important;
   background:

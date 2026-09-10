@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useEffect, useRef, useState, type CSSProperties } from "react";
+import { memo, startTransition, useEffect, useRef, useState, type CSSProperties } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
 import { traceGradient, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
@@ -58,7 +58,28 @@ const logLines = [
 ];
 
 export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
-  const scrollFrame = useRef<HTMLDivElement>(null);
+  return (
+    <SpecimenFrame id="scrollbar" index="09" title="Scrollbar" material="MACHINED RAIL" record={record} onReset={onReset}>
+      <div className="control-bay scroll-bay">
+        <div
+          className="scroll-frame"
+          style={{ "--scrollbar-wear": recordTraceVertical(record.trace) } as CSSProperties}
+        >
+          <StableScrollbarBody markUse={markUse} markTrace={markTrace} />
+        </div>
+        <p>Scroll to wear the track.</p>
+      </div>
+    </SpecimenFrame>
+  );
+}
+
+/**
+ * Keep Radix's viewport and thumb mounted while the surrounding wear record
+ * changes. Re-rendering this tree during pointer capture can interrupt a drag
+ * in optimized/static builds, so the changing wear gradient lives on the
+ * parent frame and is inherited by the track instead.
+ */
+const StableScrollbarBody = memo(function StableScrollbarBody({ markUse, markTrace }: Marks) {
   const lastPosition = useRef(0);
   const lastSample = useRef(0);
   const pendingPosition = useRef(0);
@@ -69,74 +90,74 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
     if (flushTimer.current !== null) window.clearTimeout(flushTimer.current);
   }, []);
 
-  useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      const viewport = scrollFrame.current?.querySelector<HTMLElement>("[data-slot='scroll-area-viewport']");
-      viewport?.dispatchEvent(new Event("scroll"));
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [record.trace]);
-
   return (
-    <SpecimenFrame id="scrollbar" index="09" title="Scrollbar" material="MACHINED RAIL" record={record} onReset={onReset}>
-      <div className="control-bay scroll-bay">
-        <div className="scroll-frame" ref={scrollFrame}>
-          <ScrollArea
-            className="lab-scroll-area"
-            type="always"
-            style={{ "--scrollbar-wear": recordTraceVertical(record.trace) } as CSSProperties}
-            onScrollCapture={(event) => {
-              if (!event.nativeEvent.isTrusted) return;
-              const target = event.target as HTMLElement;
-              if (!target.matches("[data-slot='scroll-area-viewport']")) return;
-              const now = performance.now();
-              const max = target.scrollHeight - target.clientHeight;
-              const position = max > 0 ? target.scrollTop / max : 0;
-              pendingPosition.current = position;
+    <ScrollArea
+      className="lab-scroll-area"
+      type="always"
+      onScrollCapture={(event) => {
+        const target = event.target as HTMLElement;
+        if (!target.matches("[data-slot='scroll-area-viewport']")) return;
+        syncScrollbarThumb(target);
+        const now = performance.now();
+        const max = target.scrollHeight - target.clientHeight;
+        const position = max > 0 ? target.scrollTop / max : 0;
+        pendingPosition.current = position;
 
-              if (now - lastSample.current >= 80) {
-                const distance = Math.abs(position - lastPosition.current);
-                pendingSamples.current.push({ position, intensity: Math.max(0.35, distance * 5) });
-                lastPosition.current = position;
-                lastSample.current = now;
-              }
+        if (now - lastSample.current >= 80) {
+          const distance = Math.abs(position - lastPosition.current);
+          pendingSamples.current.push({ position, intensity: Math.max(0.35, distance * 5) });
+          lastPosition.current = position;
+          lastSample.current = now;
+        }
 
-              if (flushTimer.current !== null) window.clearTimeout(flushTimer.current);
-              flushTimer.current = window.setTimeout(() => {
-                const finalPosition = pendingPosition.current;
-                const finalDistance = Math.abs(finalPosition - lastPosition.current);
-                if (finalDistance > 0.001) {
-                  pendingSamples.current.push({
-                    position: finalPosition,
-                    intensity: Math.max(0.35, finalDistance * 5),
-                  });
-                  lastPosition.current = finalPosition;
-                }
+        if (flushTimer.current !== null) window.clearTimeout(flushTimer.current);
+        flushTimer.current = window.setTimeout(() => {
+          const finalPosition = pendingPosition.current;
+          const finalDistance = Math.abs(finalPosition - lastPosition.current);
+          if (finalDistance > 0.001) {
+            pendingSamples.current.push({
+              position: finalPosition,
+              intensity: Math.max(0.35, finalDistance * 5),
+            });
+            lastPosition.current = finalPosition;
+          }
 
-                const samples = pendingSamples.current.splice(0);
-                flushTimer.current = null;
-                if (samples.length === 0) return;
+          const samples = pendingSamples.current.splice(0);
+          flushTimer.current = null;
+          if (samples.length === 0) return;
 
-                startTransition(() => {
-                  samples.forEach((sample) => {
-                    markTrace("scrollbar", sample.position, sample.intensity, true);
-                    if (sample.intensity > 0.8) markUse("scrollbar", 0.6);
-                  });
-                });
-              }, 140);
-            }}
-          >
-            <div className="log-sheet">
-              {logLines.map(([number, line]) => (
-                <p key={number}><span>{number}</span><b>{line}</b></p>
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-        <p>Scroll to wear the track.</p>
+          startTransition(() => {
+            samples.forEach((sample) => {
+              markTrace("scrollbar", sample.position, sample.intensity, true);
+              if (sample.intensity > 0.8) markUse("scrollbar", 0.6);
+            });
+          });
+        }, 140);
+      }}
+    >
+      <div className="log-sheet">
+        {logLines.map(([number, line]) => (
+          <p key={number}><span>{number}</span><b>{line}</b></p>
+        ))}
       </div>
-    </SpecimenFrame>
+    </ScrollArea>
   );
+});
+
+function syncScrollbarThumb(viewport: HTMLElement) {
+  const root = viewport.closest<HTMLElement>("[data-slot='scroll-area']");
+  const scrollbar = root?.querySelector<HTMLElement>("[data-slot='scroll-area-scrollbar']");
+  const thumb = scrollbar?.querySelector<HTMLElement>("[data-slot='scroll-area-thumb']");
+  if (!scrollbar || !thumb) return;
+
+  const maximumScroll = viewport.scrollHeight - viewport.clientHeight;
+  const scrollbarStyle = getComputedStyle(scrollbar);
+  const verticalPadding = (Number.parseFloat(scrollbarStyle.paddingTop) || 0)
+    + (Number.parseFloat(scrollbarStyle.paddingBottom) || 0);
+  const travel = Math.max(0, scrollbar.clientHeight - verticalPadding - thumb.offsetHeight);
+  const progress = maximumScroll > 0 ? viewport.scrollTop / maximumScroll : 0;
+
+  thumb.style.setProperty("--scrollbar-thumb-offset", `${travel * progress}px`);
 }
 
 const RAIL_BANDS = 48;
