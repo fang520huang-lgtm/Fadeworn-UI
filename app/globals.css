@@ -401,11 +401,11 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   background: var(--knob-wear); filter: blur(.35px) saturate(.18) contrast(1.3);
   mask: radial-gradient(circle, transparent 0 80%, #000 81.5% 87%, transparent 88.5% 92%, #000 93.5% 98.2%, transparent 99.3%);
   -webkit-mask: radial-gradient(circle, transparent 0 80%, #000 81.5% 87%, transparent 88.5% 92%, #000 93.5% 98.2%, transparent 99.3%);
-  opacity: .92;
+  opacity: .736;
 }
 .knob-bezel-wear {
   position: absolute; z-index: 2; inset: -2px; border-radius: 50%; pointer-events: none;
-  opacity: min(1, calc(var(--knob-level) * 1.5));
+  opacity: min(.8, calc(var(--knob-level) * 1.2));
   background: center / 100% 100% no-repeat url("/knob-bezel-wear.svg");
 }
 .knob-bezel-wear::before,
