@@ -36,13 +36,13 @@ export default function Home() {
   return (
     <main className={`lab-shell ${hydrated ? "is-ready" : ""}`}>
       <header className="masthead">
-        <a className="brand-lockup" href="#top" aria-label="Fadeworn UI home">
+        <div className="brand-lockup">
           <span className="brand-mark" aria-hidden="true">F</span>
           <span>
             <small>HISTORY / NOT STATE</small>
-            <b>FADEWORN UI <i>UI AGING LABORATORY</i></b>
+            <b>FADEWORN UI</b>
           </span>
-        </a>
+        </div>
         <nav className="top-nav" aria-label="Page navigation">
           <a href="#specimens">SPECIMENS</a>
           <a href="#inspector">WEAR LOG</a>
@@ -55,7 +55,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="section-index">01 / ACTIVE SURFACE</p>
           <h1>Every touch<br /><em>leaves evidence.</em></h1>
-          <p className="lede">Use the controls below. Every click, drag, keystroke, and scroll leaves a visible trace.</p>
+          <p className="lede">Use the controls below.<br />Every click, drag, keystroke, and scroll leaves a visible trace.</p>
           <div className="hero-actions">
             <Button className="initial-wear-button" onClick={applyInitialWear}>
               <Sparkles aria-hidden="true" /> INITIAL WEAR
