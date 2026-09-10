@@ -9,8 +9,9 @@
     "install:ci": "node scripts/install-ci.mjs",
     "dev": "vinext dev --port 5173",
     "build": "vinext build",
+    "build:static": "node scripts/build-static.mjs",
     "start": "node --import ./scripts/local-runtime-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern out"
   },
   "dependencies": {
     "class-variance-authority": "0.7.1",

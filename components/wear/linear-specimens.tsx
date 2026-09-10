@@ -22,7 +22,7 @@ export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { re
   const sliderValue = isInitialPreset ? [INITIAL_SLIDER_VALUE] : value;
 
   return (
-    <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-slider" index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} onReset={onReset}>
       <div className="control-bay slider-bay">
         <div className="dial-readout"><span>OUTPUT</span><b>{String(sliderValue[0]).padStart(2, "0")}</b><small>%</small></div>
         <div className="slider-shell">
@@ -61,7 +61,7 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
   const lastPosition = useRef(0);
   const lastSample = useRef(0);
   return (
-    <SpecimenFrame index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-scrollbar" index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} onReset={onReset}>
       <div className="control-bay scroll-bay">
         <div className="scroll-frame">
           <ScrollArea

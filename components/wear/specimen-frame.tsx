@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { WearRecord } from "@/hooks/use-wear-system";
 
 type SpecimenFrameProps = {
+  /** Anchor id so `/directory` can deep-link straight to this specimen. */
+  anchor: string;
   index: string;
   title: string;
   material: string;
@@ -15,6 +17,7 @@ type SpecimenFrameProps = {
 };
 
 export function SpecimenFrame({
+  anchor,
   index,
   title,
   material,
@@ -25,7 +28,11 @@ export function SpecimenFrame({
   onReset,
 }: SpecimenFrameProps) {
   return (
-    <Card className={`specimen-card ${className}`} style={{ "--level": record.wearLevel } as React.CSSProperties}>
+    <Card
+      id={anchor}
+      className={`specimen-card ${className}`}
+      style={{ "--level": record.wearLevel } as React.CSSProperties}
+    >
       <CardHeader className="specimen-card__head">
         <div>
           <p className="specimen-no">{index} / {material}</p>

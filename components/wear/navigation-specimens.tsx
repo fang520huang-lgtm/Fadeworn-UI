@@ -21,7 +21,7 @@ export function WearTabsSpecimen({ record, markTrace, onReset }: { record: WearR
     return record.trace[traceIndex] ?? 0;
   });
   return (
-    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-tabs" index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} onReset={onReset}>
       <div className="control-bay tabs-bay">
         <Tabs
           value={tab}
@@ -66,7 +66,7 @@ export function WearNavigationSpecimen({ record, markTrace, onReset }: { record:
     return record.trace[traceIndex] ?? 0;
   });
   return (
-    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} onReset={onReset}>
+    <SpecimenFrame anchor="specimen-navigation" index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} onReset={onReset}>
       <div className="control-bay nav-bay">
         <nav className="lab-nav" aria-label="Laboratory navigation">
           {navItems.map(({ label, icon: Icon }, index) => {
