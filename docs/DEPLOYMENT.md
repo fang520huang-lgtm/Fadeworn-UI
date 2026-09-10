@@ -146,6 +146,6 @@ npx serve out          # or: python -m http.server 8099 --directory out
 PAGES_BASE_PATH=/Fadeworn-UI npm run build:static
 ```
 
-Open the address it prints and confirm that the home page and `/directory` both load, navigate, and search correctly.
+Open the address it prints and confirm that the page loads with its styles and images intact.
 
 > `PAGES_BASE_PATH` is only needed when publishing to a project subpath such as `https://<user>.github.io/<repo>/`. When deploying to a domain root (Vercel, Cloudflare Pages, or a GitHub Pages custom domain), leave it unset — otherwise asset URLs gain an extra path segment.

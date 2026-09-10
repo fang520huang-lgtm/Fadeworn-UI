@@ -47,7 +47,6 @@ export default function Home() {
           <a href="#specimens">SPECIMENS</a>
           <a href="#inspector">WEAR LOG</a>
           <a href="#notes">DESIGN NOTES</a>
-          <a href="directory">COMPONENT INDEX</a>
         </nav>
         <p className="serial">LAB—17 <span>●</span> RECORDING</p>
       </header>
@@ -91,10 +90,7 @@ export default function Home() {
       <section className="gallery-section" id="specimens">
         <div className="section-heading">
           <div><p className="section-index">02 / INTERACTIVE SPECIMENS</p><h2>Controls that remember you.</h2></div>
-          <p>
-            Keep using them. A shared material language produces ten distinct histories of wear.
-            <a className="section-heading-link" href="directory">BROWSE THE COMPONENT INDEX →</a>
-          </p>
+          <p>Keep using them. A shared material language produces ten distinct histories of wear.</p>
         </div>
         <div className="specimen-grid">
           <WearButtonSpecimen record={wearState.button} markUse={markUse} onReset={() => resetOne("button")} />
@@ -125,8 +121,8 @@ export default function Home() {
               <a
                 className="ledger-row"
                 key={id}
-                href={`directory#specimen-${id}`}
-                title={`Open ${labels[id]} in the component index`}
+                href={`#specimen-${id}`}
+                title={`Jump to ${labels[id]}`}
               >
                 <span><i>{String(index + 1).padStart(2, "0")}</i>{labels[id]}</span>
                 <b>{String(record.usageCount).padStart(3, "0")}</b>
@@ -147,7 +143,7 @@ export default function Home() {
             <article><span>03</span><h3>FUNCTION ENDURES</h3><p>Even at maximum wear, labels, active states, focus, and every control remain clear.</p></article>
           </div>
         </div>
-        <footer className="site-footer"><span>FADEWORN UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><a href="directory">COMPONENT INDEX →</a></footer>
+        <footer className="site-footer"><span>FADEWORN UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><span>2026 / SHANGHAI</span></footer>
       </section>
     </main>
   );

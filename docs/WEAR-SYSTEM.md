@@ -139,4 +139,4 @@ To add a new wear-aware component:
 2. Choose a write channel — flat (`markUse`), positional (`markTrace`), or custom (add a function alongside `markInputGlyph`).
 3. Decide how `getWearLevelForDisplay` should normalize it.
 4. Render it by pushing a custom property into your element and styling the surface in `app/globals.css`.
-5. Register it in [`lib/component-catalog.ts`](COMPONENTS.md) so it appears in the component index.
+5. Document it in [`docs/COMPONENTS.md`](COMPONENTS.md) and add it to the `README.md` table.

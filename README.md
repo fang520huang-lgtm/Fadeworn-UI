@@ -10,26 +10,36 @@ The showcase opens with a curated initial-wear preset. Its state is session-only
 
 ---
 
-## Live demo
+## Run it
 
-| | |
+Fadeworn UI requires Node.js 22.13 or newer.
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173). That single page is the whole demo. If the development server is already running, Windows users can also double-click `Open Fadeworn UI.html` in the project root.
+
+### Publish it
+
+Every route is static, so the demo runs on any static host.
+
+| Target | How |
 | --- | --- |
-| **Public demo** | `https://fang520huang-lgtm.github.io/Fadeworn-UI/` — enable it once under **Settings → Pages → Source: GitHub Actions**, then every push publishes automatically. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). |
-| **Component index** | `https://fang520huang-lgtm.github.io/Fadeworn-UI/directory/` |
-| **Local demo** | Run `npm run dev` and open [http://localhost:5173](http://localhost:5173). The component index is at [http://localhost:5173/directory](http://localhost:5173/directory). |
+| **GitHub Pages** | Push to `master`. The included workflow publishes to `https://fang520huang-lgtm.github.io/Fadeworn-UI/`. Enable Pages once under **Settings → Pages → Source: GitHub Actions**, then every push deploys automatically. |
+| **Vercel / Cloudflare Pages** | Import the repository, keep the build command `npm run build`, and deploy. No configuration needed. |
+| **Any static host** | `npm run build:static` writes a self-contained site to `out/`. |
+
+For custom domains, DNS records, and where to buy a domain, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ---
 
-## Find a component
+## The ten components
 
-There are twenty components, and two ways to look them up:
+Search across names, file paths, materials, and behaviour: `knob`, `paper`, `brass`, `heatmap`, `glyph`, `halo`.
 
-- **In the app:** open `/directory` once the dev server is running. It has free-text search, family filters, clickable keyword chips, and a deep link to each specimen.
-- **In the repo:** read [docs/COMPONENTS.md](docs/COMPONENTS.md) for the same catalog with source paths, props, and export names.
-
-Search across names, file paths, materials, exports, and behaviour: try `knob`, `paper`, `brass`, `heatmap`, `glyph`, or `halo`.
-
-| # | Specimen | Material | Records |
+| # | Component | Material | Records |
 | --- | --- | --- | --- |
 | 01 | [Actuation Button](docs/COMPONENTS.md#01--actuation-button) | Painted steel | Press count → uniform surface fade |
 | 02 | [Two-State Lever](docs/COMPONENTS.md#02--two-state-lever) | Bakelite | Rest-side friction |
@@ -42,39 +52,7 @@ Search across names, file paths, materials, exports, and behaviour: try `knob`, 
 | 09 | [Travel Log](docs/COMPONENTS.md#09--travel-log) | Machined rail | Scroll path memory |
 | 10 | [Rotary Attenuator](docs/COMPONENTS.md#10--rotary-attenuator) | Knurled aluminum | Direct wear control |
 
-Ten reusable primitives live alongside them in `components/ui/` — button, card, input, checkbox, radio group, switch, slider, tabs, scroll area, and alert dialog. They are stock shadcn/ui on Radix and carry no wear logic of their own; the specimens wrap them and drive the wear rendering through CSS custom properties. See the [full catalog](docs/COMPONENTS.md) for every export and prop.
-
----
-
-## Run locally
-
-Fadeworn UI requires Node.js 22.13 or newer.
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173). If the development server is already running, Windows users can also double-click `Open Fadeworn UI.html` in the project root.
-
-## Quality checks
-
-```bash
-npm run lint
-npm run build
-```
-
-## Deploy
-
-Every route is fully static, so this project runs on any static host.
-
-| Target | How |
-| --- | --- |
-| **GitHub Pages** | Push to `master`. The included workflow builds and publishes to `https://<user>.github.io/Fadeworn-UI/`. Enable it once under **Settings → Pages → Source: GitHub Actions**. |
-| **Vercel / Cloudflare Pages** | Import the repository, keep the build command `npm run build`, and deploy. Zero configuration. |
-| **Any static host** | `npm run build:static` writes a self-contained site to `out/`. |
-
-For custom domains, DNS records, and where to buy a domain, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+[docs/COMPONENTS.md](docs/COMPONENTS.md) documents each one in full: source file, anchor, interaction, wear behaviour, preset level, and props. Selecting a row in the Wear Log jumps to that specimen on the page.
 
 ---
 
@@ -83,18 +61,15 @@ For custom domains, DNS records, and where to buy a domain, see [docs/DEPLOYMENT
 ```text
 app/
   layout.tsx                Page metadata and document shell
-  page.tsx                  Showcase composition
-  directory/page.tsx        Searchable component index ( /directory )
+  page.tsx                  The whole showcase: hero, specimens, wear log, notes
   globals.css               Visual system, materials, wear rendering
 components/
-  ui/                       Reusable UI primitives
-  wear/                     Ten interactive specimens and shared frame
+  wear/                     The ten interactive specimens and their shared frame
+  ui/                       Reusable shadcn/ui primitives they are built on
 hooks/
   use-wear-system.ts        Wear state, interaction mapping, and presets
-lib/
-  component-catalog.ts      Component index data (drives /directory and docs)
 docs/
-  COMPONENTS.md             Component reference
+  COMPONENTS.md             Reference for the ten components
   WEAR-SYSTEM.md            How wear works
   DEPLOYMENT.md             Deployment and domain guide
 public/
@@ -102,9 +77,12 @@ public/
   favicon.svg
 ```
 
-### How the index stays in sync
+## Quality checks
 
-`lib/component-catalog.ts` is the single source of truth. `/directory` renders it directly, and `docs/COMPONENTS.md` mirrors it for readers on GitHub. Adding one entry there makes a component searchable in both places.
+```bash
+npm run lint
+npm run build
+```
 
 ---
 

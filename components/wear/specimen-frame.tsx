@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { WearRecord } from "@/hooks/use-wear-system";
 
 type SpecimenFrameProps = {
-  /** Anchor id so `/directory` can deep-link straight to this specimen. */
+  /** Anchor id so the Wear Log rows can jump straight to this specimen. */
   anchor: string;
   index: string;
   title: string;

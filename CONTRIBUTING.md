@@ -25,15 +25,14 @@ npm run build
 | `components/wear/` | The interactive specimens. |
 | `components/ui/` | Reusable primitives. Keep these close to stock shadcn/ui. |
 | `hooks/use-wear-system.ts` | All wear state and the mapping from interaction to wear. |
-| `lib/component-catalog.ts` | The component index data. |
 | `docs/` | Reference documentation. |
 
 ## Adding a component
 
 1. Build it in `components/wear/` (specimen) or `components/ui/` (primitive).
-2. Register it in `lib/component-catalog.ts` with a slug, a summary, the interaction, the wear behaviour, and search keywords.
-3. Add it to the grid in `app/page.tsx` if it is a specimen, and give it an anchor so the index can deep-link to it.
-4. Update `README.md` and `docs/COMPONENTS.md` if you introduced a new concept.
+2. Add it to the grid in `app/page.tsx` and pass an `anchor` to `SpecimenFrame`.
+3. Register it in `COMPONENT_IDS` and `increments` in `hooks/use-wear-system.ts`.
+4. Document it in `README.md` and `docs/COMPONENTS.md`.
 
 ## Rules that matter here
 
