@@ -38,7 +38,7 @@ const labels: Record<ComponentId, string> = {
 };
 
 export default function Home() {
-  const { wearState, markUse, markTrace, markInputGlyph, resetOne, resetAll, accelerate, stats, hydrated } = useWearSystem();
+  const { wearState, markUse, markTrace, markInputGlyph, resetOne, resetAll, applyInitialWear, stats, hydrated } = useWearSystem();
   const averagePercent = Math.round(stats.averageWear * 100);
 
   return (
@@ -65,26 +65,26 @@ export default function Home() {
           <h1>每一次触碰，<br /><em>都留下证据。</em></h1>
           <p className="lede">数字界面通常假装自己从未被使用。这里，每次点击、拖动、选择和滚动都会抛光表面、磨掉涂层，形成只属于你的操作历史。</p>
           <div className="hero-actions">
-            <Button className="accelerate-button" onClick={accelerate}>
-              <Sparkles aria-hidden="true" /> 加速磨损
+            <Button className="initial-wear-button" onClick={applyInitialWear}>
+              <Sparkles aria-hidden="true" /> 初始磨损
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" className="reset-button"><RotateCcw aria-hidden="true" /> 恢复出厂</Button>
+                <Button variant="outline" className="reset-button"><RotateCcw aria-hidden="true" /> 无磨损</Button>
               </AlertDialogTrigger>
               <AlertDialogContent className="reset-dialog">
                 <AlertDialogHeader>
-                  <AlertDialogTitle>抹去全部使用历史？</AlertDialogTitle>
+                  <AlertDialogTitle>切换为无磨损状态？</AlertDialogTitle>
                   <AlertDialogDescription>10 个组件的点击、轨迹、使用次数与磨损程度都会归零。这个操作无法撤销。</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>保留历史</AlertDialogCancel>
-                  <AlertDialogAction onClick={resetAll}>确认复原</AlertDialogAction>
+                  <AlertDialogCancel>保留当前磨损</AlertDialogCancel>
+                  <AlertDialogAction onClick={resetAll}>确认清空</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
           </div>
-          <p className="persistence-note"><span /> 磨损仅保留在当前页面，刷新后自动归零</p>
+          <p className="persistence-note"><span /> 磨损仅保留在当前页面，刷新后恢复初始磨损</p>
         </div>
 
         <div className="instrument-panel">

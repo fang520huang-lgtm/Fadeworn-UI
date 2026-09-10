@@ -92,6 +92,56 @@ function toggleWearLevel(trace: number[]) {
   );
 }
 
+export function createInitialWearState(): WearState {
+  const next = createFreshWearState();
+
+  WEARABLE_COMPONENT_IDS.forEach((id, componentIndex) => {
+    const record = next[id];
+    if (id === "toggle") {
+      const toggleTrace = record.trace.map((value, index) =>
+        TOGGLE_LEFT_TRACE_INDICES.includes(index) || TOGGLE_RIGHT_TRACE_INDICES.includes(index)
+          ? 0.7
+          : value,
+      );
+      next[id] = {
+        ...record,
+        usageCount: 28 + componentIndex * 3,
+        wearLevel: toggleWearLevel(toggleTrace),
+        trace: toggleTrace,
+      };
+      return;
+    }
+
+    if (id === "input") {
+      next[id] = {
+        ...record,
+        usageCount: 40,
+        wearLevel: 0.7,
+        glyphWear: [{
+          start: 0,
+          end: 18 / 38,
+          wear: 0.7,
+          createdAt: 0,
+        }],
+      };
+      return;
+    }
+
+    const focus = ((componentIndex * 7 + 5) % TRACE_SEGMENTS) / (TRACE_SEGMENTS - 1);
+    const center = Math.round(focus * (TRACE_SEGMENTS - 1));
+    next[id] = {
+      ...record,
+      usageCount: 28 + componentIndex * 3,
+      wearLevel: 0.62 + (componentIndex % 3) * 0.08,
+      trace: record.trace.map((value, index) =>
+        Math.max(value, 0.12 + Math.max(0, 0.76 - Math.abs(index - center) * 0.105)),
+      ),
+    };
+  });
+
+  return next;
+}
+
 type ModelContext = {
   registerTool?: (
     tool: {
@@ -117,7 +167,7 @@ function assertNoOptions(input: unknown) {
 }
 
 export function useWearSystem() {
-  const [wearState, setWearState] = useState<WearState>(createFreshWearState);
+  const [wearState, setWearState] = useState<WearState>(createInitialWearState);
   const [hydrated, setHydrated] = useState(false);
   const stateRef = useRef(wearState);
 
@@ -248,63 +298,8 @@ export function useWearSystem() {
     }));
   }, []);
 
-  const accelerate = useCallback(() => {
-    setWearState((current) => {
-      const next = { ...current } as WearState;
-      WEARABLE_COMPONENT_IDS.forEach((id, componentIndex) => {
-        const record = current[id];
-        if (id === "toggle") {
-          const targetWear = Math.max(toggleWearLevel(record.trace), 0.7);
-          const toggleTrace = record.trace.map((value, index) =>
-            TOGGLE_LEFT_TRACE_INDICES.includes(index) || TOGGLE_RIGHT_TRACE_INDICES.includes(index)
-              ? Math.max(value, targetWear)
-              : value,
-          );
-          next[id] = {
-            ...record,
-            usageCount: record.usageCount + 28 + componentIndex * 3,
-            wearLevel: toggleWearLevel(toggleTrace),
-            lastUsed: Date.now(),
-            hitPositions: record.hitPositions,
-            trace: toggleTrace,
-          };
-          return;
-        }
-        if (id === "input") {
-          next[id] = {
-            ...record,
-            usageCount: record.usageCount + 40,
-            wearLevel: Math.max(record.wearLevel, 0.7),
-            lastUsed: Date.now(),
-            glyphWear: Array.from({ length: 18 }, (_, index) => ({
-              start: index / 38,
-              end: (index + 0.82) / 38,
-              wear: Math.max(record.glyphWear[index]?.wear ?? 0, 0.7 - (index % 4) * 0.06),
-              createdAt: Date.now(),
-            })),
-          };
-          return;
-        }
-        const focus = ((componentIndex * 7 + 5) % TRACE_SEGMENTS) / (TRACE_SEGMENTS - 1);
-        const center = Math.round(focus * (TRACE_SEGMENTS - 1));
-        next[id] = {
-          ...record,
-          usageCount: record.usageCount + 28 + componentIndex * 3,
-          wearLevel: clamp(Math.max(record.wearLevel, 0.62 + (componentIndex % 3) * 0.08)),
-          lastUsed: Date.now(),
-          hitPositions: record.hitPositions,
-          trace: record.trace.map((value, index) =>
-            clamp(
-              Math.max(
-                value,
-                0.12 + Math.max(0, 0.76 - Math.abs(index - center) * 0.105),
-              ),
-            ),
-          ),
-        };
-      });
-      return next;
-    });
+  const applyInitialWear = useCallback(() => {
+    setWearState(createInitialWearState());
   }, []);
 
   const stats = useMemo(() => {
@@ -344,15 +339,15 @@ export function useWearSystem() {
       );
       await context.registerTool?.(
         {
-          name: "accelerate_wear",
-          title: "Accelerate wear",
-          description: "Age every visible specimen to demonstrate a heavily used interface.",
+          name: "apply_initial_wear",
+          title: "Apply initial wear",
+          description: "Restore every visible specimen to the curated initial-wear preset.",
           inputSchema: { type: "object", properties: {}, additionalProperties: false },
           annotations: { readOnlyHint: false, untrustedContentHint: false },
           execute: (input) => {
             assertNoOptions(input);
-            accelerate();
-            return { status: "accelerated" };
+            applyInitialWear();
+            return { status: "initial_wear_applied" };
           },
         },
         { signal: lifecycle.signal },
@@ -360,7 +355,7 @@ export function useWearSystem() {
     };
     void register().catch(() => undefined);
     return () => lifecycle.abort();
-  }, [accelerate]);
+  }, [applyInitialWear]);
 
   return {
     wearState,
@@ -371,7 +366,7 @@ export function useWearSystem() {
     markInputGlyph,
     resetOne,
     resetAll,
-    accelerate,
+    applyInitialWear,
   };
 }
 

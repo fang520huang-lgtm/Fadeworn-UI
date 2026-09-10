@@ -115,12 +115,12 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .hero-copy h1 em, .notes-grid h2 em { color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 560px; margin: 0; color: #aeb4aa; font-size: 17px; line-height: 1.85; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
-.accelerate-button, .reset-button {
+.initial-wear-button, .reset-button {
   height: 46px !important; padding: 0 19px !important; border-radius: 2px !important;
   font-size: 14px !important; letter-spacing: .05em; box-shadow: none !important;
 }
-.accelerate-button { color: #17140e !important; background: linear-gradient(180deg, #d9b674, #ad7f3d) !important; border: 1px solid #ebc98a !important; }
-.accelerate-button:hover { filter: brightness(1.08); }
+.initial-wear-button { color: #17140e !important; background: linear-gradient(180deg, #d9b674, #ad7f3d) !important; border: 1px solid #ebc98a !important; }
+.initial-wear-button:hover { filter: brightness(1.08); }
 .reset-button { color: #b7bdb4 !important; border-color: #444b43 !important; background: #141814 !important; }
 .reset-button:hover { color: #e6e0cf !important; background: #222721 !important; }
 .persistence-note { display: flex; align-items: center; gap: 9px; margin: 17px 0 0; color: #687169; font-size: 12px; }
