@@ -129,7 +129,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
-.initial-wear-button, .reset-button {
+.initial-wear-button, .reset-button, .github-button {
   height: 46px !important; padding: 0 19px !important; border-radius: 2px !important;
   font-size: 14px !important; letter-spacing: .05em; box-shadow: none !important;
 }
@@ -137,6 +137,8 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .initial-wear-button:hover { filter: brightness(1.08); }
 .reset-button { color: #b7bdb4 !important; border-color: #444b43 !important; background: #141814 !important; }
 .reset-button:hover { color: #e6e0cf !important; background: #222721 !important; }
+.github-button { margin-left: 18px; color: #d4b575 !important; border-color: #665536 !important; background: #171812 !important; }
+.github-button:hover { color: #f0d69b !important; border-color: #9a7843 !important; background: #242218 !important; }
 .persistence-note { display: flex; align-items: center; gap: 9px; margin: 17px 0 0; color: #687169; font-size: 12px; }
 .persistence-note span { width: 6px; height: 6px; border: 1px solid #b38a48; border-radius: 50%; box-shadow: 0 0 8px #b38a48; }
 .instrument-panel {
@@ -503,7 +505,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 
 @media (max-width: 560px) {
   .brand-mark { width: 37px; height: 37px; }.brand-lockup small { font-size: 8px; }.brand-lockup b { font-size: 13px; }
-  .hero-copy h1 { font-size: 45px; }.lede { font-size: 16px; }.hero-actions { flex-direction: column; }.hero-actions button { width: 100%; }
+  .hero-copy h1 { font-size: 45px; }.lede { font-size: 16px; }.hero-actions { flex-direction: column; }.hero-actions [data-slot="button"] { width: 100%; }.github-button { margin-left: 0; }
   .instrument-panel { padding: 11px; }.overall-gauge { padding: 36px 18px; }.material-strip { gap: 6px; }
   .section-heading h2, .inspector-copy h2 { font-size: 38px; }.specimen-card__head { padding: 21px 22px 16px !important; }.specimen-card__head h3 { font-size: 23px; }.specimen-card__body { padding: 11px !important; }.specimen-card__foot { padding-inline: 21px; }
   .control-bay { min-height: 320px; }.lab-push-button { width: 74% !important; }.slider-bay, .tabs-bay, .nav-bay, .choice-bay { padding-inline: 7%; }

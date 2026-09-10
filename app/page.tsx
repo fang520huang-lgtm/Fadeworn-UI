@@ -1,6 +1,6 @@
 "use client";
 
-import { Gauge, RotateCcw, Sparkles } from "lucide-react";
+import { Gauge, GitFork, RotateCcw, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   WearButtonSpecimen,
@@ -57,6 +57,11 @@ export default function Home() {
             </Button>
             <Button variant="outline" className="reset-button" onClick={resetAll}>
               <RotateCcw aria-hidden="true" /> NO WEAR
+            </Button>
+            <Button variant="outline" className="github-button" asChild>
+              <a href="https://github.com/fang520huang-lgtm/Fadeworn-UI" target="_blank" rel="noreferrer">
+                <GitFork aria-hidden="true" /> GITHUB
+              </a>
             </Button>
           </div>
           <p className="persistence-note"><span /> SESSION ONLY · REFRESH RESTORES INITIAL WEAR</p>
