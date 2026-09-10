@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useRef, useState, type CSSProperties } from "react";
+import { startTransition, useEffect, useRef, useState, type CSSProperties } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
 import { traceGradient, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
@@ -58,32 +58,72 @@ const logLines = [
 ];
 
 export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+  const scrollFrame = useRef<HTMLDivElement>(null);
   const lastPosition = useRef(0);
   const lastSample = useRef(0);
+  const pendingPosition = useRef(0);
+  const pendingSamples = useRef<Array<{ position: number; intensity: number }>>([]);
+  const flushTimer = useRef<number | null>(null);
+
+  useEffect(() => () => {
+    if (flushTimer.current !== null) window.clearTimeout(flushTimer.current);
+  }, []);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const viewport = scrollFrame.current?.querySelector<HTMLElement>("[data-slot='scroll-area-viewport']");
+      viewport?.dispatchEvent(new Event("scroll"));
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [record.trace]);
+
   return (
     <SpecimenFrame id="scrollbar" index="09" title="Scrollbar" material="MACHINED RAIL" record={record} onReset={onReset}>
       <div className="control-bay scroll-bay">
-        <div className="scroll-frame">
+        <div className="scroll-frame" ref={scrollFrame}>
           <ScrollArea
             className="lab-scroll-area"
             type="always"
             style={{ "--scrollbar-wear": recordTraceVertical(record.trace) } as CSSProperties}
             onScrollCapture={(event) => {
+              if (!event.nativeEvent.isTrusted) return;
               const target = event.target as HTMLElement;
               if (!target.matches("[data-slot='scroll-area-viewport']")) return;
               const now = performance.now();
-              if (now - lastSample.current < 80) return;
               const max = target.scrollHeight - target.clientHeight;
               const position = max > 0 ? target.scrollTop / max : 0;
-              const distance = Math.abs(position - lastPosition.current);
-              // Wear is recorded exactly as before: one deposit at the sampled
-              // position. Rendering stays separate from the moving thumb.
-              startTransition(() => {
-                markTrace("scrollbar", position, Math.max(0.35, distance * 5), true);
-                if (distance > 0.16) markUse("scrollbar", 0.6);
-              });
-              lastPosition.current = position;
-              lastSample.current = now;
+              pendingPosition.current = position;
+
+              if (now - lastSample.current >= 80) {
+                const distance = Math.abs(position - lastPosition.current);
+                pendingSamples.current.push({ position, intensity: Math.max(0.35, distance * 5) });
+                lastPosition.current = position;
+                lastSample.current = now;
+              }
+
+              if (flushTimer.current !== null) window.clearTimeout(flushTimer.current);
+              flushTimer.current = window.setTimeout(() => {
+                const finalPosition = pendingPosition.current;
+                const finalDistance = Math.abs(finalPosition - lastPosition.current);
+                if (finalDistance > 0.001) {
+                  pendingSamples.current.push({
+                    position: finalPosition,
+                    intensity: Math.max(0.35, finalDistance * 5),
+                  });
+                  lastPosition.current = finalPosition;
+                }
+
+                const samples = pendingSamples.current.splice(0);
+                flushTimer.current = null;
+                if (samples.length === 0) return;
+
+                startTransition(() => {
+                  samples.forEach((sample) => {
+                    markTrace("scrollbar", sample.position, sample.intensity, true);
+                    if (sample.intensity > 0.8) markUse("scrollbar", 0.6);
+                  });
+                });
+              }, 140);
             }}
           >
             <div className="log-sheet">
