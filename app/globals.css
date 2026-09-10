@@ -405,7 +405,8 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
     linear-gradient(90deg, #484a42 0, #6d6858 38%, #5a584c 70%, #3f423c 100%) !important;
   box-shadow: inset 1px 0 rgba(206,190,153,.34), inset -1px 0 rgba(12,15,13,.72), 0 1px 3px #0009;
 }
-.scroll-ghost { position: absolute; z-index: 5; right: 5px; top: 7px; bottom: 7px; width: 10px; opacity: .66; filter: blur(2px); mix-blend-mode: screen; pointer-events: none; }
+.scroll-ghost { position: absolute; z-index: 5; right: 5px; top: 7px; bottom: 7px; width: 10px; display: flex; flex-direction: column; opacity: .66; filter: blur(2px); mix-blend-mode: screen; pointer-events: none; }
+.scroll-ghost i { flex: 1 1 0; min-height: 0; background: #d3b169; transition: opacity .3s cubic-bezier(.4, 0, .2, 1); }
 .log-sheet { padding: 5px 7px 80px; }
 .log-sheet p { display: grid; grid-template-columns: 44px 1fr; align-items: center; min-width: 330px; height: 42px; margin: 0; border-bottom: 1px solid #293029; color: #7f887e; font: 9px/1 Consolas, monospace; letter-spacing: .08em; }
 .log-sheet p span { color: #9b8052; }.log-sheet p b { font-weight: 400; }

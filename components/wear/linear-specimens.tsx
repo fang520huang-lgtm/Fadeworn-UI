@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { startTransition, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
 import { traceGradient, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
@@ -70,9 +70,19 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
               if (now - lastSample.current < 80) return;
               const max = target.scrollHeight - target.clientHeight;
               const position = max > 0 ? target.scrollTop / max : 0;
-              const distance = Math.abs(position - lastPosition.current);
-              markTrace("scrollbar", position, Math.max(0.35, distance * 5), true);
-              if (distance > 0.16) markUse("scrollbar", 0.6);
+              const from = lastPosition.current;
+              const distance = Math.abs(position - from);
+              // Deposit along the whole traversed span. Sampling once per frame
+              // budget would leave isolated blobs on a fast flick; filling the
+              // span keeps the polish continuous however quickly you scroll.
+              const span = Math.max(1, Math.ceil(distance / 0.03));
+              const intensity = Math.min(3.2, Math.max(0.4, distance * 3));
+              startTransition(() => {
+                for (let step = 1; step <= span; step += 1) {
+                  markTrace("scrollbar", from + (position - from) * (step / span), intensity, step === span);
+                }
+                if (distance > 0.16) markUse("scrollbar", 0.6);
+              });
               lastPosition.current = position;
               lastSample.current = now;
             }}
@@ -83,7 +93,11 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
               ))}
             </div>
           </ScrollArea>
-          <span className="scroll-ghost" style={{ backgroundImage: recordTraceVertical(record.trace) }} aria-hidden="true" />
+          <span className="scroll-ghost" aria-hidden="true">
+            {railBands(record.trace).map((bandOpacity, index) => (
+              <i key={index} style={{ opacity: bandOpacity }} />
+            ))}
+          </span>
         </div>
         <p>Scroll to wear the track.</p>
       </div>
@@ -91,11 +105,19 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
   );
 }
 
-function recordTraceVertical(trace: number[]) {
-  const stops = trace.map((value, index) => {
-    const at = (index / (trace.length - 1)) * 100;
-    const alpha = Math.min(0.88, 0.04 + value * 0.86).toFixed(2);
-    return `rgba(211,177,105,${alpha}) ${at.toFixed(1)}%`;
+const RAIL_BANDS = 48;
+
+/**
+ * Interpolate the 24 wear segments into finer bands. Each band is its own
+ * element so the browser can ease its opacity, which is what turns the rail
+ * from 24 popping steps into a continuous polish.
+ */
+function railBands(trace: number[]) {
+  return Array.from({ length: RAIL_BANDS }, (_, index) => {
+    const at = (index / (RAIL_BANDS - 1)) * (trace.length - 1);
+    const lower = Math.floor(at);
+    const upper = Math.min(trace.length - 1, lower + 1);
+    const value = trace[lower] + (trace[upper] - trace[lower]) * (at - lower);
+    return Math.min(0.88, 0.04 + value * 0.86);
   });
-  return `linear-gradient(180deg, ${stops.join(",")})`;
 }
