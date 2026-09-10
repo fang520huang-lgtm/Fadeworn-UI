@@ -62,6 +62,12 @@ const increments: Record<ComponentId, number> = {
 const TOGGLE_LEFT_TRACE_INDICES = [3, 4, 5];
 const TOGGLE_RIGHT_TRACE_INDICES = [18, 19, 20];
 const INPUT_GLYPH_WEAR_INCREMENT = 0.055;
+const INITIAL_SLIDER_TRACE = [
+  0.08, 0.07, 0.09, 0.08, 0.1, 0.13,
+  0.3, 0.18, 0.09, 0.08, 0.1, 0.09,
+  0.16, 0.36, 0.27, 0.12, 0.26, 0.68,
+  0.76, 0.38, 0.31, 0.13, 0.06, 0.04,
+];
 
 function emptyRecord(): WearRecord {
   return {
@@ -128,17 +134,11 @@ export function createInitialWearState(): WearState {
     }
 
     if (id === "slider") {
-      const endIndex = Math.round(0.76 * (TRACE_SEGMENTS - 1));
       next[id] = {
         ...record,
         usageCount: 28 + componentIndex * 3,
         wearLevel: 0.76,
-        trace: record.trace.map((value, index) => {
-          if (index <= endIndex) {
-            return Math.max(value, 0.28 + 0.48 * Math.pow(index / endIndex, 1.25));
-          }
-          return Math.max(value, Math.max(0.04, 0.76 - (index - endIndex) * 0.34));
-        }),
+        trace: INITIAL_SLIDER_TRACE.slice(),
       };
       return;
     }
