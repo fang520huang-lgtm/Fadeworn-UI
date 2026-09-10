@@ -1,17 +1,6 @@
 "use client";
 
 import { Gauge, RotateCcw, Sparkles } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   WearButtonSpecimen,
@@ -68,21 +57,9 @@ export default function Home() {
             <Button className="initial-wear-button" onClick={applyInitialWear}>
               <Sparkles aria-hidden="true" /> INITIAL WEAR
             </Button>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="outline" className="reset-button"><RotateCcw aria-hidden="true" /> NO WEAR</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="reset-dialog">
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Restore every surface?</AlertDialogTitle>
-                  <AlertDialogDescription>Usage counts, traces, and wear across all ten specimens will be cleared. This cannot be undone.</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>KEEP CURRENT WEAR</AlertDialogCancel>
-                  <AlertDialogAction onClick={resetAll}>CLEAR ALL WEAR</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <Button variant="outline" className="reset-button" onClick={resetAll}>
+              <RotateCcw aria-hidden="true" /> NO WEAR
+            </Button>
           </div>
           <p className="persistence-note"><span /> SESSION ONLY · REFRESH RESTORES INITIAL WEAR</p>
         </div>
