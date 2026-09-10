@@ -154,7 +154,7 @@ export default function Home() {
           <h2>磨损是历史，<br /><em>不是状态。</em></h2>
           <div className="principles">
             <article><span>01</span><h3>因果可见</h3><p>点击次数、停留侧、线性轨迹与常用角度，都被映射成清晰可辨的表面变化。</p></article>
-            <article><span>02</span><h3>材质有别</h3><p>喷漆金属会掉漆，黄铜会发亮，橡胶会被抛光，纸纤维会软化起皱。</p></article>
+            <article><span>02</span><h3>材质有别</h3><p>喷漆金属会掉漆，黄铜会发亮，纸张会泛黄。</p></article>
             <article><span>03</span><h3>功能不退化</h3><p>即使达到重度磨损，文字、当前状态、焦点与所有交互仍然保持清晰。</p></article>
           </div>
         </div>
