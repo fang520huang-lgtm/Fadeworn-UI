@@ -145,13 +145,31 @@ export function createInitialWearState(): WearState {
 
     const focus = ((componentIndex * 7 + 5) % TRACE_SEGMENTS) / (TRACE_SEGMENTS - 1);
     const center = Math.round(focus * (TRACE_SEGMENTS - 1));
+    const baseTrace = record.trace.map((value, index) =>
+      Math.max(value, 0.12 + Math.max(0, 0.76 - Math.abs(index - center) * 0.105)),
+    );
+
+    if (id === "navigation") {
+      const navigationCenters = [0, 1 / 3, 2 / 3, 1]
+        .map((position) => Math.round(position * (TRACE_SEGMENTS - 1)));
+      next[id] = {
+        ...record,
+        usageCount: 28 + componentIndex * 3 + navigationCenters.length,
+        wearLevel: clamp(0.62 + (componentIndex % 3) * 0.08 + navigationCenters.length * increments.navigation),
+        trace: baseTrace.map((value, index) => {
+          const distance = Math.min(...navigationCenters.map((clickCenter) => Math.abs(index - clickCenter)));
+          const addition = distance === 0 ? 0.055 : distance === 1 ? 0.024 : 0;
+          return clamp(value + addition * 3.8);
+        }),
+      };
+      return;
+    }
+
     next[id] = {
       ...record,
       usageCount: 28 + componentIndex * 3,
       wearLevel: 0.62 + (componentIndex % 3) * 0.08,
-      trace: record.trace.map((value, index) =>
-        Math.max(value, 0.12 + Math.max(0, 0.76 - Math.abs(index - center) * 0.105)),
-      ),
+      trace: baseTrace,
     };
   });
 
