@@ -392,21 +392,29 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .log-sheet p span { color: #9b8052; }.log-sheet p b { font-weight: 400; }.log-sheet p i { color: #535c53; font-style: normal; text-align: right; }
 .scroll-bay > p { margin-top: 18px; }
 
-/* Knob: conic wear map stores the angles most often crossed. */
+/* Knob: the worn rotor turns as one part; the two fixed bezel rings retain angular history. */
 .knob-bay { flex-direction: row; gap: clamp(32px, 6vw, 76px); }
-.knob-scale { --knob-wear: conic-gradient(transparent); width: 214px; height: 214px; position: relative; display: grid; place-items: center; border-radius: 50%; background: #111511; box-shadow: 0 0 0 1px #313831; }
-.knob-scale::before { content: ""; position: absolute; z-index: 1; inset: 14px; border-radius: 50%; background: #111511; box-shadow: 0 0 0 1px #4a5149, inset 0 0 14px #000; }
+.knob-scale { --knob-wear: conic-gradient(transparent); --knob-level: 0; width: 214px; height: 214px; position: relative; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle at 47% 43%, #202620 0 43%, #111511 63%, #080b09 82%, #1c211c 100%); box-shadow: 0 0 0 1px #485048, 0 9px 18px #0008, inset 0 1px rgba(205,210,195,.18), inset 0 -7px 12px #000b; }
+.knob-scale::before { content: ""; position: absolute; z-index: 1; inset: 14px; border-radius: 50%; background: radial-gradient(circle at 46% 42%, rgba(111,120,105,.1), transparent 43%), radial-gradient(circle, #111511 0 61%, #090c0a 63% 76%, #171c18 79% 100%); box-shadow: 0 0 0 1px #4a5149, inset 0 0 14px #000, inset 0 0 0 2px rgba(111,119,107,.1); }
 .knob-scale::after {
-  content: ""; position: absolute; z-index: 0; inset: -3px; border-radius: 50%; pointer-events: none;
-  background: var(--knob-wear); filter: blur(4px) saturate(.8);
-  mask: radial-gradient(circle, transparent 0 70%, #000 73% 88%, transparent 92%);
-  -webkit-mask: radial-gradient(circle, transparent 0 70%, #000 73% 88%, transparent 92%);
-  opacity: .98;
+  content: ""; position: absolute; z-index: 1; inset: -2px; border-radius: 50%; pointer-events: none;
+  background: var(--knob-wear); filter: blur(.7px) saturate(.2) contrast(1.22);
+  mask: radial-gradient(circle, transparent 0 80.5%, #000 82% 86%, transparent 87.5% 92.5%, #000 94% 97%, transparent 98.5%);
+  -webkit-mask: radial-gradient(circle, transparent 0 80.5%, #000 82% 86%, transparent 87.5% 92.5%, #000 94% 97%, transparent 98.5%);
+  opacity: .72;
 }
-.knob-ticks { position: absolute; z-index: 2; inset: 4px; border-radius: 50%; background: conic-gradient(from -135deg, transparent 0 270deg, #111511 270deg 360deg), repeating-conic-gradient(from -135deg, #646b62 0 1deg, transparent 1deg 12deg); mask: radial-gradient(circle, transparent 0 86%, #000 87%); }
-.lab-knob { width: 138px; height: 138px; position: relative; z-index: 3; padding: 0; border: 1px solid #777d72; border-radius: 50%; cursor: grab; touch-action: none; background: repeating-conic-gradient(#4f554e 0 2deg, #2d322d 2deg 5deg); box-shadow: 0 13px 22px #000a, inset 0 2px 3px #9a9e93, inset 0 -5px 9px #111; }
-.lab-knob:active { cursor: grabbing; }.knob-cap { position: absolute; inset: 16px; border-radius: 50%; background: radial-gradient(circle at 40% 32%, #3d433c, #1c211d 68%); box-shadow: inset 0 1px #737a70, 0 0 0 1px #161916; }
-.knob-index { position: absolute; z-index: 3; inset: 8px; border-radius: 50%; transition: transform .08s linear; }.knob-index i { position: absolute; width: 3px; height: 24px; left: calc(50% - 1px); top: 7px; border-radius: 2px; background: #d6aa60; box-shadow: 0 0 5px #d6aa60; }
+.knob-bezel-wear { position: absolute; z-index: 2; inset: -2px; border-radius: 50%; pointer-events: none; opacity: calc(var(--knob-level) * 1.08); background: conic-gradient(from -90deg, transparent 0 27deg, rgba(226,217,190,.88) 28deg 30.5deg, transparent 32deg 105deg, rgba(196,185,157,.74) 106deg 109deg, transparent 110deg 183deg, rgba(224,210,175,.82) 184deg 189deg, transparent 190deg 232deg, rgba(211,198,163,.86) 233deg 239deg, transparent 240deg 326deg, rgba(192,183,157,.66) 327deg 330deg, transparent 331deg); filter: blur(.18px); mask: radial-gradient(circle, transparent 0 81%, #000 82.5% 86%, transparent 87.5% 93%, #000 94% 97.5%, transparent 99%); -webkit-mask: radial-gradient(circle, transparent 0 81%, #000 82.5% 86%, transparent 87.5% 93%, #000 94% 97.5%, transparent 99%); }
+.knob-ticks { position: absolute; z-index: 3; inset: 4px; border-radius: 50%; background: conic-gradient(from -135deg, transparent 0 270deg, #111511 270deg 360deg), repeating-conic-gradient(from -135deg, #646b62 0 1deg, transparent 1deg 12deg); mask: radial-gradient(circle, transparent 0 86%, #000 87%); }
+.lab-knob { width: 138px; height: 138px; position: relative; z-index: 4; padding: 0; border: 0; border-radius: 50%; cursor: grab; touch-action: none; background: transparent; box-shadow: none; }
+.lab-knob:active { cursor: grabbing; }
+.lab-knob:focus-visible { outline: none; }.lab-knob:focus-visible .knob-rotor { outline: 2px solid #c69a52; outline-offset: 4px; }
+.knob-rotor { position: absolute; inset: 0; overflow: hidden; border: 1px solid #777d73; border-radius: 50%; background: repeating-conic-gradient(from -135deg, #5c625b 0 1.2deg, #3e433e 1.2deg 2.4deg, #1f2420 2.4deg 4.8deg, #484e47 4.8deg 6deg); box-shadow: 0 13px 22px #000a, inset 0 2px 3px #92978d, inset 0 -5px 9px #111, 0 0 0 2px #171b18; transition: transform .08s linear; }
+.knob-rotor::before { content: ""; position: absolute; z-index: 1; inset: 0; border-radius: inherit; pointer-events: none; opacity: calc(var(--knob-level) * .72); background: radial-gradient(ellipse at 27% 24%, rgba(221,215,194,.42), transparent 29%), radial-gradient(ellipse at 78% 68%, rgba(188,181,161,.2), transparent 31%), conic-gradient(from 18deg, rgba(216,210,191,.18), transparent 34deg 112deg, rgba(204,196,173,.25) 147deg 191deg, transparent 226deg 360deg); mix-blend-mode: screen; filter: saturate(.28); }
+.knob-cap { position: absolute; z-index: 2; inset: 20px; overflow: hidden; border-radius: 50%; background: radial-gradient(circle at 40% 32%, #3b423b, #1b201c 68%); box-shadow: inset 0 1px #737a70, inset 0 -5px 12px #0b0e0c, 0 0 0 1px #161916; }
+.knob-cap::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: calc(var(--knob-level) * .58); background: repeating-radial-gradient(circle at 48% 50%, transparent 0 18px, rgba(184,190,177,.25) 18.5px 19px, transparent 19.5px 31px); mask: conic-gradient(from 18deg, transparent 0 24deg, #000 31deg 73deg, transparent 80deg 147deg, #000 154deg 222deg, transparent 229deg 360deg); -webkit-mask: conic-gradient(from 18deg, transparent 0 24deg, #000 31deg 73deg, transparent 80deg 147deg, #000 154deg 222deg, transparent 229deg 360deg); }
+.knob-cap::after { content: ""; position: absolute; inset: 10%; border-radius: 50%; pointer-events: none; opacity: calc(var(--knob-level) * .58); background: linear-gradient(154deg, transparent 0 46%, rgba(196,201,188,.34) 46.4% 46.8%, transparent 47.2% 100%), linear-gradient(128deg, transparent 0 58%, rgba(132,140,129,.3) 58.3% 58.7%, transparent 59% 100%); }
+.knob-rotor-wear { position: absolute; z-index: 3; inset: 0; border-radius: inherit; pointer-events: none; opacity: calc(var(--knob-level) * .58); background: radial-gradient(ellipse at 20% 73%, rgba(224,216,191,.48), transparent 19%), radial-gradient(ellipse at 57% 12%, rgba(210,202,181,.3), transparent 16%), radial-gradient(ellipse at 86% 52%, rgba(179,171,151,.2), transparent 18%); mix-blend-mode: screen; }
+.knob-index { position: absolute; z-index: 4; inset: 8px; border-radius: 50%; }.knob-index i { position: absolute; width: 3px; height: 24px; left: calc(50% - 1px); top: 7px; border-radius: 2px; background: #d6aa60; box-shadow: 0 0 5px #d6aa60; }
 .knob-readout { display: flex; flex-direction: column; }.knob-readout b { font: 400 45px/.9 Georgia, serif; }.knob-readout span { margin-top: 11px; color: #737c72; font: 9px/1 Consolas, monospace; letter-spacing: .14em; }
 
 .inspector-section { display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(50px, 8vw, 130px); align-items: start; padding: 124px 0; border-top: 1px solid #303630; }

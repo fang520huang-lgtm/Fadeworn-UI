@@ -59,14 +59,15 @@ export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRec
 function knobWearGradient(trace: number[]) {
   const stops = trace.map((value, index) => {
     const angle = (index / (trace.length - 1)) * KNOB_SWEEP;
-    const alpha = Math.min(0.82, 0.035 + value * 0.8).toFixed(2);
-    return `rgba(218,179,99,${alpha}) ${angle.toFixed(1)}deg`;
+    const alpha = Math.min(0.86, value * 0.86).toFixed(2);
+    return `rgba(218,211,190,${alpha}) ${angle.toFixed(1)}deg`;
   });
   return `conic-gradient(from ${KNOB_MIN_ANGLE}deg, ${stops.join(",")}, transparent ${KNOB_SWEEP}deg 360deg)`;
 }
 
 export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [value, setValue] = useState(42);
+  const knobAngle = KNOB_MIN_ANGLE + value * (KNOB_SWEEP / 100);
   const dragging = useRef(false);
   const dragStarted = useRef(false);
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
@@ -89,7 +90,8 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
   return (
     <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
       <div className="control-bay knob-bay">
-        <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace) } as React.CSSProperties}>
+        <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace), "--knob-level": record.wearLevel } as React.CSSProperties}>
+          <span className="knob-bezel-wear" aria-hidden="true" />
           <span className="knob-ticks" aria-hidden="true" />
           <button
             ref={knobRef}
@@ -136,8 +138,11 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
               markTrace("knob", jitteredPosition, 1, true);
             }}
           >
-            <span className="knob-index" style={{ transform: `rotate(${KNOB_MIN_ANGLE + value * (KNOB_SWEEP / 100)}deg)` }}><i /></span>
-            <span className="knob-cap" />
+            <span className="knob-rotor" style={{ transform: `rotate(${knobAngle}deg)` }} aria-hidden="true">
+              <span className="knob-cap" />
+              <span className="knob-rotor-wear" />
+              <span className="knob-index"><i /></span>
+            </span>
           </button>
         </div>
         <div className="knob-readout"><b>{String(value).padStart(3, "0")}</b><span>ATTENUATION</span></div>

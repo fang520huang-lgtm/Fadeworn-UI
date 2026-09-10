@@ -68,6 +68,12 @@ const INITIAL_SLIDER_TRACE = [
   0.44, 0.58, 0.78, 0.88, 0.84, 0.88,
   0.92, 0.72, 0.6, 0.5, 0.42, 0.2,
 ];
+const INITIAL_KNOB_TRACE = [
+  0.68, 0.75, 0.66, 0.52, 0.38, 0.27,
+  0.18, 0.12, 0.09, 0.11, 0.16, 0.23,
+  0.3, 0.24, 0.17, 0.12, 0.09, 0.07,
+  0.06, 0.07, 0.09, 0.12, 0.14, 0.1,
+];
 
 function emptyRecord(): WearRecord {
   return {
@@ -155,6 +161,16 @@ export function createInitialWearState(): WearState {
         usageCount: 28 + componentIndex * 3,
         wearLevel: 0.62 * 0.7,
         trace: baseTrace,
+      };
+      return;
+    }
+
+    if (id === "knob") {
+      next[id] = {
+        ...record,
+        usageCount: 28 + componentIndex * 3,
+        wearLevel: 0.62,
+        trace: INITIAL_KNOB_TRACE.slice(),
       };
       return;
     }
