@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useRef, useState } from "react";
+import { startTransition, useRef, useState, type CSSProperties } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
 import { traceGradient, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
@@ -51,6 +51,10 @@ const logLines = [
   ["04", "Edge loss detected"],
   ["05", "Local polish applied"],
   ["06", "Usage memory written"],
+  ["07", "Travel index updated"],
+  ["08", "Rail contact measured"],
+  ["09", "Position sample archived"],
+  ["10", "Wear profile completed"],
 ];
 
 export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
@@ -63,6 +67,7 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
           <ScrollArea
             className="lab-scroll-area"
             type="always"
+            style={{ "--scrollbar-wear": recordTraceVertical(record.trace) } as CSSProperties}
             onScrollCapture={(event) => {
               const target = event.target as HTMLElement;
               if (!target.matches("[data-slot='scroll-area-viewport']")) return;
@@ -72,7 +77,7 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
               const position = max > 0 ? target.scrollTop / max : 0;
               const distance = Math.abs(position - lastPosition.current);
               // Wear is recorded exactly as before: one deposit at the sampled
-              // position. The smoothness comes from the rail animation below.
+              // position. Rendering stays separate from the moving thumb.
               startTransition(() => {
                 markTrace("scrollbar", position, Math.max(0.35, distance * 5), true);
                 if (distance > 0.16) markUse("scrollbar", 0.6);
@@ -87,11 +92,6 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
               ))}
             </div>
           </ScrollArea>
-          <span className="scroll-ghost" aria-hidden="true">
-            {railBands(record.trace).map((bandOpacity, index) => (
-              <i key={index} style={{ opacity: bandOpacity }} />
-            ))}
-          </span>
         </div>
         <p>Scroll to wear the track.</p>
       </div>
@@ -104,7 +104,7 @@ const RAIL_BANDS = 48;
 /**
  * Interpolate the 24 wear segments into finer bands and soften them slightly.
  * The stored wear is untouched — this only decides how it is drawn, so a single
- * hot segment reads as a soft mound and each band can ease its own opacity.
+ * hot segment reads as a soft mound in the final gradient.
  */
 function railBands(trace: number[]) {
   const fine = Array.from({ length: RAIL_BANDS }, (_, index) => {
@@ -123,4 +123,19 @@ function railBands(trace: number[]) {
   return soft.map((value) => {
     return Math.min(0.88, 0.04 + value * 0.86);
   });
+}
+
+/**
+ * Keep the wear and the functional scrollbar in the same coordinate space.
+ * A single gradient is substantially cheaper to repaint than 48 animated DOM
+ * bands and cannot drift away from the Radix track.
+ */
+function recordTraceVertical(trace: number[]) {
+  const bands = railBands(trace);
+  const stops = bands.map((opacity, index) => {
+    const at = (index / (bands.length - 1)) * 100;
+    return `rgba(211,177,105,${(opacity * 0.66).toFixed(3)}) ${at.toFixed(2)}%`;
+  });
+
+  return `linear-gradient(180deg, ${stops.join(",")})`;
 }
