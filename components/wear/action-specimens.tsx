@@ -61,15 +61,15 @@ function textEdit(previous: string[], next: string[]) {
 
 export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearRecord } & WearAction & Resettable) {
   return (
-    <SpecimenFrame anchor="specimen-button" index="01" title="Button" material="PAINTED STEEL" note="UNIFORM SURFACE FADE" record={record} onReset={onReset}>
+    <SpecimenFrame id="button" index="01" title="Button" material="PAINTED STEEL" record={record} onReset={onReset}>
       <div className="control-bay button-bay">
         <Button
           className="lab-push-button"
           onClick={() => markUse("button", 1)}
         >
-          <span className="button-caption"><b>ENGAGE</b><small>HOLD / TEST</small></span>
+          <span className="button-caption"><b>Press</b></span>
         </Button>
-        <p>EACH PRESS FADES THE ENTIRE SURFACE</p>
+        <p>Each press adds wear.</p>
       </div>
     </SpecimenFrame>
   );
@@ -80,7 +80,7 @@ export function WearToggleSpecimen({ record, markTrace, onReset }: { record: Wea
   const leftWear = record.trace.slice(0, 12).reduce((a, b) => a + b, 0) / 12;
   const rightWear = record.trace.slice(12).reduce((a, b) => a + b, 0) / 12;
   return (
-    <SpecimenFrame anchor="specimen-toggle" index="02" title="Toggle" material="BAKELITE" note="REST-SIDE FRICTION" record={record} onReset={onReset}>
+    <SpecimenFrame id="toggle" index="02" title="Toggle" material="BAKELITE" record={record} onReset={onReset}>
       <div className="control-bay toggle-bay">
         <div className="toggle-assembly">
           <span className="toggle-label">OFF</span>
@@ -97,7 +97,7 @@ export function WearToggleSpecimen({ record, markTrace, onReset }: { record: Wea
           </div>
           <span className="toggle-label">ON</span>
         </div>
-        <p>{checked ? "CIRCUIT CLOSED" : "CIRCUIT OPEN"}</p>
+        <p>{checked ? "On" : "Off"}</p>
       </div>
     </SpecimenFrame>
   );
@@ -200,9 +200,9 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
 
   const characterCount = splitGraphemes(value).length;
   return (
-    <SpecimenFrame anchor="specimen-input" index="04" title="Input" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} onReset={onReset}>
+    <SpecimenFrame id="input" index="04" title="Input" material="ANODIZED ALLOY" record={record} onReset={onReset}>
       <div className="control-bay input-bay">
-        <label htmlFor="field-terminal">OPERATOR NOTE</label>
+        <label htmlFor="field-terminal">Note</label>
         <div className="input-shell">
           <span className="input-wear-track" aria-hidden="true">
             {record.glyphWear.map((zone) => {
@@ -245,7 +245,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
             }}
           />
         </div>
-        <p>{atLimit ? `WIDTH LIMIT · ${characterCount} GLYPHS` : value.length ? `${characterCount} GLYPHS ENTERED` : "TYPE OR ERASE · BOTH CAUSE WEAR"}</p>
+        <p>{atLimit ? `Width limit · ${characterCount} characters` : value.length ? `${characterCount} characters entered` : "Typing and deleting both add wear."}</p>
       </div>
     </SpecimenFrame>
   );
@@ -255,7 +255,7 @@ export function WearChoiceSpecimen({ record, markUse, onReset }: { record: WearR
   const [checked, setChecked] = useState(false);
   const [mode, setMode] = useState("a");
   return (
-    <SpecimenFrame anchor="specimen-choice" index="08" title="Checkbox / Radio" material="ENAMELED METAL" note="CONTACT HALO" record={record} onReset={onReset}>
+    <SpecimenFrame id="choice" index="08" title="Checkbox / Radio" material="ENAMELED METAL" record={record} onReset={onReset}>
       <div className="control-bay choice-bay">
         <label className="check-line">
           <span className="choice-contact" data-hot={checked || undefined}>
@@ -268,7 +268,7 @@ export function WearChoiceSpecimen({ record, markUse, onReset }: { record: WearR
               }}
             />
           </span>
-          <span><b>LOG TRAJECTORY</b><small>Preserve every motion sample</small></span>
+          <span><b>Track activity</b><small>Record which options you pick</small></span>
         </label>
         <RadioGroup
           value={mode}

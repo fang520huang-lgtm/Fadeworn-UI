@@ -375,6 +375,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .folio-topline { display: grid; grid-template-columns: 19px 1fr auto; align-items: center; gap: 10px; font: 9px/1 Consolas, monospace; letter-spacing: .14em; }
 .folio-topline svg { width: 15px; height: 15px; }.folio-topline svg:last-child { transition: transform .25s ease; }.folio-topline svg.is-open { transform: rotate(180deg); }
 .wear-folio h4 { margin: 29px 0 13px; font: 700 26px/1.05 Georgia, serif; }.wear-folio > p { max-width: 330px; margin: 0; font-size: 13px; line-height: 1.5; }
+.folio-meta { display: block; margin-top: 11px; font: 9px/1 Consolas, monospace; letter-spacing: .14em; opacity: .72; }
 .folio-detail { max-height: 0; overflow: hidden; display: flex; flex-direction: column; opacity: 0; transform: translateY(-6px); transition: all .28s ease; }.folio-detail.is-open { max-height: 80px; opacity: 1; transform: none; margin-top: 22px; padding-top: 13px; border-top: 1px solid rgba(54,51,40,.4); }
 .folio-detail span { font: 8px/1 Consolas, monospace; letter-spacing: .15em; }.folio-detail b { margin-top: 7px; font: 400 12px/1.4 Arial, sans-serif; }
 .folio-corner { position: absolute; right: -1px; bottom: -1px; width: calc(14px + var(--level) * 28px); height: calc(14px + var(--level) * 28px); background: linear-gradient(135deg, rgba(78,68,47,.25) 49%, rgb(calc(214 - var(--level) * 35), calc(211 - var(--level) * 50), calc(199 - var(--level) * 72)) 51%); box-shadow: -1px -1px rgba(90,79,55,.26); clip-path: polygon(100% 0, 100% 100%, 0 100%); }
@@ -406,8 +407,8 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 }
 .scroll-ghost { position: absolute; z-index: 5; right: 5px; top: 7px; bottom: 7px; width: 10px; opacity: .66; filter: blur(2px); mix-blend-mode: screen; pointer-events: none; }
 .log-sheet { padding: 5px 7px 80px; }
-.log-sheet p { display: grid; grid-template-columns: 48px 1fr 24px; align-items: center; min-width: 330px; height: 42px; margin: 0; border-bottom: 1px solid #293029; color: #7f887e; font: 9px/1 Consolas, monospace; letter-spacing: .08em; }
-.log-sheet p span { color: #9b8052; }.log-sheet p b { font-weight: 400; }.log-sheet p i { color: #535c53; font-style: normal; text-align: right; }
+.log-sheet p { display: grid; grid-template-columns: 44px 1fr; align-items: center; min-width: 330px; height: 42px; margin: 0; border-bottom: 1px solid #293029; color: #7f887e; font: 9px/1 Consolas, monospace; letter-spacing: .08em; }
+.log-sheet p span { color: #9b8052; }.log-sheet p b { font-weight: 400; }
 .scroll-bay > p { margin-top: 18px; }
 
 /* Knob: the worn rotor turns as one part; the two fixed bezel rings retain angular history. */

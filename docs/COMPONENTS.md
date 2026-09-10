@@ -28,7 +28,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 | **Source** | `components/wear/action-specimens.tsx` → `WearButtonSpecimen` |
 | **Anchor** | `#specimen-button` |
 | **Material** | Painted steel |
-| **Use it** | Press the ENGAGE button. |
+| **Use it** | Press the button. |
 | **Wear** | Every press adds a flat increment (0.034) to the wear level, so the whole painted surface fades evenly instead of wearing in one spot. |
 | **Preset** | 62% |
 | **Props** | `record: WearRecord`, `markUse(id, intensity?)`, `onReset()` |
@@ -98,7 +98,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 | **Source** | `components/wear/navigation-specimens.tsx` → `WearNavigationSpecimen` |
 | **Anchor** | `#specimen-navigation` |
 | **Material** | Powder coat |
-| **Use it** | Choose MONITOR, ARCHIVE, CHANNELS, or CONFIG. |
+| **Use it** | Choose Monitor, Archive, Channels, or Settings. |
 | **Wear** | Four route anchors sit at indices 0, 8, 15, and 23; selecting a route raises that anchor plus a soft shoulder on its immediate neighbours. |
 | **Preset** | 98% |
 | **Props** | `record`, `markTrace`, `onReset()` |
@@ -126,7 +126,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 | **Source** | `components/wear/action-specimens.tsx` → `WearChoiceSpecimen` |
 | **Anchor** | `#specimen-choice` |
 | **Material** | Enameled metal |
-| **Use it** | Tick LOG TRAJECTORY, or switch between SOFT and HARD. |
+| **Use it** | Tick Track activity, or switch between SOFT and HARD. |
 | **Wear** | Both controls write into the same `choice` record, so the halo reflects total selection activity across the bank. |
 | **Preset** | 70% |
 | **Props** | `record`, `markUse`, `onReset()` |

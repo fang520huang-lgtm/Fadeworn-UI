@@ -55,7 +55,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="section-index">01 / ACTIVE SURFACE</p>
           <h1>Every touch<br /><em>leaves evidence.</em></h1>
-          <p className="lede">Digital interfaces pretend they have never been used. Here, every click, drag, selection, and scroll polishes the surface, wears through the finish, and records a history that is yours alone.</p>
+          <p className="lede">Use the controls below. Every click, drag, keystroke, and scroll leaves a visible trace.</p>
           <div className="hero-actions">
             <Button className="initial-wear-button" onClick={applyInitialWear}>
               <Sparkles aria-hidden="true" /> INITIAL WEAR
@@ -89,8 +89,8 @@ export default function Home() {
 
       <section className="gallery-section" id="specimens">
         <div className="section-heading">
-          <div><p className="section-index">02 / INTERACTIVE SPECIMENS</p><h2>Controls that remember you.</h2></div>
-          <p>Keep using them. A shared material language produces ten distinct histories of wear.</p>
+          <div><p className="section-index">02 / INTERACTIVE SPECIMENS</p><h2>Controls that remember how they’re used.</h2></div>
+          <p>Interact with each component to see how different materials wear over time.</p>
         </div>
         <div className="specimen-grid">
           <WearButtonSpecimen record={wearState.button} markUse={markUse} onReset={() => resetOne("button")} />
@@ -109,8 +109,8 @@ export default function Home() {
       <section className="inspector-section" id="inspector">
         <div className="inspector-copy">
           <p className="section-index">03 / WEAR INSPECTOR</p>
-          <h2>Your use<br />shapes this machine.</h2>
-          <p>Each line is an independent wear record. It reflects history—not an error, disabled control, or loading state.</p>
+          <h2>Your interactions<br />leave a trace.</h2>
+          <p>Each component tracks wear independently. Wear reflects interaction history, not a disabled or loading state.</p>
         </div>
         <div className="wear-ledger">
           <div className="ledger-head"><span>COMPONENT</span><span>ACTUATIONS</span><span>WEAR</span></div>
@@ -138,9 +138,9 @@ export default function Home() {
         <div className="notes-grid">
           <h2>Wear is history.<br /><em>Not state.</em></h2>
           <div className="principles">
-            <article><span>01</span><h3>VISIBLE CAUSALITY</h3><p>Clicks, resting sides, linear travel, and working angles map directly to legible changes in the surface.</p></article>
-            <article><span>02</span><h3>MATERIAL MEMORY</h3><p>Painted steel chips. Brass grows bright. Paper turns yellow with age.</p></article>
-            <article><span>03</span><h3>FUNCTION ENDURES</h3><p>Even at maximum wear, labels, active states, focus, and every control remain clear.</p></article>
+            <article><span>01</span><h3>VISIBLE CAUSE &amp; EFFECT</h3><p>Every interaction leaves a visible mark where it happened.</p></article>
+            <article><span>02</span><h3>MATERIAL MEMORY</h3><p>Paint chips. Brass polishes. Paper yellows. Each material remembers use differently.</p></article>
+            <article><span>03</span><h3>FUNCTION ENDURES</h3><p>Even when heavily worn, every control remains readable and usable.</p></article>
           </div>
         </div>
         <footer className="site-footer"><span>FADEWORN UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><span>2026 / SHANGHAI</span></footer>

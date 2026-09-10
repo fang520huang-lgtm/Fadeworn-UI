@@ -21,7 +21,7 @@ const KNOB_SWEEP = KNOB_MAX_ANGLE - KNOB_MIN_ANGLE;
 export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   const [open, setOpen] = useState(false);
   return (
-    <SpecimenFrame anchor="specimen-card" index="07" title="Card" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} onReset={onReset}>
+    <SpecimenFrame id="card" index="07" title="Card" material="ARCHIVAL PAPER" record={record} onReset={onReset}>
       <div className="control-bay folio-bay">
         <Card
           role="button"
@@ -43,11 +43,12 @@ export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRec
         >
           <span className="folio-spine" aria-hidden="true" />
           <div className="folio-topline"><FileText aria-hidden="true" /><span>CASE FILE / 017</span><ChevronDown className={open ? "is-open" : ""} aria-hidden="true" /></div>
-          <h4>Interface material<br />fatigue study</h4>
-          <p>Repeated opening softens the fibers, warms the exposed paper and deepens the folded spine.</p>
+          <h4>Interface Wear Study</h4>
+          <p>A small experiment in interfaces that change with use.</p>
+          <span className="folio-meta">Updated Sep 10, 2026</span>
           <div className={`folio-detail ${open ? "is-open" : ""}`}>
-            <span>OBSERVATION</span>
-            <b>History remains legible after surface loss.</b>
+            <span>INTERACTION</span>
+            <b>Open repeatedly to build edge wear.</b>
           </div>
           <span className="folio-corner" aria-hidden="true" />
         </Card>
@@ -86,7 +87,7 @@ export function WearKnobSpecimen({ record, markUse, setKnobWear, onReset }: { re
   };
 
   return (
-    <SpecimenFrame anchor="specimen-knob" index="10" title="Knob" material="KNURLED ALUMINUM" note="DIRECT WEAR CONTROL" record={record} onReset={onReset}>
+    <SpecimenFrame id="knob" index="10" title="Knob" material="KNURLED ALUMINUM" hint="Turn to adjust wear." record={record} onReset={onReset}>
       <div className="control-bay knob-bay">
         <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace), "--knob-level": record.wearLevel } as React.CSSProperties}>
           <span className="knob-bezel-wear" aria-hidden="true" />

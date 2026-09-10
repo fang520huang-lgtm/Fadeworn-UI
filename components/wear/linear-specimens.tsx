@@ -22,9 +22,9 @@ export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { re
   const sliderValue = isInitialPreset ? [INITIAL_SLIDER_VALUE] : value;
 
   return (
-    <SpecimenFrame anchor="specimen-slider" index="03" title="Slider" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} onReset={onReset}>
+    <SpecimenFrame id="slider" index="03" title="Slider" material="BRASS / RUBBER" hint="Drag to wear the track." record={record} onReset={onReset}>
       <div className="control-bay slider-bay">
-        <div className="dial-readout"><span>OUTPUT</span><b>{String(sliderValue[0]).padStart(2, "0")}</b><small>%</small></div>
+        <div className="dial-readout"><span>Value</span><b>{String(sliderValue[0]).padStart(2, "0")}</b><small>%</small></div>
         <div className="slider-shell">
           <span className="trace-strip" style={{ backgroundImage: traceGradient(record.trace) }} aria-hidden="true" />
           <Slider
@@ -45,23 +45,19 @@ export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { re
 }
 
 const logLines = [
-  ["00:03", "SURFACE INITIALIZED"],
-  ["00:08", "POINTER CONTACT / A1"],
-  ["00:14", "FRICTION SAMPLE SAVED"],
-  ["00:21", "EDGE LOSS DETECTED"],
-  ["00:34", "CONTACT PRESSURE 0.82"],
-  ["00:47", "TRACE CONSOLIDATED"],
-  ["01:05", "MATERIAL RESPONSE OK"],
-  ["01:18", "LOCAL POLISH +0.04"],
-  ["01:41", "USAGE MEMORY WRITTEN"],
-  ["02:03", "AWAITING OPERATOR"],
+  ["01", "Surface initialized"],
+  ["02", "Pointer contact recorded"],
+  ["03", "Friction sample saved"],
+  ["04", "Edge loss detected"],
+  ["05", "Local polish applied"],
+  ["06", "Usage memory written"],
 ];
 
 export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const lastPosition = useRef(0);
   const lastSample = useRef(0);
   return (
-    <SpecimenFrame anchor="specimen-scrollbar" index="09" title="Scrollbar" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} onReset={onReset}>
+    <SpecimenFrame id="scrollbar" index="09" title="Scrollbar" material="MACHINED RAIL" record={record} onReset={onReset}>
       <div className="control-bay scroll-bay">
         <div className="scroll-frame">
           <ScrollArea
@@ -82,14 +78,14 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
             }}
           >
             <div className="log-sheet">
-              {logLines.map(([time, line], index) => (
-                <p key={line}><span>{time}</span><b>{line}</b><i>{String(index + 1).padStart(2, "0")}</i></p>
+              {logLines.map(([number, line]) => (
+                <p key={number}><span>{number}</span><b>{line}</b></p>
               ))}
             </div>
           </ScrollArea>
           <span className="scroll-ghost" style={{ backgroundImage: recordTraceVertical(record.trace) }} aria-hidden="true" />
         </div>
-        <p>TRAVEL POLISHES EACH SECTION OF THE RAIL</p>
+        <p>Scroll to wear the track.</p>
       </div>
     </SpecimenFrame>
   );

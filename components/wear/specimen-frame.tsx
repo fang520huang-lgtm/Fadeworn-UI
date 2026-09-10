@@ -1,15 +1,16 @@
 import type { ReactNode } from "react";
 import { RotateCcw } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import type { WearRecord } from "@/hooks/use-wear-system";
+import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
 
 type SpecimenFrameProps = {
-  /** Anchor id so the Wear Log rows can jump straight to this specimen. */
-  anchor: string;
+  /** Wear component id. The element gets `id="specimen-<id>"` for Wear Log jumps. */
+  id: ComponentId;
   index: string;
   title: string;
   material: string;
-  note: string;
+  /** Optional hint shown on the left of the footer. */
+  hint?: string;
   record: WearRecord;
   children: ReactNode;
   className?: string;
@@ -17,11 +18,11 @@ type SpecimenFrameProps = {
 };
 
 export function SpecimenFrame({
-  anchor,
+  id,
   index,
   title,
   material,
-  note,
+  hint,
   record,
   children,
   className = "",
@@ -29,7 +30,7 @@ export function SpecimenFrame({
 }: SpecimenFrameProps) {
   return (
     <Card
-      id={anchor}
+      id={`specimen-${id}`}
       className={`specimen-card ${className}`}
       style={{ "--level": record.wearLevel } as React.CSSProperties}
     >
@@ -40,7 +41,7 @@ export function SpecimenFrame({
         </div>
         <div className="specimen-head-actions">
           {onReset ? (
-            <button className="specimen-reset" type="button" onClick={onReset} aria-label={`Reset ${title}`} title="Reset this specimen">
+            <button className="specimen-reset" type="button" onClick={onReset} aria-label={`Reset ${title}`} title="Reset this component">
               <RotateCcw aria-hidden="true" />
             </button>
           ) : null}
@@ -48,7 +49,7 @@ export function SpecimenFrame({
       </CardHeader>
       <CardContent className="specimen-card__body">{children}</CardContent>
       <footer className="specimen-card__foot">
-        <span>{note}</span>
+        <span>{hint}</span>
         <span>{String(record.usageCount).padStart(3, "0")} USES</span>
       </footer>
     </Card>
