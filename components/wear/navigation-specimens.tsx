@@ -18,7 +18,7 @@ const tabItems = ["SIGNAL", "HISTORY", "NOTES"];
 export function WearTabsSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [tab, setTab] = useState("SIGNAL");
   return (
-    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} onReset={onReset}>
+    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
       <div className="control-bay tabs-bay">
         <Tabs
           value={tab}
@@ -64,7 +64,7 @@ const navItems = [
 export function WearNavigationSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [active, setActive] = useState(0);
   return (
-    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} onReset={onReset}>
+    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
       <div className="control-bay nav-bay">
         <nav className="lab-nav" aria-label="实验台导航">
           {navItems.map(({ label, icon: Icon }, index) => {

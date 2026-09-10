@@ -13,16 +13,22 @@ type Marks = {
 
 type Resettable = { onReset: () => void };
 
+const FOLIO_VISUAL_LIMIT = 0.62;
+const KNOB_MIN_ANGLE = -135;
+const KNOB_MAX_ANGLE = 135;
+const KNOB_SWEEP = KNOB_MAX_ANGLE - KNOB_MIN_ANGLE;
+
 export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   const [open, setOpen] = useState(false);
   return (
-    <SpecimenFrame index="07" title="Reference Folio" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} onReset={onReset}>
+    <SpecimenFrame index="07" title="Reference Folio" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} meterLevel={Math.min(record.wearLevel, FOLIO_VISUAL_LIMIT) / FOLIO_VISUAL_LIMIT} onReset={onReset}>
       <div className="control-bay folio-bay">
         <Card
           role="button"
           tabIndex={0}
           aria-expanded={open}
           className="wear-folio"
+          style={{ "--level": Math.min(record.wearLevel, FOLIO_VISUAL_LIMIT) } as React.CSSProperties}
           onClick={() => {
             setOpen((value) => !value);
             markUse("card", 1);
@@ -51,18 +57,19 @@ export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRec
 }
 
 function knobWearGradient(trace: number[]) {
-  const circularTrace = [...trace, trace[0]];
-  const stops = circularTrace.map((value, index) => {
-    const angle = (index / trace.length) * 360;
+  const stops = trace.map((value, index) => {
+    const angle = (index / (trace.length - 1)) * KNOB_SWEEP;
     const alpha = Math.min(0.82, 0.035 + value * 0.8).toFixed(2);
     return `rgba(218,179,99,${alpha}) ${angle.toFixed(1)}deg`;
   });
-  return `conic-gradient(from -135deg, ${stops.join(",")})`;
+  return `conic-gradient(from ${KNOB_MIN_ANGLE}deg, ${stops.join(",")}, transparent ${KNOB_SWEEP}deg 360deg)`;
 }
 
 export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [value, setValue] = useState(42);
   const dragging = useRef(false);
+  const dragStarted = useRef(false);
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
   const knobRef = useRef<HTMLButtonElement>(null);
 
   const updateFromPointer = (clientX: number, clientY: number) => {
@@ -70,17 +77,17 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
     if (!rect) return;
     const x = clientX - (rect.left + rect.width / 2);
     const y = clientY - (rect.top + rect.height / 2);
-    let degrees = (Math.atan2(y, x) * 180) / Math.PI + 90;
-    if (degrees < 0) degrees += 360;
-    const clamped = Math.max(0, Math.min(270, degrees <= 315 ? degrees : 0));
-    const next = Math.round((clamped / 270) * 100);
+    const degrees = (Math.atan2(y, x) * 180) / Math.PI + 90;
+    const normalized = ((degrees + 180) % 360 + 360) % 360 - 180;
+    const clamped = Math.max(KNOB_MIN_ANGLE, Math.min(KNOB_MAX_ANGLE, normalized));
+    const next = Math.round(((clamped - KNOB_MIN_ANGLE) / KNOB_SWEEP) * 100);
     setValue(next);
     const jitteredPosition = Math.max(0, Math.min(1, next / 100 + (Math.random() - 0.5) * 0.16));
     markTrace("knob", jitteredPosition, 0.75);
   };
 
   return (
-    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record} onReset={onReset}>
+    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
       <div className="control-bay knob-bay">
         <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace) } as React.CSSProperties}>
           <span className="knob-ticks" aria-hidden="true" />
@@ -95,15 +102,30 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
             aria-valuenow={value}
             onPointerDown={(event) => {
               dragging.current = true;
+              dragStarted.current = false;
+              pointerStart.current = { x: event.clientX, y: event.clientY };
               event.currentTarget.setPointerCapture(event.pointerId);
-              updateFromPointer(event.clientX, event.clientY);
             }}
             onPointerMove={(event) => {
-              if (dragging.current) updateFromPointer(event.clientX, event.clientY);
+              if (!dragging.current || !pointerStart.current) return;
+              const distance = Math.hypot(
+                event.clientX - pointerStart.current.x,
+                event.clientY - pointerStart.current.y,
+              );
+              if (!dragStarted.current && distance < 3) return;
+              dragStarted.current = true;
+              updateFromPointer(event.clientX, event.clientY);
             }}
             onPointerUp={() => {
               dragging.current = false;
-              markUse("knob", 1.3);
+              pointerStart.current = null;
+              if (dragStarted.current) markUse("knob", 1.3);
+              dragStarted.current = false;
+            }}
+            onPointerCancel={() => {
+              dragging.current = false;
+              dragStarted.current = false;
+              pointerStart.current = null;
             }}
             onKeyDown={(event) => {
               if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -114,7 +136,7 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
               markTrace("knob", jitteredPosition, 1, true);
             }}
           >
-            <span className="knob-index" style={{ transform: `rotate(${-135 + value * 2.7}deg)` }}><i /></span>
+            <span className="knob-index" style={{ transform: `rotate(${KNOB_MIN_ANGLE + value * (KNOB_SWEEP / 100)}deg)` }}><i /></span>
             <span className="knob-cap" />
           </button>
         </div>

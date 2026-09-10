@@ -168,7 +168,13 @@ export function useWearSystem() {
       setWearState((current) => {
         const record = current[id];
         const center = Math.round(clamp(position) * (TRACE_SEGMENTS - 1));
+        const toggleIndices = center < TRACE_SEGMENTS / 2
+          ? TOGGLE_LEFT_TRACE_INDICES
+          : TOGGLE_RIGHT_TRACE_INDICES;
         const trace = record.trace.map((value, index) => {
+          if (id === "toggle") {
+            return toggleIndices.includes(index) ? clamp(value + 0.2) : value;
+          }
           const distance = Math.abs(index - center);
           const addition = distance === 0 ? 0.055 : distance === 1 ? 0.024 : 0;
           return clamp(value + addition * intensity);
@@ -179,7 +185,7 @@ export function useWearSystem() {
             ...record,
             usageCount: record.usageCount + (countAsUse ? 1 : 0),
             wearLevel: id === "toggle"
-              ? toggleWearLevel(trace)
+              ? clamp(record.wearLevel + 0.1)
               : clamp(record.wearLevel + increments[id] * intensity),
             lastUsed: Date.now(),
             trace,

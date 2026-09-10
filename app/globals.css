@@ -403,7 +403,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   -webkit-mask: radial-gradient(circle, transparent 0 70%, #000 73% 88%, transparent 92%);
   opacity: .98;
 }
-.knob-ticks { position: absolute; z-index: 2; inset: 4px; border-radius: 50%; background: repeating-conic-gradient(from -135deg, #646b62 0 1deg, transparent 1deg 12deg); mask: radial-gradient(circle, transparent 0 86%, #000 87%); }
+.knob-ticks { position: absolute; z-index: 2; inset: 4px; border-radius: 50%; background: conic-gradient(from -135deg, transparent 0 270deg, #111511 270deg 360deg), repeating-conic-gradient(from -135deg, #646b62 0 1deg, transparent 1deg 12deg); mask: radial-gradient(circle, transparent 0 86%, #000 87%); }
 .lab-knob { width: 138px; height: 138px; position: relative; z-index: 3; padding: 0; border: 1px solid #777d72; border-radius: 50%; cursor: grab; touch-action: none; background: repeating-conic-gradient(#4f554e 0 2deg, #2d322d 2deg 5deg); box-shadow: 0 13px 22px #000a, inset 0 2px 3px #9a9e93, inset 0 -5px 9px #111; }
 .lab-knob:active { cursor: grabbing; }.knob-cap { position: absolute; inset: 16px; border-radius: 50%; background: radial-gradient(circle at 40% 32%, #3d433c, #1c211d 68%); box-shadow: inset 0 1px #737a70, 0 0 0 1px #161916; }
 .knob-index { position: absolute; z-index: 3; inset: 8px; border-radius: 50%; transition: transform .08s linear; }.knob-index i { position: absolute; width: 3px; height: 24px; left: calc(50% - 1px); top: 7px; border-radius: 2px; background: #d6aa60; box-shadow: 0 0 5px #d6aa60; }

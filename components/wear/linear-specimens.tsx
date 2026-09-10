@@ -17,7 +17,7 @@ type Resettable = { onReset: () => void };
 export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [value, setValue] = useState([36]);
   return (
-    <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} onReset={onReset}>
+    <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
       <div className="control-bay slider-bay">
         <div className="dial-readout"><span>OUTPUT</span><b>{String(value[0]).padStart(2, "0")}</b><small>%</small></div>
         <div className="slider-shell">
@@ -56,7 +56,7 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
   const lastPosition = useRef(0);
   const lastSample = useRef(0);
   return (
-    <SpecimenFrame index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} onReset={onReset}>
+    <SpecimenFrame index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
       <div className="control-bay scroll-bay">
         <div className="scroll-frame">
           <ScrollArea

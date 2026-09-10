@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { accessSync, constants } from "node:fs";
 import path from "node:path";
-import { projectRoot } from "./sites-env.mjs";
+import { projectRoot } from "./local-runtime-env.mjs";
 
 if (!process.env.npm_execpath) {
   throw new Error("Run this installer with npm run install:ci.");

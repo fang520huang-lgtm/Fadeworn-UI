@@ -12,6 +12,7 @@ type SpecimenFrameProps = {
   children: ReactNode;
   className?: string;
   onReset?: () => void;
+  meterLevel?: number;
 };
 
 export function SpecimenFrame({
@@ -23,8 +24,9 @@ export function SpecimenFrame({
   children,
   className = "",
   onReset,
+  meterLevel,
 }: SpecimenFrameProps) {
-  const percent = Math.round(record.wearLevel * 100);
+  const percent = Math.round(Math.min(1, Math.max(0, meterLevel ?? record.wearLevel)) * 100);
   return (
     <Card className={`specimen-card ${className}`} style={{ "--level": record.wearLevel } as React.CSSProperties}>
       <CardHeader className="specimen-card__head">

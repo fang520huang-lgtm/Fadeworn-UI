@@ -187,7 +187,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
 
   const characterCount = splitGraphemes(value).length;
   return (
-    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} onReset={onReset}>
+    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} meterLevel={Math.max(0, ...record.glyphWear.map((zone) => zone.wear))} onReset={onReset}>
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell">
