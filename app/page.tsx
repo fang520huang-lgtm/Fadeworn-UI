@@ -54,7 +54,7 @@ export default function Home() {
       <section className="hero-grid" id="top">
         <div className="hero-copy">
           <p className="section-index">01 / ACTIVE SURFACE</p>
-          <h1>Every touch<br /><em data-text="leaves evidence.">leaves evidence.</em></h1>
+          <h1>Every touch<br /><em>leaves evidence.</em></h1>
           <p className="lede">Digital interfaces pretend they have never been used. Here, every click, drag, selection, and scroll polishes the surface, wears through the finish, and records a history that is yours alone.</p>
           <div className="hero-actions">
             <Button className="initial-wear-button" onClick={applyInitialWear}>

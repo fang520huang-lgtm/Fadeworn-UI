@@ -116,52 +116,20 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 }
 .hero-copy h1 em {
   display: inline-block;
-  position: relative;
-  margin-top: .12em;
-  color: #cbb27b;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: .82em;
+  margin-top: .07em;
+  color: #bd9250;
   font-style: normal;
-  font-weight: 900;
-  line-height: .94;
-  letter-spacing: .018em;
-  text-transform: uppercase;
+  font-weight: 400;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='92' viewBox='0 0 92 92'%3E%3Cfilter id='print'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.54' numOctaves='4' seed='47'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='92' height='92' filter='url(%23print)' opacity='.48'/%3E%3C/svg%3E") 0 0 / 92px 92px,
-    linear-gradient(90deg, #dbc48d 0%, #ceb67f 37%, #ad9a72 67%, #8a7f6c 85%, #726e65 100%);
-  background-blend-mode: soft-light, normal;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='104' viewBox='0 0 640 104'%3E%3Cg fill='none' stroke='%23251f17' stroke-linecap='round' vector-effect='non-scaling-stroke'%3E%3Cpath d='M92 69l19-2' stroke-width='.55' opacity='.1'/%3E%3Cpath d='M184 34l23 3' stroke-width='.65' opacity='.15'/%3E%3Cpath d='M244 77l35-5' stroke-width='.65' opacity='.2'/%3E%3Cpath d='M273 25l18-1' stroke-width='.55' opacity='.22'/%3E%3Cpath d='M306 56l42 3' stroke-width='.75' opacity='.25'/%3E%3Cpath d='M337 84l25-5' stroke-width='.65' opacity='.27'/%3E%3Cpath d='M365 18l29 4' stroke-width='.6' opacity='.29'/%3E%3Cpath d='M382 67l48-7' stroke-width='.8' opacity='.32'/%3E%3Cpath d='M405 39l21-3' stroke-width='.55' opacity='.35'/%3E%3Cpath d='M428 88l37-2' stroke-width='.7' opacity='.37'/%3E%3Cpath d='M447 23l44 5' stroke-width='.75' opacity='.4'/%3E%3Cpath d='M459 54l27-5' stroke-width='.6' opacity='.43'/%3E%3Cpath d='M481 74l54 4' stroke-width='.85' opacity='.46'/%3E%3Cpath d='M497 15l31 1' stroke-width='.6' opacity='.48'/%3E%3Cpath d='M512 43l43-7' stroke-width='.75' opacity='.5'/%3E%3Cpath d='M526 93l21-4' stroke-width='.65' opacity='.52'/%3E%3Cpath d='M543 62l58 2' stroke-width='.9' opacity='.55'/%3E%3Cpath d='M558 27l26-4' stroke-width='.65' opacity='.58'/%3E%3Cpath d='M571 82l43-7' stroke-width='.8' opacity='.6'/%3E%3Cpath d='M589 47l33 5' stroke-width='.7' opacity='.63'/%3E%3Cpath d='M604 18l24 2' stroke-width='.65' opacity='.66'/%3E%3Cpath d='M611 95l22-5' stroke-width='.75' opacity='.68'/%3E%3C/g%3E%3Cg fill='none' stroke='%23efd29a' stroke-linecap='round' vector-effect='non-scaling-stroke'%3E%3Cpath d='M307 57l41 3' stroke-width='.4' opacity='.14'/%3E%3Cpath d='M383 68l47-7' stroke-width='.45' opacity='.17'/%3E%3Cpath d='M460 55l26-5' stroke-width='.4' opacity='.2'/%3E%3Cpath d='M513 44l42-7' stroke-width='.45' opacity='.23'/%3E%3Cpath d='M544 63l57 2' stroke-width='.45' opacity='.26'/%3E%3Cpath d='M572 83l42-7' stroke-width='.4' opacity='.28'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='96' viewBox='0 0 240 96'%3E%3Cfilter id='brushed' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='2' seed='41' result='grain'/%3E%3CfeGaussianBlur in='grain' stdDeviation='6 .16' edgeMode='duplicate' result='streaks'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.055 .34' numOctaves='2' seed='13' result='breaks'/%3E%3CfeBlend in='streaks' in2='breaks' mode='soft-light' result='broken'/%3E%3CfeColorMatrix in='broken' type='saturate' values='0' result='mono'/%3E%3CfeComponentTransfer in='mono'%3E%3CfeFuncR type='linear' slope='3.1' intercept='-1.04'/%3E%3CfeFuncG type='linear' slope='3.1' intercept='-1.04'/%3E%3CfeFuncB type='linear' slope='3.1' intercept='-1.04'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='240' height='96' filter='url(%23brushed)' opacity='.94'/%3E%3C/svg%3E") 0 0 / 240px 96px,
+    linear-gradient(90deg, rgba(70, 52, 32, .34) 0%, rgba(244, 214, 151, .31) 17%, rgba(83, 61, 37, .28) 34%, rgba(237, 202, 134, .25) 51%, rgba(68, 57, 45, .34) 73%, rgba(210, 184, 130, .13) 89%, rgba(48, 52, 48, .22) 100%),
+    linear-gradient(90deg, #c29a57 0%, #b68e51 28%, #977d57 58%, #7b7160 81%, #686b62 100%);
+  background-blend-mode: multiply, overlay, soft-light, normal;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: contrast(1.04) drop-shadow(0 1px 0 rgba(243, 224, 181, .08)) drop-shadow(0 2px 2px rgba(0, 0, 0, .25));
-}
-.hero-copy h1 em::before,
-.hero-copy h1 em::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  font: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-}
-.hero-copy h1 em::before {
-  z-index: 1;
-  color: transparent;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='104' viewBox='0 0 640 104'%3E%3Cdefs%3E%3ClinearGradient id='fade'%3E%3Cstop offset='0' stop-color='white' stop-opacity='0'/%3E%3Cstop offset='.32' stop-color='white' stop-opacity='.04'/%3E%3Cstop offset='.58' stop-color='white' stop-opacity='.32'/%3E%3Cstop offset='.8' stop-color='white' stop-opacity='.72'/%3E%3Cstop offset='1' stop-color='white'/%3E%3C/linearGradient%3E%3Cfilter id='dirt'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.034 .19' numOctaves='4' seed='23' result='noise'/%3E%3CfeColorMatrix in='noise' type='luminanceToAlpha' result='alpha'/%3E%3CfeComponentTransfer in='alpha' result='spots'%3E%3CfeFuncA type='table' tableValues='0 0 .03 .12 .36 .72 1'/%3E%3C/feComponentTransfer%3E%3CfeComposite in='spots' in2='SourceGraphic' operator='in' result='mask'/%3E%3CfeFlood flood-color='%232b2822' result='ink'/%3E%3CfeComposite in='ink' in2='mask' operator='in'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='640' height='104' fill='url(%23fade)' filter='url(%23dirt)'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  mix-blend-mode: multiply;
-}
-.hero-copy h1 em::after {
-  z-index: 2;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1.6px rgba(42, 38, 31, .78);
-  text-shadow: .012em .008em 0 rgba(28, 27, 23, .3);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='104' viewBox='0 0 640 104'%3E%3Cdefs%3E%3ClinearGradient id='fade'%3E%3Cstop offset='0' stop-color='white' stop-opacity='0'/%3E%3Cstop offset='.24' stop-color='white' stop-opacity='.05'/%3E%3Cstop offset='.5' stop-color='white' stop-opacity='.34'/%3E%3Cstop offset='.74' stop-color='white' stop-opacity='.76'/%3E%3Cstop offset='1' stop-color='white'/%3E%3C/linearGradient%3E%3Cfilter id='edge'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.045 .28' numOctaves='3' seed='29' result='noise'/%3E%3CfeColorMatrix in='noise' type='luminanceToAlpha' result='alpha'/%3E%3CfeComponentTransfer in='alpha' result='broken'%3E%3CfeFuncA type='gamma' amplitude='1.45' exponent='.82' offset='-.24'/%3E%3C/feComponentTransfer%3E%3CfeComposite in='broken' in2='SourceGraphic' operator='in'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='640' height='104' fill='url(%23fade)' filter='url(%23edge)'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='104' viewBox='0 0 640 104'%3E%3Cdefs%3E%3ClinearGradient id='fade'%3E%3Cstop offset='0' stop-color='white' stop-opacity='0'/%3E%3Cstop offset='.24' stop-color='white' stop-opacity='.05'/%3E%3Cstop offset='.5' stop-color='white' stop-opacity='.34'/%3E%3Cstop offset='.74' stop-color='white' stop-opacity='.76'/%3E%3Cstop offset='1' stop-color='white'/%3E%3C/linearGradient%3E%3Cfilter id='edge'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.045 .28' numOctaves='3' seed='29' result='noise'/%3E%3CfeColorMatrix in='noise' type='luminanceToAlpha' result='alpha'/%3E%3CfeComponentTransfer in='alpha' result='broken'%3E%3CfeFuncA type='gamma' amplitude='1.45' exponent='.82' offset='-.24'/%3E%3C/feComponentTransfer%3E%3CfeComposite in='broken' in2='SourceGraphic' operator='in'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='640' height='104' fill='url(%23fade)' filter='url(%23edge)'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  filter: saturate(.72) contrast(1.12) drop-shadow(0 1px 0 rgba(238, 219, 179, .1)) drop-shadow(0 2px 2px rgba(0, 0, 0, .22));
 }
 .notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
