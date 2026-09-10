@@ -24,9 +24,7 @@ export function SpecimenFrame({
   children,
   className = "",
   onReset,
-  meterLevel,
 }: SpecimenFrameProps) {
-  const percent = Math.round(Math.min(1, Math.max(0, meterLevel ?? record.wearLevel)) * 100);
   return (
     <Card className={`specimen-card ${className}`} style={{ "--level": record.wearLevel } as React.CSSProperties}>
       <CardHeader className="specimen-card__head">
@@ -40,10 +38,6 @@ export function SpecimenFrame({
               <RotateCcw aria-hidden="true" />
             </button>
           ) : null}
-          <div className="mini-gauge" aria-label={`磨损 ${percent}%`}>
-            <span style={{ height: `${Math.max(3, percent)}%` }} />
-            <b>{percent}%</b>
-          </div>
         </div>
       </CardHeader>
       <CardContent className="specimen-card__body">{children}</CardContent>

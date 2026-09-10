@@ -114,6 +114,11 @@ function visibleTraceLevel(id: "tabs" | "navigation", trace: number[]) {
   return clamp(Math.max(0, ...indices.map((index) => trace[index] ?? 0)));
 }
 
+function knobTraceForLevel(level: number) {
+  const peak = Math.max(...INITIAL_KNOB_TRACE);
+  return INITIAL_KNOB_TRACE.map((value) => clamp((value / peak) * level));
+}
+
 export function getWearLevelForDisplay(id: ComponentId, record: WearRecord) {
   if (id === "input") {
     return clamp(Math.max(0, ...record.glyphWear.map((zone) => zone.wear)));
@@ -211,11 +216,12 @@ export function createInitialWearState(): WearState {
     }
 
     if (id === "knob") {
+      const initialKnobLevel = 0.62;
       next[id] = {
         ...record,
         usageCount: 28 + componentIndex * 3,
-        wearLevel: 0.62,
-        trace: INITIAL_KNOB_TRACE.slice(),
+        wearLevel: initialKnobLevel,
+        trace: knobTraceForLevel(initialKnobLevel),
       };
       return;
     }
@@ -313,7 +319,7 @@ export function useWearSystem() {
             wearLevel: clamp(record.wearLevel + (
               DIRECT_CLICK_COMPONENTS.has(id)
                 ? id === "card" ? FOLIO_VISUAL_LIMIT * CLICK_WEAR_INCREMENT : CLICK_WEAR_INCREMENT
-                : increments[id] * wearIntensity
+                : id === "knob" ? 0 : increments[id] * wearIntensity
             )),
             lastUsed: Date.now(),
             hitPositions,
@@ -405,6 +411,19 @@ export function useWearSystem() {
     });
   }, []);
 
+  const setKnobWear = useCallback((level: number) => {
+    const normalizedLevel = clamp(level);
+    setWearState((current) => ({
+      ...current,
+      knob: {
+        ...current.knob,
+        wearLevel: normalizedLevel,
+        trace: knobTraceForLevel(normalizedLevel),
+        lastUsed: Date.now(),
+      },
+    }));
+  }, []);
+
   const resetAll = useCallback(() => {
     const fresh = createFreshWearState();
     setWearState(fresh);
@@ -486,6 +505,7 @@ export function useWearSystem() {
     markUse,
     markTrace,
     markInputGlyph,
+    setKnobWear,
     resetOne,
     resetAll,
     applyInitialWear,

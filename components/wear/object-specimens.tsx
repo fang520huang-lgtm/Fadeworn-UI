@@ -9,6 +9,7 @@ import { SpecimenFrame } from "./specimen-frame";
 type Marks = {
   markUse: (id: ComponentId, intensity?: number, point?: { x: number; y: number }) => void;
   markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
+  setKnobWear: (level: number) => void;
 };
 
 type Resettable = { onReset: () => void };
@@ -65,8 +66,8 @@ function knobWearGradient(trace: number[]) {
   return `conic-gradient(from ${KNOB_MIN_ANGLE}deg, ${stops.join(",")}, transparent ${KNOB_SWEEP}deg 360deg)`;
 }
 
-export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
-  const [value, setValue] = useState(42);
+export function WearKnobSpecimen({ record, markUse, setKnobWear, onReset }: { record: WearRecord } & Marks & Resettable) {
+  const value = Math.round(record.wearLevel * 100);
   const knobAngle = KNOB_MIN_ANGLE + value * (KNOB_SWEEP / 100);
   const dragging = useRef(false);
   const dragStarted = useRef(false);
@@ -82,13 +83,11 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
     const normalized = ((degrees + 180) % 360 + 360) % 360 - 180;
     const clamped = Math.max(KNOB_MIN_ANGLE, Math.min(KNOB_MAX_ANGLE, normalized));
     const next = Math.round(((clamped - KNOB_MIN_ANGLE) / KNOB_SWEEP) * 100);
-    setValue(next);
-    const jitteredPosition = Math.max(0, Math.min(1, next / 100 + (Math.random() - 0.5) * 0.16));
-    markTrace("knob", jitteredPosition, 0.75);
+    setKnobWear(next / 100);
   };
 
   return (
-    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record} meterLevel={getWearLevelForDisplay("knob", record)} onReset={onReset}>
+    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="DIRECT WEAR CONTROL" record={record} meterLevel={getWearLevelForDisplay("knob", record)} onReset={onReset}>
       <div className="control-bay knob-bay">
         <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace), "--knob-level": record.wearLevel } as React.CSSProperties}>
           <span className="knob-bezel-wear" aria-hidden="true" />
@@ -133,9 +132,8 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
               if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
               event.preventDefault();
               const next = Math.max(0, Math.min(100, value + (event.key === "ArrowRight" ? 2 : -2)));
-              setValue(next);
-              const jitteredPosition = Math.max(0, Math.min(1, next / 100 + (Math.random() - 0.5) * 0.16));
-              markTrace("knob", jitteredPosition, 1, true);
+              setKnobWear(next / 100);
+              markUse("knob", 1);
             }}
           >
             <span className="knob-rotor" style={{ transform: `rotate(${knobAngle}deg)` }} aria-hidden="true">
@@ -145,7 +143,7 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
             </span>
           </button>
         </div>
-        <div className="knob-readout"><b>{String(value).padStart(3, "0")}</b><span>ATTENUATION</span></div>
+        <div className="knob-readout"><b>{String(value).padStart(3, "0")}</b><span>WEAR LEVEL</span></div>
       </div>
     </SpecimenFrame>
   );

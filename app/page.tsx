@@ -38,7 +38,7 @@ const labels: Record<ComponentId, string> = {
 };
 
 export default function Home() {
-  const { wearState, markUse, markTrace, markInputGlyph, resetOne, resetAll, applyInitialWear, stats, hydrated } = useWearSystem();
+  const { wearState, markUse, markTrace, markInputGlyph, setKnobWear, resetOne, resetAll, applyInitialWear, stats, hydrated } = useWearSystem();
   const averagePercent = Math.round(stats.averageWear * 100);
 
   return (
@@ -122,7 +122,7 @@ export default function Home() {
           <WearCardSpecimen record={wearState.card} markUse={markUse} onReset={() => resetOne("card")} />
           <WearChoiceSpecimen record={wearState.choice} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("choice")} />
           <WearScrollbarSpecimen record={wearState.scrollbar} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("scrollbar")} />
-          <WearKnobSpecimen record={wearState.knob} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("knob")} />
+          <WearKnobSpecimen record={wearState.knob} markUse={markUse} markTrace={markTrace} setKnobWear={setKnobWear} onReset={() => resetOne("knob")} />
         </div>
       </section>
 
