@@ -12,7 +12,6 @@ type SpecimenFrameProps = {
   children: ReactNode;
   className?: string;
   onReset?: () => void;
-  meterLevel?: number;
 };
 
 export function SpecimenFrame({
@@ -46,23 +45,5 @@ export function SpecimenFrame({
         <span>{String(record.usageCount).padStart(3, "0")} USES</span>
       </footer>
     </Card>
-  );
-}
-
-export function HitMarks({ record }: { record: WearRecord }) {
-  return (
-    <span className="hit-layer" aria-hidden="true">
-      {record.hitPositions.map((point, index) => (
-        <i
-          key={`${point.createdAt}-${index}`}
-          style={{
-            left: `${point.x * 100}%`,
-            top: `${point.y * 100}%`,
-            opacity: Math.min(0.9, 0.18 + point.pressure * record.wearLevel),
-            transform: `translate(-50%, -50%) scale(${0.65 + point.pressure * 0.7})`,
-          }}
-        />
-      ))}
-    </span>
   );
 }

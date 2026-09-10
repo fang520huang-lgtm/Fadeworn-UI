@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Wear UI — UI Aging Laboratory",
+  title: "Fadeworn UI — UI Aging Laboratory",
   description: "An interface experiment where real interaction leaves wear, friction, and a visible history.",
   icons: {
     icon: "/favicon.svg",

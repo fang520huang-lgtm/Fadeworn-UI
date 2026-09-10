@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { Activity, Archive, Radio, Settings2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getWearLevelForDisplay, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
+import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
-type Marks = {
-  markUse: (id: ComponentId, intensity?: number, point?: { x: number; y: number }) => void;
+type WearTrace = {
   markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
 };
 
@@ -15,14 +14,14 @@ type Resettable = { onReset: () => void };
 
 const tabItems = ["SIGNAL", "HISTORY", "NOTES"];
 
-export function WearTabsSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearTabsSpecimen({ record, markTrace, onReset }: { record: WearRecord } & WearTrace & Resettable) {
   const [tab, setTab] = useState("SIGNAL");
   const tabWear = tabItems.map((_, index) => {
     const traceIndex = Math.round((index / (tabItems.length - 1)) * (record.trace.length - 1));
     return record.trace[traceIndex] ?? 0;
   });
   return (
-    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} meterLevel={getWearLevelForDisplay("tabs", record)} onReset={onReset}>
+    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} onReset={onReset}>
       <div className="control-bay tabs-bay">
         <Tabs
           value={tab}
@@ -60,14 +59,14 @@ const navItems = [
   { label: "CONFIG", icon: Settings2 },
 ];
 
-export function WearNavigationSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearNavigationSpecimen({ record, markTrace, onReset }: { record: WearRecord } & WearTrace & Resettable) {
   const [active, setActive] = useState(0);
   const navigationWear = navItems.map((_, index) => {
     const traceIndex = Math.round((index / (navItems.length - 1)) * (record.trace.length - 1));
     return record.trace[traceIndex] ?? 0;
   });
   return (
-    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} meterLevel={getWearLevelForDisplay("navigation", record)} onReset={onReset}>
+    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} onReset={onReset}>
       <div className="control-bay nav-bay">
         <nav className="lab-nav" aria-label="Laboratory navigation">
           {navItems.map(({ label, icon: Icon }, index) => {

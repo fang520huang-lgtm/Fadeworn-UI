@@ -3,12 +3,11 @@
 import { useRef, useState } from "react";
 import { ChevronDown, FileText } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { getWearLevelForDisplay, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
+import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
 type Marks = {
-  markUse: (id: ComponentId, intensity?: number, point?: { x: number; y: number }) => void;
-  markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
+  markUse: (id: ComponentId, intensity?: number) => void;
   setKnobWear: (level: number) => void;
 };
 
@@ -22,7 +21,7 @@ const KNOB_SWEEP = KNOB_MAX_ANGLE - KNOB_MIN_ANGLE;
 export function WearCardSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
   const [open, setOpen] = useState(false);
   return (
-    <SpecimenFrame index="07" title="Reference Folio" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} meterLevel={Math.min(record.wearLevel, FOLIO_VISUAL_LIMIT) / FOLIO_VISUAL_LIMIT} onReset={onReset}>
+    <SpecimenFrame index="07" title="Reference Folio" material="ARCHIVAL PAPER" note="FIBER WEAR / OXIDATION" record={record} onReset={onReset}>
       <div className="control-bay folio-bay">
         <Card
           role="button"
@@ -87,7 +86,7 @@ export function WearKnobSpecimen({ record, markUse, setKnobWear, onReset }: { re
   };
 
   return (
-    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="DIRECT WEAR CONTROL" record={record} meterLevel={getWearLevelForDisplay("knob", record)} onReset={onReset}>
+    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="DIRECT WEAR CONTROL" record={record} onReset={onReset}>
       <div className="control-bay knob-bay">
         <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace), "--knob-level": record.wearLevel } as React.CSSProperties}>
           <span className="knob-bezel-wear" aria-hidden="true" />

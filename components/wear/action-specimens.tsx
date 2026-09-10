@@ -6,11 +6,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
-import { getWearLevelForDisplay, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
+import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
-type Marks = {
-  markUse: (id: ComponentId, intensity?: number, point?: { x: number; y: number }) => void;
+type WearAction = {
+  markUse: (id: ComponentId, intensity?: number) => void;
+};
+
+type WearTrace = {
   markTrace: (id: ComponentId, position: number, intensity?: number, countAsUse?: boolean) => void;
 };
 
@@ -56,7 +59,7 @@ function textEdit(previous: string[], next: string[]) {
   };
 }
 
-export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearRecord } & Pick<Marks, "markUse"> & Resettable) {
+export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearRecord } & WearAction & Resettable) {
   return (
     <SpecimenFrame index="01" title="Actuation Button" material="PAINTED STEEL" note="UNIFORM SURFACE FADE" record={record} onReset={onReset}>
       <div className="control-bay button-bay">
@@ -72,7 +75,7 @@ export function WearButtonSpecimen({ record, markUse, onReset }: { record: WearR
   );
 }
 
-export function WearToggleSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearToggleSpecimen({ record, markTrace, onReset }: { record: WearRecord } & WearTrace & Resettable) {
   const [checked, setChecked] = useState(false);
   const leftWear = record.trace.slice(0, 12).reduce((a, b) => a + b, 0) / 12;
   const rightWear = record.trace.slice(12).reduce((a, b) => a + b, 0) / 12;
@@ -197,7 +200,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
 
   const characterCount = splitGraphemes(value).length;
   return (
-    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} meterLevel={getWearLevelForDisplay("input", record)} onReset={onReset}>
+    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} onReset={onReset}>
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell">
@@ -248,7 +251,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
   );
 }
 
-export function WearChoiceSpecimen({ record, markUse, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearChoiceSpecimen({ record, markUse, onReset }: { record: WearRecord } & WearAction & Resettable) {
   const [checked, setChecked] = useState(false);
   const [mode, setMode] = useState("a");
   return (

@@ -44,11 +44,11 @@ export default function Home() {
   return (
     <main className={`lab-shell ${hydrated ? "is-ready" : ""}`}>
       <header className="masthead">
-        <a className="brand-lockup" href="#top" aria-label="Wear UI home">
-          <span className="brand-mark" aria-hidden="true">W</span>
+        <a className="brand-lockup" href="#top" aria-label="Fadeworn UI home">
+          <span className="brand-mark" aria-hidden="true">F</span>
           <span>
             <small>HISTORY / NOT STATE</small>
-            <b>WEAR UI <i>UI AGING LABORATORY</i></b>
+            <b>FADEWORN UI <i>UI AGING LABORATORY</i></b>
           </span>
         </a>
         <nav className="top-nav" aria-label="Page navigation">
@@ -114,15 +114,15 @@ export default function Home() {
         </div>
         <div className="specimen-grid">
           <WearButtonSpecimen record={wearState.button} markUse={markUse} onReset={() => resetOne("button")} />
-          <WearToggleSpecimen record={wearState.toggle} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("toggle")} />
+          <WearToggleSpecimen record={wearState.toggle} markTrace={markTrace} onReset={() => resetOne("toggle")} />
           <WearSliderSpecimen record={wearState.slider} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("slider")} />
           <WearInputSpecimen record={wearState.input} markInputGlyph={markInputGlyph} onReset={() => resetOne("input")} />
-          <WearTabsSpecimen record={wearState.tabs} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("tabs")} />
-          <WearNavigationSpecimen record={wearState.navigation} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("navigation")} />
+          <WearTabsSpecimen record={wearState.tabs} markTrace={markTrace} onReset={() => resetOne("tabs")} />
+          <WearNavigationSpecimen record={wearState.navigation} markTrace={markTrace} onReset={() => resetOne("navigation")} />
           <WearCardSpecimen record={wearState.card} markUse={markUse} onReset={() => resetOne("card")} />
-          <WearChoiceSpecimen record={wearState.choice} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("choice")} />
+          <WearChoiceSpecimen record={wearState.choice} markUse={markUse} onReset={() => resetOne("choice")} />
           <WearScrollbarSpecimen record={wearState.scrollbar} markUse={markUse} markTrace={markTrace} onReset={() => resetOne("scrollbar")} />
-          <WearKnobSpecimen record={wearState.knob} markUse={markUse} markTrace={markTrace} setKnobWear={setKnobWear} onReset={() => resetOne("knob")} />
+          <WearKnobSpecimen record={wearState.knob} markUse={markUse} setKnobWear={setKnobWear} onReset={() => resetOne("knob")} />
         </div>
       </section>
 
@@ -158,7 +158,7 @@ export default function Home() {
             <article><span>03</span><h3>FUNCTION ENDURES</h3><p>Even at maximum wear, labels, active states, focus, and every control remain clear.</p></article>
           </div>
         </div>
-        <footer className="site-footer"><span>WEAR UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><span>2026 / SHANGHAI</span></footer>
+        <footer className="site-footer"><span>FADEWORN UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><span>2026 / SHANGHAI</span></footer>
       </section>
     </main>
   );

@@ -22,6 +22,9 @@
   --input: #3b433b;
   --ring: #c69a52;
   --radius: 0.25rem;
+  --font-display: "Segoe UI Variable Display", "Aptos Display", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Segoe UI Variable Text", Aptos, "Helvetica Neue", Arial, sans-serif;
+  --font-lab-mono: "Cascadia Mono", "IBM Plex Mono", Consolas, monospace;
 }
 
 @theme inline {
@@ -47,8 +50,8 @@
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 5px);
-  --font-sans: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
-  --font-mono: "IBM Plex Mono", "Roboto Mono", Consolas, monospace;
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-lab-mono);
 }
 
 * { box-sizing: border-box; }
@@ -62,7 +65,7 @@ body {
     radial-gradient(circle at 77% 7%, rgba(180, 135, 63, .085), transparent 28rem),
     repeating-linear-gradient(0deg, rgba(255, 255, 255, .012) 0 1px, transparent 1px 4px),
     #0b0e0c;
-  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  font-family: var(--font-body);
 }
 button, input { font: inherit; }
 a { color: inherit; text-decoration: none; }
@@ -109,12 +112,15 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .section-index { margin: 0; }
 .hero-copy h1 {
   margin: 29px 0 27px;
-  font: 400 clamp(50px, 5.7vw, 86px)/1.06 Georgia, "Times New Roman", serif;
-  letter-spacing: -.045em;
+  font-family: var(--font-display);
+  font-size: clamp(50px, 5.7vw, 86px);
+  font-weight: 300;
+  line-height: .99;
+  letter-spacing: -.058em;
 }
-.hero-copy h1 em, .notes-grid h2 em { color: #bd9250; font-style: italic; font-weight: 400; }
-.hero-copy h1 em, .notes-grid h2 em { display: inline-block; margin-top: .07em; }
-.lede { max-width: 560px; margin: 0; color: #aeb4aa; font-size: 17px; line-height: 1.85; }
+.hero-copy h1 em { display: inline-block; margin-top: .12em; color: #c39a59; font-style: normal; font-weight: 620; letter-spacing: -.045em; }
+.notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
+.lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
 .initial-wear-button, .reset-button {
   height: 46px !important; padding: 0 19px !important; border-radius: 2px !important;
@@ -168,7 +174,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .gallery-section { padding: 118px 0 124px; border-top: 1px solid #303630; }
 .section-heading { display: grid; grid-template-columns: 1fr 370px; gap: 42px; align-items: end; margin-bottom: 50px; }
 .section-heading h2, .inspector-copy h2 { margin: 13px 0 0; font: 400 clamp(38px, 4vw, 56px)/1.12 Georgia, serif; letter-spacing: -.035em; }
-.section-heading > p { margin: 0 0 5px; color: #90988e; font-size: 15px; line-height: 1.7; }
+.section-heading > p { max-width: 390px; margin: 0 0 4px; color: #949c93; font-family: var(--font-body); font-size: 16px; font-weight: 350; line-height: 1.65; letter-spacing: .006em; }
 .specimen-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .specimen-card {
   --level: 0; min-height: 480px; position: relative; overflow: hidden; gap: 0 !important;
@@ -189,9 +195,6 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 }
 .specimen-reset svg { width: 13px; height: 13px; }
 .specimen-reset:hover { color: #d6ad65; border-color: #806237; background: #1b201b; }
-.mini-gauge { width: 58px; height: 38px; position: relative; display: flex; justify-content: flex-end; align-items: flex-end; border-left: 1px solid #353c35; }
-.mini-gauge > span { position: absolute; left: 0; bottom: 0; width: 3px; background: #c69a52; box-shadow: 0 0 6px #c69a5266; transition: height .25s ease; }
-.mini-gauge b { color: #9ca397; font: 11px/1 Consolas, monospace; }
 .specimen-card__body { flex: 1; display: flex; padding: 16px !important; }
 .specimen-card__foot { min-height: 44px; display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 0 27px; border-top: 1px solid #333a33; color: #687268; font: 9px/1 Consolas, monospace; letter-spacing: .13em; }
 .control-bay {

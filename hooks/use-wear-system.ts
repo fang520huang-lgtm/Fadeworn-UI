@@ -17,13 +17,6 @@ export const COMPONENT_IDS = [
 
 export type ComponentId = (typeof COMPONENT_IDS)[number];
 
-export type WearPoint = {
-  x: number;
-  y: number;
-  pressure: number;
-  createdAt: number;
-};
-
 export type InputGlyphWear = {
   start: number;
   end: number;
@@ -35,14 +28,12 @@ export type WearRecord = {
   usageCount: number;
   wearLevel: number;
   lastUsed: number | null;
-  hitPositions: WearPoint[];
   trace: number[];
   glyphWear: InputGlyphWear[];
 };
 
 export type WearState = Record<ComponentId, WearRecord>;
 
-const LEGACY_STORAGE_KEY = "wear-ui-lab/v2";
 const TRACE_SEGMENTS = 24;
 const WEARABLE_COMPONENT_IDS = COMPONENT_IDS;
 
@@ -85,7 +76,6 @@ function emptyRecord(): WearRecord {
     usageCount: 0,
     wearLevel: 0,
     lastUsed: null,
-    hitPositions: [],
     trace: Array.from({ length: TRACE_SEGMENTS }, () => 0),
     glyphWear: [],
   };
@@ -284,7 +274,6 @@ export function useWearSystem() {
   const stateRef = useRef(wearState);
 
   useEffect(() => {
-    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
     const frame = window.requestAnimationFrame(() => {
       setHydrated(true);
     });
@@ -296,21 +285,10 @@ export function useWearSystem() {
   }, [wearState]);
 
   const markUse = useCallback(
-    (id: ComponentId, intensity = 1, point?: { x: number; y: number }) => {
+    (id: ComponentId, intensity = 1) => {
       setWearState((current) => {
         const record = current[id];
         const wearIntensity = id === "knob" ? intensity / 3 : intensity;
-        const hitPositions = point
-          ? [
-              ...record.hitPositions,
-              {
-                x: clamp(point.x),
-                y: clamp(point.y),
-                pressure: clamp(0.35 + wearIntensity * 0.25),
-                createdAt: Date.now(),
-              },
-            ].slice(-18)
-          : record.hitPositions;
         return {
           ...current,
           [id]: {
@@ -322,7 +300,6 @@ export function useWearSystem() {
                 : id === "knob" ? 0 : increments[id] * wearIntensity
             )),
             lastUsed: Date.now(),
-            hitPositions,
           },
         };
       });

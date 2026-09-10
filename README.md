@@ -1,35 +1,62 @@
-# Wear UI Laboratory
+# Fadeworn UI
 
-一个会随着真实操作留下使用痕迹的 UI 实验项目。按钮、拨片、滑杆、输入框、标签、导航、纸质卡片、选择控件、滚动条和旋钮，都采用与各自交互方式对应的磨损逻辑。
+Fadeworn UI is an interaction experiment about interfaces that remember how they are used. Clicks, drags, selections, typing, and scrolling alter each control through material-specific wear instead of decorative random distress.
 
-项目当前只用于本地访问，不包含线上站点关联，也不会自动保存上一次打开时的磨损状态。
+The showcase opens with a curated initial-wear preset. Its state is session-only: refreshing the page restores that preset, while **No Wear** clears every surface for a clean comparison.
 
-## 本地启动
+## Specimens
 
-需要 Node.js 22.13 或更高版本。
+1. **Actuation Button** — repeated presses polish the full painted surface.
+2. **Two-State Lever** — movement wears the exposed material beside the lever.
+3. **Linear Calibrator** — travel builds a continuous friction map along the rail.
+4. **Field Terminal** — typing and erasing wear the positions occupied by each glyph.
+5. **Mode Register** — frequently selected tabs fade independently.
+6. **Navigation Rail** — commonly used destinations develop local contact wear.
+7. **Reference Folio** — repeated opening yellows and softens the paper surface.
+8. **Selection Bank** — checkbox and radio use creates a contact halo.
+9. **Travel Log** — scrolling polishes the sections traversed by the handle.
+10. **Rotary Attenuator** — dragging the knob directly controls its wear level.
 
-```powershell
+## Run locally
+
+Fadeworn UI requires Node.js 22.13 or newer.
+
+```bash
 npm install
 npm run dev
 ```
 
-然后访问 `http://localhost:5173/`。开发服务已经启动时，也可以直接双击根目录的 `双击打开 Wear UI.html`。
+Open [http://localhost:5173](http://localhost:5173). If the development server is already running, Windows users can also double-click `Open Fadeworn UI.html` in the project root.
 
-## 检查构建
+## Quality checks
 
-```powershell
-npm run build
+```bash
 npm run lint
+npm run build
 ```
 
-## 主要目录
+## Project structure
 
-- `app/`：展示页和全局视觉样式
-- `components/wear/`：十个实验组件及其展示框架
-- `hooks/use-wear-system.ts`：磨损数据、交互记录、无磨损和初始磨损预设逻辑
-- `components/ui/`：基础交互组件
-- `public/`：静态资源
+```text
+app/
+  layout.tsx              Page metadata and document shell
+  page.tsx                Showcase composition
+  globals.css             Visual system, materials, wear rendering
+components/
+  ui/                     Reusable UI primitives
+  wear/                   Ten interactive specimens and shared frame
+hooks/
+  use-wear-system.ts      Wear state, interaction mapping, and presets
+public/
+  knob-bezel-wear.svg     Fixed-ring wear texture for the rotary control
+```
 
-## 磨损系统
+## Wear system
 
-页面默认加载一组经过设计的初始磨损。每个组件拥有独立的使用次数、整体磨损、局部轨迹或字符位置磨损。对于存在多个局部磨损点的组件，右上角百分比表示当前最深的可见磨损相对于视觉上限的比例；Reset 按钮只复原当前组件，页面顶部可以切换到初始磨损或清空为无磨损。
+Every specimen owns a `WearRecord` with a usage count, overall wear level, last-use timestamp, and interaction-specific traces. Linear controls accumulate values across a segmented travel map, the terminal stores glyph-width-aware wear zones, and frequency-based controls keep independent local peaks.
+
+`getWearLevelForDisplay` normalizes these different histories for the inspector without changing their visual behavior. The presentation therefore describes history, never disabled, error, or loading state.
+
+## Design principle
+
+> The interface remembers how it was used, until there is nothing left to remember.
