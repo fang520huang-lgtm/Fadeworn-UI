@@ -14,18 +14,25 @@ type Marks = {
 
 type Resettable = { onReset: () => void };
 
+const INITIAL_SLIDER_VALUE = 76;
+
 export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
-  const [value, setValue] = useState([36]);
+  const [value, setValue] = useState([INITIAL_SLIDER_VALUE]);
+  const isInitialPreset = record.lastUsed === null
+    && record.usageCount === 34
+    && Math.abs(Math.max(...record.trace) - 0.76) < 0.001;
+  const sliderValue = isInitialPreset ? [INITIAL_SLIDER_VALUE] : value;
+
   return (
     <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
       <div className="control-bay slider-bay">
-        <div className="dial-readout"><span>OUTPUT</span><b>{String(value[0]).padStart(2, "0")}</b><small>%</small></div>
+        <div className="dial-readout"><span>OUTPUT</span><b>{String(sliderValue[0]).padStart(2, "0")}</b><small>%</small></div>
         <div className="slider-shell">
           <span className="trace-strip" style={{ backgroundImage: traceGradient(record.trace) }} aria-hidden="true" />
           <Slider
             aria-label="输出校准"
             className="lab-slider"
-            value={value}
+            value={sliderValue}
             onValueChange={(next) => {
               setValue(next);
               markTrace("slider", next[0] / 100, 0.7);

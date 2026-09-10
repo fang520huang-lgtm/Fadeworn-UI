@@ -127,6 +127,22 @@ export function createInitialWearState(): WearState {
       return;
     }
 
+    if (id === "slider") {
+      const endIndex = Math.round(0.76 * (TRACE_SEGMENTS - 1));
+      next[id] = {
+        ...record,
+        usageCount: 28 + componentIndex * 3,
+        wearLevel: 0.76,
+        trace: record.trace.map((value, index) => {
+          if (index <= endIndex) {
+            return Math.max(value, 0.28 + 0.48 * Math.pow(index / endIndex, 1.25));
+          }
+          return Math.max(value, Math.max(0.04, 0.76 - (index - endIndex) * 0.34));
+        }),
+      };
+      return;
+    }
+
     const focus = ((componentIndex * 7 + 5) % TRACE_SEGMENTS) / (TRACE_SEGMENTS - 1);
     const center = Math.round(focus * (TRACE_SEGMENTS - 1));
     next[id] = {
