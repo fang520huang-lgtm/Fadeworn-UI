@@ -1,6 +1,6 @@
 # Wear System
 
-How Fadeworn UI turns interaction into history, and why that is not the same thing as state.
+This document describes how Fadeworn UI turns interaction history into visible wear without changing component state or behavior.
 
 ---
 
@@ -55,7 +55,7 @@ It also increments `usageCount` and stamps `lastUsed`.
 
 For controls where *where* you interacted matters: toggle, slider, tabs, navigation, scrollbar.
 
-`position` is normalized to 0–1 and mapped onto the 24-segment `trace` array. The segment at that position takes the full increment; its immediate neighbours take a smaller one, which is what makes the heatmaps look like friction instead of dots.
+`position` is normalized to 0–1 and mapped onto the 24-segment `trace` array. The segment at that position receives the full increment, while its immediate neighbors receive a smaller amount. This produces a continuous friction pattern instead of isolated dots.
 
 Three components override the default spread:
 
@@ -69,7 +69,7 @@ Pass `countAsUse: true` when the trace deposit should also count as an actuation
 
 ### 3. `markInputGlyph(start, end, intensity = 1)` — glyph-position accumulation
 
-Exclusive to `input`. The Input specimen measures each grapheme with canvas `measureText` against the input's computed font, converts the result to a 0–1 horizontal band, and records that band. Matching bands merge and accumulate; the list keeps the most recent 96 zones.
+This function is exclusive to `input`. The Input specimen measures each grapheme with canvas `measureText` using the input's computed font, converts the result to a horizontal band in the 0–1 range, and records that band. Matching bands merge and accumulate; the record retains the 96 most recent zones.
 
 Erasing calls the same function for the removed range, so deletion leaves evidence too.
 
@@ -88,7 +88,7 @@ A single `wearLevel` scalar cannot describe all ten components, so [`getWearLeve
 | `knob` | `max(wearLevel, …trace)` |
 | all others | `wearLevel` |
 
-This only affects what the **Wear Log** reports. It never changes how a component renders.
+This calculation affects only the percentage shown in the wear inspector. It does not change how a component renders.
 
 ---
 
@@ -103,9 +103,11 @@ React never animates the wear surfaces. Components push numbers into CSS custom 
 | `--tab-wear` | Tabs | Per-tab fade |
 | `--nav-wear` | Navigation | Per-route contact wear |
 | `--knob-wear`, `--knob-level` | Knob | Conic-gradient bezel and rotor finish |
+| `--scrollbar-wear` | Scrollbar specimen frame | Wear along the scroll rail |
+| `--scrollbar-thumb-offset` | Scroll viewport synchronization | Functional thumb position |
 | `--gauge` | Live Wear Monitor | Overall gauge sweep |
 
-Everything else — slider heatmaps, the scroll rail, glyph zones — is generated as a gradient string by the component or by `traceGradient(trace, color?, baseAlpha?)`.
+Slider heatmaps and glyph zones are generated as gradient strings by the specimen or by `traceGradient(trace, color?, baseAlpha?)`. The scrollbar uses its own vertical interpolation so visual wear and functional travel share the same rail.
 
 ---
 
@@ -140,3 +142,5 @@ To add a new wear-aware component:
 3. Decide how `getWearLevelForDisplay` should normalize it.
 4. Render it by pushing a custom property into your element and styling the surface in `app/globals.css`.
 5. Document it in [`docs/COMPONENTS.md`](COMPONENTS.md) and add it to the `README.md` table.
+
+If you are integrating the system into another application, read [Using Fadeworn UI in Another Project](USING-IN-YOUR-PROJECT.md) before copying the showcase components.

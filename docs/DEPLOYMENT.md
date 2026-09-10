@@ -1,151 +1,94 @@
-# Deployment and Domains
+# Deployment
 
-This guide covers two things: **how to put the site on the public web**, and **how to point your own domain at it**.
+Fadeworn UI can be exported as HTML, CSS, and JavaScript and hosted without an application server. Interaction history remains in browser memory; the showcase does not require a database or backend API.
 
-It assumes the code is already pushed to the GitHub repository `fang520huang-lgtm/Fadeworn-UI`.
+## Build the static site
 
----
+```bash
+npm install
+npm run build:static
+```
 
-## First: this project runs as a pure static site
+The command writes the deployable site to `out/`. Preview that directory before publishing:
 
-Every interaction lives in the browser. There is no database, no backend endpoint, and no server-rendered live data. The build output is just HTML, CSS, and JavaScript, which means it runs on any static host.
+```bash
+npx serve out
+```
 
-Three useful consequences:
+The static build uses the `output: "export"` configuration in `next.config.ts`. Features that require a Next.js runtime, such as Server Actions, request-time headers, and dynamic server rendering, cannot be added without changing the deployment model. See the [Next.js static export guide](https://nextjs.org/docs/app/guides/static-exports) for the current list of supported features.
 
-- Hosting is free — the free tiers of every platform below are more than enough.
-- Any static host works, with no platform-specific code.
-- Visitors get plain files, so pages are fast and cannot fail because of a server error.
+## GitHub Pages
 
----
+The repository includes `.github/workflows/deploy-pages.yml`. It builds and deploys the `out/` directory whenever a commit is pushed to `master` or `main`.
 
-## Option A: GitHub Pages (free, built into the repository)
+One-time repository setup:
 
-**Best for:** getting a working public URL without signing up for anything new.
-
-The repository already contains `.github/workflows/deploy-pages.yml`. GitHub only needs to be told once that Pages should use it:
-
-1. Open the repository → **Settings** → **Pages**.
+1. Open **Settings → Pages** in the GitHub repository.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Go to the **Actions** tab. The “Deploy to GitHub Pages” workflow runs on every push to `master`; if the last run failed at the *Configure Pages* step, click **Re-run all jobs**.
+3. Open the **Actions** tab and confirm that the latest **Deploy to GitHub Pages** workflow completed successfully.
 
-The workflow tries to enable Pages by itself, but GitHub only permits that for some accounts, so step 1 may be required once. After that, every push publishes automatically.
-
-The site will be available at:
+The project site is published at:
 
 ```text
 https://fang520huang-lgtm.github.io/Fadeworn-UI/
 ```
 
-### Using your own domain with GitHub Pages
+### Why the workflow sets `PAGES_BASE_PATH`
 
-1. In **Settings → Pages → Custom domain**, enter your domain, for example `fadeworn.com`, and save.
-2. At your domain registrar, add DNS records.
+A GitHub Pages project site is served below the repository name rather than at the domain root. The workflow therefore sets:
 
-   For the apex domain (`fadeworn.com`), add four A records:
-
-   ```text
-   A   @   185.199.108.153
-   A   @   185.199.109.153
-   A   @   185.199.110.153
-   A   @   185.199.111.153
-   ```
-
-   For the subdomain (`www.fadeworn.com`), add one CNAME record:
-
-   ```text
-   CNAME   www   fang520huang-lgtm.github.io
-   ```
-
-3. Wait for DNS to propagate — usually 10 minutes to an hour, occasionally up to 24 hours.
-4. Return to **Settings → Pages** and tick **Enforce HTTPS**.
-
-GitHub issues and renews the HTTPS certificate for you; you never buy one.
-
-> Note: GitHub Pages cannot issue a free certificate for every top-level domain ending (some country-code domains such as `.cn` are affected). If HTTPS cannot be enabled, use Option B instead.
-
----
-
-## Option B: Vercel or Cloudflare Pages (recommended long term)
-
-**Best for:** faster delivery, preview builds for every commit, and the smoothest custom-domain setup.
-
-Both platforms work almost identically:
-
-1. Open [vercel.com](https://vercel.com) or [pages.cloudflare.com](https://pages.cloudflare.com) and sign in with GitHub.
-2. Choose **Import Git Repository** (Vercel) or **Create application → Pages → Connect to Git** (Cloudflare).
-3. Select the `Fadeworn-UI` repository. Use these build settings:
-
-   | Setting | Value |
-   | --- | --- |
-   | Framework | Next.js |
-   | Build command | `npm run build` |
-   | Output directory | Leave empty on Vercel; `out` on Cloudflare |
-   | Node version | `22` |
-
-4. Click **Deploy**. You get a free subdomain such as `fadeworn-ui.vercel.app` or `fadeworn-ui.pages.dev`.
-
-After that, every `git push` rebuilds and publishes automatically, and each commit gets its own preview URL for sharing work in progress.
-
-### Using your own domain with Vercel or Cloudflare
-
-1. Buy a domain from a registrar (see the next section).
-2. In the platform's **Domains** / **Custom domains** panel, add your domain.
-3. The platform shows the DNS record to create. It is usually a single CNAME:
-
-   ```text
-   CNAME   @     cname.vercel-dns.com
-   ```
-
-   Cloudflare Pages may instead ask you to move the domain's nameservers to Cloudflare.
-4. Save and wait for propagation. The platform issues and renews the HTTPS certificate automatically.
-
-> Cloudflare's advantage: if you register the domain there and host DNS with them, pointing it at the site is a couple of clicks and you get their CDN. Vercel's advantage: the most complete Next.js support and the clearest UI.
-
----
-
-## Where to buy a domain
-
-| Registrar | Notes |
-| --- | --- |
-| [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/) | Renews at cost with no markup; free DNS and CDN. The least fuss overall. |
-| [Namecheap](https://www.namecheap.com/) | Friendly interface, frequent discounts, accepts most payment methods. |
-| [Alibaba Cloud](https://wanwang.aliyun.com/) · [Tencent Cloud](https://dnspod.cloud.tencent.com/) | Convenient if you need mainland China hosting and filing. |
-
-Typical pricing: a `.com` runs about 10–13 USD per year; `.dev` and `.app` are a little more.
-
-### Two things that trip people up
-
-1. **An apex domain cannot use a CNAME.** The DNS specification forbids it. GitHub Pages solves this with A records (listed above); Vercel and Cloudflare solve it with ANAME / ALIAS records or by hosting your DNS.
-2. **Mainland China hosting requires an ICP filing.** If your domain points at a server located in mainland China (Alibaba Cloud ECS, Tencent Cloud, and so on), you must complete the filing first or traffic will be blocked. GitHub Pages, Vercel, and Cloudflare Pages are all hosted outside mainland China, so no filing is needed — but access speed from there depends on the network.
-
----
-
-## Want the prettiest possible URL?
-
-If you would rather publish at `fadeworn.com` than at `fang520huang-lgtm.github.io/Fadeworn-UI/`, the shortest path is:
-
-1. Buy the domain at Cloudflare or Namecheap.
-2. Deploy with Option B to Cloudflare Pages or Vercel.
-3. Add the domain in the platform's **Domains** panel and create the DNS record it asks for.
-4. Wait for the HTTPS certificate (usually a few minutes).
-
-No code changes and no manual SSL certificates are involved.
-
----
-
-## Verifying the deployment locally
-
-Before pushing, you can check that the static output is correct:
-
-```bash
-# Plain local preview
-npm run build:static
-npx serve out          # or: python -m http.server 8099 --directory out
-
-# Simulate the GitHub Pages project subpath
-PAGES_BASE_PATH=/Fadeworn-UI npm run build:static
+```text
+PAGES_BASE_PATH=/Fadeworn-UI
 ```
 
-Open the address it prints and confirm that the page loads with its styles and images intact.
+`next.config.ts` uses that value for `basePath` and `assetPrefix`, ensuring that scripts, styles, and public assets load from the project subpath.
 
-> `PAGES_BASE_PATH` is only needed when publishing to a project subpath such as `https://<user>.github.io/<repo>/`. When deploying to a domain root (Vercel, Cloudflare Pages, or a GitHub Pages custom domain), leave it unset — otherwise asset URLs gain an extra path segment.
+If the repository name changes, the workflow automatically uses the new name. If the site later moves to a domain root, remove the `PAGES_BASE_PATH` environment variable from the workflow before redeploying.
+
+## Other static hosts
+
+Any service that publishes a directory of static files can host the project. Use these settings:
+
+| Setting | Value |
+| --- | --- |
+| Install command | `npm install` or `npm ci` |
+| Build command | `npm run build:static` |
+| Output directory | `out` |
+| Node.js version | `22` |
+
+For Cloudflare Pages, select the **Next.js (Static HTML Export)** preset and replace its build command with `npm run build:static` if necessary. Cloudflare documents this path in its [static Next.js deployment guide](https://developers.cloudflare.com/pages/framework-guides/nextjs/deploy-a-static-nextjs-site/). For a host that serves the site from a subpath, set `PAGES_BASE_PATH` to that path during the build. Leave it unset when the site is served from the domain root.
+
+The default `npm run build` command is different: it creates the vinext/Cloudflare Workers build used by this repository's local runtime path. It is not the static directory described above.
+
+## Custom domains
+
+Configure the custom domain in the hosting provider first, then add the DNS records shown by that provider. Record types and verification steps vary by platform, so follow the provider's current instructions rather than copying fixed DNS values from this repository.
+
+For GitHub Pages:
+
+1. Open **Settings → Pages → Custom domain**.
+2. Enter the domain and complete GitHub's DNS verification steps.
+3. Enable **Enforce HTTPS** after the certificate is ready.
+4. Remove `PAGES_BASE_PATH` from `.github/workflows/deploy-pages.yml`, because a custom domain serves this site from `/`.
+
+GitHub's documentation explains the required DNS records for apex domains and subdomains: [Managing a custom domain for your GitHub Pages site](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+
+## Deployment checklist
+
+Before publishing a change:
+
+```bash
+npm run lint
+npm run build
+npm run build:static
+```
+
+Then verify the production-style static preview:
+
+- scripts, styles, SVG assets, and the favicon load successfully;
+- every control responds to pointer and keyboard input;
+- the scrollbar thumb remains aligned during dragging and wheel scrolling;
+- the page works after a direct reload at the deployment URL;
+- the GitHub Pages workflow finishes with both `build` and `deploy` jobs marked successful.
+
+Do not commit `out/`; the deployment workflow generates it from source.

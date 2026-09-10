@@ -1,8 +1,10 @@
-# Components
+# Component Reference
 
-The ten wear-aware specimens that make up Fadeworn UI. Each one lives in `components/wear/` and is rendered on the single page at the site root; select a row in the **Wear Log** to jump to it.
+Fadeworn UI contains ten wear-aware specimens. Each specimen lives in `components/wear/` and appears in the showcase at the site root. Selecting its row in the wear inspector moves the page to that specimen.
 
-The `Preset` figure is the curated wear shown on first load. **INITIAL WEAR** restores it; **NO WEAR** clears every surface.
+These exports are showcase-specific wrappers rather than a published component API. They depend on `SpecimenFrame`, the shared wear hook, internal UI primitives, and styles from `app/globals.css`. See [Using Fadeworn UI in Another Project](USING-IN-YOUR-PROJECT.md) before copying one into an application.
+
+The `Preset` column shows the display level reported by the inspector on first load. **INITIAL WEAR** restores that preset; **NO WEAR** clears every surface.
 
 | # | Component | Export | Material | Preset |
 | --- | --- | --- | --- | --- |
@@ -14,7 +16,7 @@ The `Preset` figure is the curated wear shown on first load. **INITIAL WEAR** re
 | 06 | [Navigation](#06--navigation) | `WearNavigationSpecimen` | Powder coat | 98% |
 | 07 | [Card](#07--card) | `WearCardSpecimen` | Archival paper | 70% |
 | 08 | [Checkbox / Radio](#08--checkbox--radio) | `WearChoiceSpecimen` | Enameled metal | 70% |
-| 09 | [Scrollbar](#09--scrollbar) | `WearScrollbarSpecimen` | Machined rail | 78% |
+| 09 | [Scrollbar](#09--scrollbar) | `WearScrollbarSpecimen` | Machined rail | 88% |
 | 10 | [Knob](#10--knob) | `WearKnobSpecimen` | Knurled aluminum | 62% |
 
 Every specimen shares one frame. `SpecimenFrame` supplies the number, title, material, footer note, reset button, and the `--level` custom property that the stylesheet reads.
@@ -43,7 +45,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 | **Anchor** | `#specimen-toggle` |
 | **Material** | Bakelite |
 | **Use it** | Toggle the lever between OFF and ON. |
-| **Wear** | Wear lands on the trace segments next to the resting side — indices 3–5 for OFF, 18–20 for ON — so the baldest patch always reveals the position you prefer. |
+| **Wear** | Wear is written to the trace segments beside the resting side — indices 3–5 for OFF and 18–20 for ON — so the most worn area reflects the position used most often. |
 | **Preset** | 70% |
 | **Props** | `record: WearRecord`, `markTrace(id, position, intensity?, countAsUse?)`, `onReset()` |
 
@@ -71,7 +73,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 | **Anchor** | `#specimen-input` |
 | **Material** | Anodized alloy |
 | **Use it** | Type or erase text. IME composition is handled so composed input wears on commit. |
-| **Wear** | Glyph width is measured on a canvas, so wear zones follow real font metrics rather than a fixed character grid. Erasing wears the removed position too — both directions leave evidence. |
+| **Wear** | Glyph width is measured on a canvas, so wear zones follow the rendered font instead of a fixed character grid. Deleting text also records wear across the removed range. |
 | **Preset** | 70% |
 | **Props** | `record`, `markInputGlyph(start, end, intensity?)`, `onReset()` |
 
@@ -99,7 +101,7 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 | **Anchor** | `#specimen-navigation` |
 | **Material** | Powder coat |
 | **Use it** | Choose Monitor, Archive, Channels, or Settings. |
-| **Wear** | Four route anchors sit at indices 0, 8, 15, and 23; selecting a route raises that anchor plus a soft shoulder on its immediate neighbours. |
+| **Wear** | Four navigation anchors use indices 0, 8, 15, and 23. Selecting an item raises its anchor and adds a smaller amount to the adjacent segments. |
 | **Preset** | 98% |
 | **Props** | `record`, `markTrace`, `onReset()` |
 
@@ -141,8 +143,8 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 | **Anchor** | `#specimen-scrollbar` |
 | **Material** | Machined rail |
 | **Use it** | Scroll inside the log sheet. |
-| **Wear** | Scroll position is sampled at most every 80 ms; faster travel deposits more wear at that position, and long jumps also count as an actuation. |
-| **Preset** | 78% |
+| **Wear** | Scroll position is sampled at most once every 80 ms. Faster movement deposits more wear, accepted samples count as uses, and the thumb position is synchronized directly with the viewport for consistent static builds. |
+| **Preset** | 88% |
 | **Props** | `record`, `markUse`, `markTrace`, `onReset()` |
 
 ---
@@ -167,3 +169,5 @@ Every specimen shares one frame. `SpecimenFrame` supplies the number, title, mat
 2. Add it to the grid in `app/page.tsx` and pass an `anchor` to `SpecimenFrame`.
 3. Add its id to `COMPONENT_IDS` in `hooks/use-wear-system.ts`, then give it an entry in `increments`.
 4. Document it here and in `README.md`.
+
+For a complete description of the state changes required by steps 2 and 3, see [Extending the wear system](WEAR-SYSTEM.md#extending-it).

@@ -1,53 +1,87 @@
 # Contributing
 
-Thanks for looking. This project is small on purpose, so contributions are easy to review.
+Thank you for your interest in Fadeworn UI. The project is intentionally focused, so small, well-defined contributions are the easiest to review.
 
-## Getting set up
+## Before you start
+
+- Search existing issues and pull requests before opening a duplicate.
+- Open an issue first for a new component, a major visual change, or a change to the wear-state model.
+- Keep pull requests focused on one problem. Unrelated cleanup should be submitted separately.
+- Treat the interface copy as part of the design. Do not rewrite page text unless the change has been discussed explicitly.
+
+## Local setup
+
+Node.js 22.13 or newer is required.
 
 ```bash
+git clone https://github.com/fang520huang-lgtm/Fadeworn-UI.git
+cd Fadeworn-UI
 npm install
-npm run dev      # http://localhost:5173
+npm run dev
 ```
 
-Before opening a pull request, run both checks:
+The development server runs at [http://localhost:5173](http://localhost:5173).
+
+## Project layout
+
+| Path | Purpose |
+| --- | --- |
+| `app/page.tsx` | Showcase composition and page content |
+| `app/globals.css` | Layout, materials, and wear rendering |
+| `components/wear/` | Wear-aware specimen implementations |
+| `components/ui/` | Shared shadcn/ui and Radix UI primitives |
+| `hooks/use-wear-system.ts` | Wear records, interaction mapping, and presets |
+| `docs/` | Usage, component, system, and deployment documentation |
+
+## Design constraints
+
+- **Wear records history, not state.** Never use it to communicate disabled, selected, loading, or error states.
+- **Function must survive wear.** Labels, focus indicators, keyboard behavior, and hit targets must remain clear at maximum wear.
+- **Interaction mappings should be explainable.** A contributor should be able to describe where wear appears and which action causes it in one or two sentences.
+- **Materials should behave consistently.** Extend the existing visual language unless a proposal establishes a clear reason for a new material.
+- **Motion must be optional.** Respect `prefers-reduced-motion` for every new transition or animation.
+- **Wear remains session-only in the showcase.** Persistent product behavior belongs in an integrating application, not in the demo.
+
+## Adding a specimen
+
+1. Implement it in `components/wear/`. Add a lower-level primitive to `components/ui/` only when it is reusable outside the specimen.
+2. Add the specimen to the grid in `app/page.tsx` and give `SpecimenFrame` the matching component id.
+3. Register the id in `COMPONENT_IDS`, its increment table, its initial state, and any display normalization in `hooks/use-wear-system.ts`.
+4. Verify pointer, keyboard, and reduced-motion behavior at both zero and maximum wear.
+5. Document the component in `README.md` and `docs/COMPONENTS.md`.
+
+## Required checks
+
+Run these commands before opening a pull request:
 
 ```bash
 npm run lint
 npm run build
+npm run build:static
 ```
 
-## Where things live
+For changes that affect interaction or layout, also test the production-style static output:
 
-| Path | What belongs there |
-| --- | --- |
-| `app/page.tsx` | Composition of the lab page — sections, layout, copy. |
-| `app/globals.css` | The visual system: materials, wear rendering, layout. |
-| `components/wear/` | The interactive specimens. |
-| `components/ui/` | Reusable primitives. Keep these close to stock shadcn/ui. |
-| `hooks/use-wear-system.ts` | All wear state and the mapping from interaction to wear. |
-| `docs/` | Reference documentation. |
+```bash
+npx serve out
+```
 
-## Adding a component
+Describe the browsers and interaction paths you tested in the pull request. Include before-and-after screenshots for visual changes.
 
-1. Build it in `components/wear/` (specimen) or `components/ui/` (primitive).
-2. Add it to the grid in `app/page.tsx` and pass an `anchor` to `SpecimenFrame`.
-3. Register it in `COMPONENT_IDS` and `increments` in `hooks/use-wear-system.ts`.
-4. Document it in `README.md` and `docs/COMPONENTS.md`.
+## Code and documentation style
 
-## Rules that matter here
+- Use English for identifiers, comments, documentation, commit messages, and interface copy.
+- Prefer direct, specific explanations over promotional language.
+- Keep code comments focused on constraints or decisions that are not obvious from the implementation.
+- Use short imperative commit subjects, such as `Fix scrollbar thumb tracking` or `Document glyph wear mapping`.
 
-- **Wear is history, not state.** Never use wear to communicate disabled, error, or loading. A component at 100% wear must behave exactly like one at 0%.
-- **Keep interaction legible.** If you cannot describe the mapping in one sentence — "each press fades the whole surface" — it is too clever.
-- **Do not gate function behind wear.** Labels, focus rings, and hit targets survive every wear level.
-- **Respect `prefers-reduced-motion`.** Animations must degrade to instant state changes.
-- **No persistence.** Wear is session-only by design. Do not add localStorage or a backend for it.
-- **Match the materials.** New specimens should use the existing paint, brass, rubber, fiber, and enamel language rather than inventing a new one.
-- **Write in English.** Code comments, documentation, and UI copy are all English.
+## Pull requests
 
-## Commit messages
+A pull request should explain:
 
-Short imperative subject lines, for example `Add rotary wear readout` or `Fix glyph wear on IME commit`.
+- what changed;
+- why the change is needed;
+- how it was tested;
+- whether it changes any wear mapping, preset, or accessibility behavior.
 
-## License
-
-By contributing you agree that your work is released under the [MIT License](LICENSE).
+By contributing, you agree that your work is released under the [MIT License](LICENSE).

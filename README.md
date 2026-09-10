@@ -2,110 +2,146 @@
 
 **An interface that remembers how it was used.**
 
-**Live demo: [fang520huang-lgtm.github.io/Fadeworn-UI](https://fang520huang-lgtm.github.io/Fadeworn-UI/)** — ten controls that visibly wear as you use them.
+**Live demo: [fang520huang-lgtm.github.io/Fadeworn-UI](https://fang520huang-lgtm.github.io/Fadeworn-UI/)**
 
-Fadeworn UI is an interaction experiment about interfaces that record their own history. Clicks, drags, selections, typing, and scrolling alter each control through material-specific wear instead of decorative random distress.
+Fadeworn UI explores interfaces that retain a visible history of interaction. Clicks, drags, selections, typing, and scrolling change each control through material-specific wear rather than randomly applied distress.
 
-The showcase opens with a curated initial-wear preset. Its state is session-only: refreshing the page restores that preset, while **No Wear** clears every surface for a clean comparison.
+The showcase starts with a curated wear preset. Wear is stored only for the current browser session: refreshing restores the preset, while **No Wear** clears every surface for comparison.
 
 > The interface remembers how it was used, until there is nothing left to remember.
 
----
+## What this repository provides
 
-## Run it
+- Ten working, accessible examples of wear-aware controls.
+- A React hook that records usage, positional traces, and glyph-level wear.
+- CSS treatments for painted steel, brass, rubber, paper, enamel, and machined surfaces.
+- A complete Next.js showcase and a static export workflow for GitHub Pages.
 
-Fadeworn UI requires Node.js 22.13 or newer.
+This repository is a reference implementation, not a published npm package. You do not need to clone it merely to view the project; use the live demo for that. Clone or fork it when you want to study the implementation, adapt the wear system, or build on the showcase.
+
+## Use it in your project
+
+The code currently targets Next.js 16, React 19, TypeScript, Tailwind CSS 4, and Radix UI. Because the specimens share a state model and a visual system, they are provided as source rather than as isolated drop-in components.
+
+For the quickest integration:
+
+1. Copy `hooks/use-wear-system.ts` into your project.
+2. Copy the specimen you want from `components/wear/`, together with `specimen-frame.tsx`.
+3. Copy the UI primitives imported by that specimen from `components/ui/`, plus `lib/utils.ts`.
+4. Copy the corresponding material and component styles from `app/globals.css`.
+5. Call `useWearSystem()` in a client component and pass the relevant record and mutation functions to the specimen.
+
+For example, the button specimen is connected like this:
+
+```tsx
+"use client";
+
+import { WearButtonSpecimen } from "@/components/wear/action-specimens";
+import { useWearSystem } from "@/hooks/use-wear-system";
+
+export function WearButtonExample() {
+  const { wearState, markUse, resetOne } = useWearSystem();
+
+  return (
+    <WearButtonSpecimen
+      record={wearState.button}
+      markUse={markUse}
+      onReset={() => resetOne("button")}
+    />
+  );
+}
+```
+
+See [Using Fadeworn UI in another project](docs/USING-IN-YOUR-PROJECT.md) for dependencies, file-by-file guidance, and instructions for creating a custom wear-aware control.
+
+## Run the showcase locally
+
+Node.js 22.13 or newer is required.
 
 ```bash
+git clone https://github.com/fang520huang-lgtm/Fadeworn-UI.git
+cd Fadeworn-UI
 npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173). That single page is the whole demo. If the development server is already running, Windows users can also double-click `Open Fadeworn UI.html` in the project root.
+Open [http://localhost:5173](http://localhost:5173). On Windows, `Open Fadeworn UI.html` opens the same address after the development server is running.
 
-### Publish it
+## Component reference
 
-Every route is static, so the demo runs on any static host.
-
-| Target | How |
-| --- | --- |
-| **GitHub Pages** | Push to `master`. The included workflow publishes to `https://fang520huang-lgtm.github.io/Fadeworn-UI/`. Enable Pages once under **Settings → Pages → Source: GitHub Actions**, then every push deploys automatically. |
-| **Vercel / Cloudflare Pages** | Import the repository, keep the build command `npm run build`, and deploy. No configuration needed. |
-| **Any static host** | `npm run build:static` writes a self-contained site to `out/`. |
-
-For custom domains, DNS records, and where to buy a domain, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
-
----
-
-## The ten components
-
-Search across names, file paths, materials, and behaviour: `knob`, `paper`, `brass`, `heatmap`, `glyph`, `halo`.
-
-| # | Component | Material | Records |
+| # | Component | Material | Recorded interaction |
 | --- | --- | --- | --- |
-| 01 | [Button](docs/COMPONENTS.md#01--button) | Painted steel | Press count → uniform surface fade |
-| 02 | [Toggle](docs/COMPONENTS.md#02--toggle) | Bakelite | Rest-side friction |
-| 03 | [Slider](docs/COMPONENTS.md#03--slider) | Brass / rubber | Travel friction heatmap |
+| 01 | [Button](docs/COMPONENTS.md#01--button) | Painted steel | Press count and uniform surface fade |
+| 02 | [Toggle](docs/COMPONENTS.md#02--toggle) | Bakelite | Resting-side friction |
+| 03 | [Slider](docs/COMPONENTS.md#03--slider) | Brass / rubber | Travel-path friction |
 | 04 | [Input](docs/COMPONENTS.md#04--input) | Anodized alloy | Glyph-position abrasion |
-| 05 | [Tabs](docs/COMPONENTS.md#05--tabs) | Printed ABS | Per-tab frequency exposure |
-| 06 | [Navigation](docs/COMPONENTS.md#06--navigation) | Powder coat | Per-route contact wear |
+| 05 | [Tabs](docs/COMPONENTS.md#05--tabs) | Printed ABS | Per-tab selection frequency |
+| 06 | [Navigation](docs/COMPONENTS.md#06--navigation) | Powder coat | Per-item contact wear |
 | 07 | [Card](docs/COMPONENTS.md#07--card) | Archival paper | Fiber wear and oxidation |
-| 08 | [Checkbox / Radio](docs/COMPONENTS.md#08--checkbox--radio) | Enameled metal | Contact halo |
-| 09 | [Scrollbar](docs/COMPONENTS.md#09--scrollbar) | Machined rail | Scroll path memory |
-| 10 | [Knob](docs/COMPONENTS.md#10--knob) | Knurled aluminum | Direct wear control |
+| 08 | [Checkbox / Radio](docs/COMPONENTS.md#08--checkbox--radio) | Enameled metal | Selection activity |
+| 09 | [Scrollbar](docs/COMPONENTS.md#09--scrollbar) | Machined rail | Scroll-path memory |
+| 10 | [Knob](docs/COMPONENTS.md#10--knob) | Knurled aluminum | Direct wear-level control |
 
-[docs/COMPONENTS.md](docs/COMPONENTS.md) documents each one in full: source file, anchor, interaction, wear behaviour, preset level, and props. Selecting a row in the Wear Log jumps to that specimen on the page.
+[docs/COMPONENTS.md](docs/COMPONENTS.md) lists each component's source file, props, interaction model, and initial preset.
 
----
+## How the wear system works
+
+Each specimen owns a `WearRecord` containing a usage count, an overall wear level, a last-used timestamp, and interaction-specific traces. The system exposes three main write paths:
+
+- `markUse` records uniform wear.
+- `markTrace` records wear at a normalized position.
+- `markInputGlyph` records text wear across measured glyph ranges.
+
+`getWearLevelForDisplay` normalizes the different histories for the inspector without changing how the controls render. Wear never represents a disabled, error, or loading state, and it never reduces usability.
+
+Read [docs/WEAR-SYSTEM.md](docs/WEAR-SYSTEM.md) for the data model, presets, rendering properties, and extension points.
 
 ## Project structure
 
 ```text
 app/
-  layout.tsx                Page metadata and document shell
-  page.tsx                  The whole showcase: hero, specimens, wear log, notes
-  globals.css               Visual system, materials, wear rendering
+  page.tsx                  Showcase composition and page content
+  globals.css               Layout, materials, and wear rendering
 components/
-  wear/                     The ten interactive specimens and their shared frame
-  ui/                       Reusable shadcn/ui primitives they are built on
+  wear/                     Wear-aware specimen implementations
+  ui/                       Shared shadcn/ui and Radix UI primitives
 hooks/
   use-wear-system.ts        Wear state, interaction mapping, and presets
+lib/
+  utils.ts                  Shared class-name helper
 docs/
-  COMPONENTS.md             Reference for the ten components
-  WEAR-SYSTEM.md            How wear works
-  DEPLOYMENT.md             Deployment and domain guide
-public/
-  knob-bezel-wear.svg       Fixed-ring wear texture for the rotary control
-  favicon.svg
+  COMPONENTS.md             Component reference
+  WEAR-SYSTEM.md            State and rendering model
+  USING-IN-YOUR-PROJECT.md  Source-integration guide
+  DEPLOYMENT.md             Static deployment guide
 ```
 
-## Quality checks
+## Development
+
+Run both checks before submitting a change:
 
 ```bash
 npm run lint
 npm run build
 ```
 
----
+To verify the same static output used by GitHub Pages:
 
-## Wear system
+```bash
+npm run build:static
+npx serve out
+```
 
-Every specimen owns a `WearRecord` with a usage count, overall wear level, last-use timestamp, and interaction-specific traces. Linear controls accumulate values across a segmented travel map, the terminal stores glyph-width-aware wear zones, and frequency-based controls keep independent local peaks.
+## Deployment
 
-Wear is written through three channels — `markUse` for flat accumulation, `markTrace` for positional accumulation, and `markInputGlyph` for glyph bands. `getWearLevelForDisplay` then normalizes these different histories for the inspector without changing their visual behaviour.
+The included GitHub Actions workflow publishes the static export to GitHub Pages whenever `master` or `main` is updated. For another static host, use `npm run build:static` as the build command and `out` as the output directory.
 
-The presentation therefore describes history, never disabled, error, or loading state. At maximum wear, labels, active states, focus rings, and every control remain clear.
-
-Read [docs/WEAR-SYSTEM.md](docs/WEAR-SYSTEM.md) for the data model, increments, rendering custom properties, presets, and accessibility notes.
-
-## Design principle
-
-> The interface remembers how it was used, until there is nothing left to remember.
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for GitHub Pages, Cloudflare Pages, and custom-domain guidance.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). The short version: wear is history, not state — keep it legible, keep it out of the way of function, and respect `prefers-reduced-motion`.
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## License
 
-[MIT](LICENSE). Built by [@fang520huang-lgtm](https://github.com/fang520huang-lgtm).
+[MIT](LICENSE) © [@fang520huang-lgtm](https://github.com/fang520huang-lgtm)
