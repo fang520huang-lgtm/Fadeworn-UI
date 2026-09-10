@@ -158,7 +158,7 @@ export default function Home() {
             <article><span>03</span><h3>功能不退化</h3><p>即使达到重度磨损，文字、当前状态、焦点与所有交互仍然保持清晰。</p></article>
           </div>
         </div>
-        <footer className="site-footer"><span>WEAR UI / LAB—17</span><p>每个人最后得到的界面都不完全一样，因为每个人使用软件的方式不一样。</p><span>2026 / SHANGHAI</span></footer>
+        <footer className="site-footer"><span>WEAR UI / LAB—17</span><p>The interface remembers how it was used, until there is nothing left to remember.</p><span>2026 / SHANGHAI</span></footer>
       </section>
     </main>
   );
