@@ -1,8 +1,6 @@
-# Wear System / 磨损系统
+# Wear System
 
 How Fadeworn UI turns interaction into history, and why that is not the same thing as state.
-
-本项目如何把交互转化为「历史」，以及为什么它和「状态」不是一回事。
 
 ---
 
@@ -15,8 +13,6 @@ A disabled button, an error border, or a loading spinner describes what a contro
 - Wear never blocks interaction. At 100% wear, labels, focus rings, active states, and hit targets all behave exactly as they do at 0%.
 - Wear is monotonic. It accumulates and is never decremented by normal use.
 - Wear is session-only. Refreshing restores the curated preset; nothing is written to storage or a server.
-
-磨损描述的是「发生过什么」，不是「现在是什么」。它永远不会阻碍交互，只会累积，并且只存在于当前会话。
 
 ---
 
@@ -37,8 +33,6 @@ type WearState = Record<ComponentId, WearRecord>;
 ```
 
 `ComponentId` is a union of the ten specimen ids: `button`, `toggle`, `slider`, `input`, `tabs`, `navigation`, `card`, `choice`, `scrollbar`, `knob`.
-
-三个写入通道，对应三种不同的「留下痕迹」的方式。
 
 ---
 
@@ -96,8 +90,6 @@ A single `wearLevel` scalar cannot describe all ten components, so [`getWearLeve
 
 This only affects what the **Wear Log** reports. It never changes how a component renders.
 
-这一函数只影响磨损日志的显示，不改变组件本身的渲染方式。
-
 ---
 
 ## Rendering
@@ -128,8 +120,6 @@ Everything else — slider heatmaps, the scroll rail, glyph zones — is generat
 
 State lives in `useState` only. There is no persistence layer, by design: the experiment is about a history you can observe, not one you accumulate forever.
 
-状态仅保存在内存中，刷新即恢复预设——这是刻意的设计，让历史可观察，而不是永久累积。
-
 ---
 
 ## Accessibility
@@ -138,8 +128,6 @@ State lives in `useState` only. There is no persistence layer, by design: the ex
 - `prefers-reduced-motion: reduce` disables the transitions and the animated average readout.
 - Every specimen keeps its ARIA role, label, and keyboard path at any wear level.
 - The whole lab is operable without a pointer: buttons, switches, sliders, tabs, the folio, and the knob all respond to standard keyboard input.
-
-磨损是装饰性的，不会降低文字对比度或可读性；所有样本在任何磨损等级下都保留完整的键盘操作与无障碍属性。
 
 ---
 

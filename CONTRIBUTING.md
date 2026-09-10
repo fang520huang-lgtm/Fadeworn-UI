@@ -1,8 +1,6 @@
-# Contributing / 参与贡献
+# Contributing
 
 Thanks for looking. This project is small on purpose, so contributions are easy to review.
-
-这是一个刻意保持小体量的项目，因此贡献很容易评审。
 
 ## Getting set up
 
@@ -33,7 +31,7 @@ npm run build
 ## Adding a component
 
 1. Build it in `components/wear/` (specimen) or `components/ui/` (primitive).
-2. Register it in `lib/component-catalog.ts` with a slug, both names, the interaction, the wear behaviour, and keywords in English **and** Chinese.
+2. Register it in `lib/component-catalog.ts` with a slug, a summary, the interaction, the wear behaviour, and search keywords.
 3. Add it to the grid in `app/page.tsx` if it is a specimen, and give it an anchor so the index can deep-link to it.
 4. Update `README.md` and `docs/COMPONENTS.md` if you introduced a new concept.
 
@@ -45,12 +43,11 @@ npm run build
 - **Respect `prefers-reduced-motion`.** Animations must degrade to instant state changes.
 - **No persistence.** Wear is session-only by design. Do not add localStorage or a backend for it.
 - **Match the materials.** New specimens should use the existing paint, brass, rubber, fiber, and enamel language rather than inventing a new one.
-
-新增组件时请遵循同一条原则：磨损表达「历史」而非「状态」，不得以磨损替代禁用、报错或加载提示。
+- **Write in English.** Code comments, documentation, and UI copy are all English.
 
 ## Commit messages
 
-Short imperative subject lines, e.g. `Add rotary wear readout` or `Fix glyph wear on IME commit`.
+Short imperative subject lines, for example `Add rotary wear readout` or `Fix glyph wear on IME commit`.
 
 ## License
 

@@ -523,8 +523,6 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   letter-spacing: -.038em;
 }
 .directory-intro h1 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: normal; }
-.directory-hint { margin: 13px 0 0; color: #79827a; font-size: 13px; line-height: 1.7; letter-spacing: .03em; }
-
 .directory-controls { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
 .directory-search {
   flex: 1 1 340px; min-width: 0; height: 54px; display: flex; align-items: center; gap: 12px;
@@ -550,16 +548,14 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 
 .directory-filters { display: flex; flex-wrap: wrap; gap: 8px; }
 .directory-filters button {
-  min-width: 108px; height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  min-width: 108px; height: 54px; display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 0 15px; border: 1px solid #3c443c; border-radius: 2px; background: #141814;
   color: #a3aca1; font: 500 10px/1 "IBM Plex Mono", Consolas, monospace; letter-spacing: .16em;
   cursor: pointer; transition: color .18s ease, border-color .18s ease, background .18s ease;
 }
 .directory-filters button i { font-style: normal; color: #c69a52; }
-.directory-filters button small { color: #6b736b; font-size: 9px; letter-spacing: .1em; font-family: var(--font-body); }
 .directory-filters button:hover { color: #e8e3d4; border-color: #565f56; }
 .directory-filters button[aria-pressed="true"] { border-color: #8a6a3a; background: #1e231c; color: #f0ead8; }
-.directory-filters button[aria-pressed="true"] small { color: #9aa296; }
 
 .directory-section { padding: 44px 0 96px; }
 .directory-grid {
@@ -583,7 +579,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   color: #d6ad65; font: 500 12px/1 "IBM Plex Mono", Consolas, monospace; letter-spacing: .06em;
 }
 .directory-card__head h2 { margin: 1px 0 0; font: 400 23px/1.16 Georgia, serif; letter-spacing: -.02em; }
-.directory-card__head p { margin: 5px 0 0; color: #8b938a; font-size: 12px; letter-spacing: .09em; }
+.directory-card__head p { margin: 6px 0 0; color: #7f897e; font: 400 11px/1.4 "IBM Plex Mono", Consolas, monospace; letter-spacing: .04em; overflow-wrap: anywhere; }
 .directory-badge {
   padding: 5px 9px; border: 1px solid #3c443c; border-radius: 2px;
   color: #98a096; background: #141814;
@@ -604,13 +600,11 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .directory-card__material b em { position: absolute; left: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, #8a6b34, #d4a659); }
 
 .directory-card__summary { margin: 0; color: #c8c9bd; font-size: 14.5px; font-weight: 350; line-height: 1.62; }
-.directory-card__summary--zh { margin-top: -6px; color: #8d968c; font-size: 13px; line-height: 1.68; }
 
 .directory-card__facts { display: grid; gap: 10px; margin: 0; padding: 14px 0 0; border-top: 1px solid #2f362f; }
 .directory-card__facts > div { display: grid; gap: 4px; }
 .directory-card__facts dt { color: #7c857b; font: 500 9px/1.4 "IBM Plex Mono", Consolas, monospace; letter-spacing: .16em; }
 .directory-card__facts dd { margin: 0; color: #b7beb4; font-size: 13.5px; font-weight: 350; line-height: 1.62; }
-.directory-card__facts .is-zh dd { color: #8d968c; font-size: 12.5px; }
 
 .directory-card__exports > span { color: #7c857b; font: 500 9px/1.4 "IBM Plex Mono", Consolas, monospace; letter-spacing: .16em; }
 .directory-card__exports > div { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
@@ -634,7 +628,6 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   margin-top: auto; padding-top: 14px; border-top: 1px solid #2f362f;
   font: 500 9px/1.4 "IBM Plex Mono", Consolas, monospace; letter-spacing: .13em;
 }
-.directory-card__foot code { flex: 1 1 100%; color: #79827a; overflow-wrap: anywhere; }
 .directory-card__foot a { display: inline-flex; align-items: center; gap: 5px; color: #d3b273; transition: color .18s ease; }
 .directory-card__foot a:hover { color: #f0d69b; }
 .directory-card__foot a svg { width: 11px; height: 11px; }

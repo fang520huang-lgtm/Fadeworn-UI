@@ -2,8 +2,6 @@
 
 **An interface that remembers how it was used.**
 
-[中文说明 / Chinese README](README.zh-CN.md)
-
 Fadeworn UI is an interaction experiment about interfaces that record their own history. Clicks, drags, selections, typing, and scrolling alter each control through material-specific wear instead of decorative random distress.
 
 The showcase opens with a curated initial-wear preset. Its state is session-only: refreshing the page restores that preset, while **No Wear** clears every surface for a clean comparison.
@@ -12,27 +10,37 @@ The showcase opens with a curated initial-wear preset. Its state is session-only
 
 ---
 
+## Live demo
+
+| | |
+| --- | --- |
+| **Public demo** | `https://fang520huang-lgtm.github.io/Fadeworn-UI/` — enable it once under **Settings → Pages → Source: GitHub Actions**, then every push publishes automatically. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). |
+| **Component index** | `https://fang520huang-lgtm.github.io/Fadeworn-UI/directory/` |
+| **Local demo** | Run `npm run dev` and open [http://localhost:5173](http://localhost:5173). The component index is at [http://localhost:5173/directory](http://localhost:5173/directory). |
+
+---
+
 ## Find a component
 
 There are twenty components, and two ways to look them up:
 
-- **In the app:** open [`/directory`](http://localhost:5173/directory) once the dev server is running. It has free-text search, family filters, clickable keyword chips, and a deep link to each specimen.
-- **In the repo:** read [docs/COMPONENTS.md](docs/COMPONENTS.md) for the same catalog with source paths and props.
+- **In the app:** open `/directory` once the dev server is running. It has free-text search, family filters, clickable keyword chips, and a deep link to each specimen.
+- **In the repo:** read [docs/COMPONENTS.md](docs/COMPONENTS.md) for the same catalog with source paths, props, and export names.
 
-Search works in English and Chinese: try `knob`, `paper`, `brass`, or `旋钮`, `复选框`, `热力图`.
+Search across names, file paths, materials, exports, and behaviour: try `knob`, `paper`, `brass`, `heatmap`, `glyph`, or `halo`.
 
-| # | Specimen | 中文 | Material | Records |
-| --- | --- | --- | --- | --- |
-| 01 | [Actuation Button](docs/COMPONENTS.md#01--actuation-button--触发按钮) | 触发按钮 | Painted steel | Press count → uniform surface fade |
-| 02 | [Two-State Lever](docs/COMPONENTS.md#02--two-state-lever--双态拨杆) | 双态拨杆 | Bakelite | Rest-side friction |
-| 03 | [Linear Calibrator](docs/COMPONENTS.md#03--linear-calibrator--线性校准器) | 线性校准器 | Brass / rubber | Travel friction heatmap |
-| 04 | [Field Terminal](docs/COMPONENTS.md#04--field-terminal--输入终端) | 输入终端 | Anodized alloy | Glyph-position abrasion |
-| 05 | [Mode Register](docs/COMPONENTS.md#05--mode-register--模式寄存器) | 模式寄存器 | Printed ABS | Per-tab frequency exposure |
-| 06 | [Navigation Rail](docs/COMPONENTS.md#06--navigation-rail--导航栏) | 导航栏 | Powder coat | Per-route contact wear |
-| 07 | [Reference Folio](docs/COMPONENTS.md#07--reference-folio--档案卡片) | 档案卡片 | Archival paper | Fiber wear and oxidation |
-| 08 | [Selection Bank](docs/COMPONENTS.md#08--selection-bank--选择组) | 选择组 | Enameled metal | Contact halo |
-| 09 | [Travel Log](docs/COMPONENTS.md#09--travel-log--滚动日志) | 滚动日志 | Machined rail | Scroll path memory |
-| 10 | [Rotary Attenuator](docs/COMPONENTS.md#10--rotary-attenuator--旋钮衰减器) | 旋钮衰减器 | Knurled aluminum | Direct wear control |
+| # | Specimen | Material | Records |
+| --- | --- | --- | --- |
+| 01 | [Actuation Button](docs/COMPONENTS.md#01--actuation-button) | Painted steel | Press count → uniform surface fade |
+| 02 | [Two-State Lever](docs/COMPONENTS.md#02--two-state-lever) | Bakelite | Rest-side friction |
+| 03 | [Linear Calibrator](docs/COMPONENTS.md#03--linear-calibrator) | Brass / rubber | Travel friction heatmap |
+| 04 | [Field Terminal](docs/COMPONENTS.md#04--field-terminal) | Anodized alloy | Glyph-position abrasion |
+| 05 | [Mode Register](docs/COMPONENTS.md#05--mode-register) | Printed ABS | Per-tab frequency exposure |
+| 06 | [Navigation Rail](docs/COMPONENTS.md#06--navigation-rail) | Powder coat | Per-route contact wear |
+| 07 | [Reference Folio](docs/COMPONENTS.md#07--reference-folio) | Archival paper | Fiber wear and oxidation |
+| 08 | [Selection Bank](docs/COMPONENTS.md#08--selection-bank) | Enameled metal | Contact halo |
+| 09 | [Travel Log](docs/COMPONENTS.md#09--travel-log) | Machined rail | Scroll path memory |
+| 10 | [Rotary Attenuator](docs/COMPONENTS.md#10--rotary-attenuator) | Knurled aluminum | Direct wear control |
 
 Ten reusable primitives live alongside them in `components/ui/` — button, card, input, checkbox, radio group, switch, slider, tabs, scroll area, and alert dialog. They are stock shadcn/ui on Radix and carry no wear logic of their own; the specimens wrap them and drive the wear rendering through CSS custom properties. See the [full catalog](docs/COMPONENTS.md) for every export and prop.
 
@@ -66,7 +74,7 @@ Every route is fully static, so this project runs on any static host.
 | **Vercel / Cloudflare Pages** | Import the repository, keep the build command `npm run build`, and deploy. Zero configuration. |
 | **Any static host** | `npm run build:static` writes a self-contained site to `out/`. |
 
-For custom domains, DNS records, ICP filing notes, and where to buy a domain, see [docs/DEPLOYMENT.zh-CN.md](docs/DEPLOYMENT.zh-CN.md) (written in Chinese).
+For custom domains, DNS records, and where to buy a domain, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ---
 
@@ -88,7 +96,7 @@ lib/
 docs/
   COMPONENTS.md             Component reference
   WEAR-SYSTEM.md            How wear works
-  DEPLOYMENT.zh-CN.md       Deployment and domain guide
+  DEPLOYMENT.md             Deployment and domain guide
 public/
   knob-bezel-wear.svg       Fixed-ring wear texture for the rotary control
   favicon.svg

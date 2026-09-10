@@ -56,13 +56,12 @@ export default function DirectoryPage() {
       </header>
 
       <section className="directory-intro">
-        <p className="section-index">QUICK LOOKUP / 组件目录</p>
+        <p className="section-index">QUICK LOOKUP</p>
         <h1>Every component,<br /><em>one query away.</em></h1>
         <p className="lede">
-          Search by name, Chinese name, file, material, export, or what it does.
-          Each entry links straight to its source file and, for wear specimens, to the live demo.
+          Search by name, file, material, export, or what it does. Each entry links straight to its
+          source file and, for wear specimens, to the live demo. Click a keyword to turn it into a filter.
         </p>
-        <p className="directory-hint">按名称、中文名、文件、材质、导出名或用途搜索；样本可直接跳转到现场演示。</p>
 
         <div className="directory-controls">
           <label className="directory-search">
@@ -70,7 +69,7 @@ export default function DirectoryPage() {
             <input
               type="search"
               value={query}
-              placeholder="Search components… / 搜索组件…"
+              placeholder="Search components…"
               aria-label="Search components"
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -89,7 +88,6 @@ export default function DirectoryPage() {
                 onClick={() => setFilter(option.id)}
               >
                 {option.label} <i>{counts[option.id]}</i>
-                <small>{option.labelZh}</small>
               </button>
             ))}
           </div>
@@ -100,7 +98,7 @@ export default function DirectoryPage() {
         {results.length === 0 ? (
           <p className="directory-empty">
             No component matches “{query}”. Try a material (paper, brass, rubber), a control name
-            (slider, toggle), or a Chinese keyword (旋钮, 复选框).
+            (slider, toggle, knob), or a behaviour (heatmap, glyph, halo).
           </p>
         ) : (
           <ol className="directory-grid">
@@ -110,7 +108,7 @@ export default function DirectoryPage() {
                   <span className="directory-card__no">{entry.index}</span>
                   <div>
                     <h2>{entry.name}</h2>
-                    <p>{entry.nameZh}</p>
+                    <p>{entry.file}</p>
                   </div>
                   <span className={`directory-badge is-${entry.kind}`}>{KIND_LABEL[entry.kind]}</span>
                 </header>
@@ -130,7 +128,6 @@ export default function DirectoryPage() {
                 ) : null}
 
                 <p className="directory-card__summary">{entry.summary}</p>
-                <p className="directory-card__summary directory-card__summary--zh">{entry.summaryZh}</p>
 
                 <dl className="directory-card__facts">
                   <div>
@@ -140,10 +137,6 @@ export default function DirectoryPage() {
                   <div>
                     <dt>WHAT WEAR IT RECORDS</dt>
                     <dd>{entry.wear}</dd>
-                  </div>
-                  <div className="is-zh">
-                    <dt>磨损记录</dt>
-                    <dd>{entry.wearZh}</dd>
                   </div>
                 </dl>
 
@@ -180,7 +173,6 @@ export default function DirectoryPage() {
                 </p>
 
                 <footer className="directory-card__foot">
-                  <code>{entry.file}</code>
                   <a href={sourceUrl(entry.file)} target="_blank" rel="noreferrer">
                     SOURCE <ExternalLink aria-hidden="true" />
                   </a>
