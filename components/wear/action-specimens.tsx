@@ -28,7 +28,7 @@ function initialInputWearGradient(wear: number) {
     `radial-gradient(ellipse at 16% 48%, rgba(208,174,104,${alpha(0.22)}) 0%, transparent 22%)`,
     `radial-gradient(ellipse at 43% 58%, rgba(188,151,82,${alpha(0.16)}) 0%, transparent 25%)`,
     `radial-gradient(ellipse at 68% 42%, rgba(218,184,112,${alpha(0.1)}) 0%, transparent 19%)`,
-    `linear-gradient(90deg, rgba(196,160,91,${alpha(1)}) 0%, rgba(196,160,91,${alpha(0.91)}) 9%, rgba(196,160,91,${alpha(0.96)}) 17%, rgba(196,160,91,${alpha(0.71)}) 31%, rgba(196,160,91,${alpha(0.76)}) 39%, rgba(196,160,91,${alpha(0.5)}) 54%, rgba(196,160,91,${alpha(0.55)}) 63%, rgba(196,160,91,${alpha(0.3)}) 75%, rgba(196,160,91,${alpha(0.18)}) 86%, rgba(196,160,91,${alpha(0.06)}) 94%, transparent 100%)`,
+    `linear-gradient(90deg, rgba(196,160,91,${alpha(1)}) 0%, rgba(196,160,91,${alpha(0.91)}) 9%, rgba(196,160,91,${alpha(0.96)}) 17%, rgba(196,160,91,${alpha(0.71)}) 31%, rgba(196,160,91,${alpha(0.76)}) 39%, rgba(196,160,91,${alpha(0.5)}) 54%, rgba(196,160,91,${alpha(0.55)}) 63%, rgba(196,160,91,${alpha(0.33)}) 72%, rgba(196,160,91,${alpha(0.18)}) 81%, rgba(196,160,91,${alpha(0.075)}) 89%, rgba(196,160,91,${alpha(0.018)}) 95%, transparent 100%)`,
   ].join(", ");
 }
 
@@ -242,7 +242,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
             }}
           />
         </div>
-        <p>{atLimit ? `WIDTH LIMIT · ${characterCount} GLYPHS` : value.length ? `${characterCount} GLYPHS ENTERED` : "TYPE OR ERASE TO WEAR"}</p>
+        <p>{atLimit ? `WIDTH LIMIT · ${characterCount} GLYPHS` : value.length ? `${characterCount} GLYPHS ENTERED` : "TYPE OR ERASE · BOTH CAUSE WEAR"}</p>
       </div>
     </SpecimenFrame>
   );
