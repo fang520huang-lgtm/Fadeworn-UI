@@ -43,11 +43,6 @@ export default function Home() {
             <b>FADEWORN UI</b>
           </span>
         </div>
-        <nav className="top-nav" aria-label="Page navigation">
-          <a href="#specimens">SPECIMENS</a>
-          <a href="#inspector">WEAR LOG</a>
-          <a href="#notes">DESIGN NOTES</a>
-        </nav>
         <p className="serial">LAB—17 <span>●</span> RECORDING</p>
       </header>
 
