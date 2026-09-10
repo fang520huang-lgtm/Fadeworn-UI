@@ -39,8 +39,10 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
-          # Enables Pages automatically the first time this runs, so no manual
-          # trip to Settings -> Pages is required.
+          # Tries to turn Pages on during the first run. GitHub only allows this
+          # for some accounts, so if this step fails once, enable Pages manually:
+          # Settings -> Pages -> Build and deployment -> Source: GitHub Actions,
+          # then re-run this workflow. Every run after that succeeds on its own.
           enablement: true
 
       - name: Upload artifact
