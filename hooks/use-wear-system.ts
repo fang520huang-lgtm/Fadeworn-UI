@@ -119,7 +119,7 @@ export function createInitialWearState(): WearState {
         wearLevel: 0.7,
         glyphWear: [{
           start: 0,
-          end: 18 / 38,
+          end: 0.5,
           wear: 0.7,
           createdAt: 0,
         }],

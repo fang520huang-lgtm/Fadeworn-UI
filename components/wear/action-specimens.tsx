@@ -22,6 +22,16 @@ function splitGraphemes(value: string) {
   return Array.from(graphemeSegmenter.segment(value), ({ segment }) => segment);
 }
 
+function initialInputWearGradient(wear: number) {
+  const alpha = (strength: number) => Math.min(0.9, wear * strength).toFixed(3);
+  return [
+    `radial-gradient(ellipse at 16% 48%, rgba(208,174,104,${alpha(0.22)}) 0%, transparent 22%)`,
+    `radial-gradient(ellipse at 43% 58%, rgba(188,151,82,${alpha(0.16)}) 0%, transparent 25%)`,
+    `radial-gradient(ellipse at 68% 42%, rgba(218,184,112,${alpha(0.1)}) 0%, transparent 19%)`,
+    `linear-gradient(90deg, rgba(196,160,91,${alpha(1)}) 0%, rgba(196,160,91,${alpha(0.91)}) 9%, rgba(196,160,91,${alpha(0.96)}) 17%, rgba(196,160,91,${alpha(0.71)}) 31%, rgba(196,160,91,${alpha(0.76)}) 39%, rgba(196,160,91,${alpha(0.5)}) 54%, rgba(196,160,91,${alpha(0.55)}) 63%, rgba(196,160,91,${alpha(0.3)}) 75%, rgba(196,160,91,${alpha(0.18)}) 86%, rgba(196,160,91,${alpha(0.06)}) 94%, transparent 100%)`,
+  ].join(", ");
+}
+
 function textEdit(previous: string[], next: string[]) {
   let start = 0;
   while (start < previous.length && start < next.length && previous[start] === next[start]) {
@@ -192,16 +202,21 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell">
           <span className="input-wear-track" aria-hidden="true">
-            {record.glyphWear.map((zone) => (
-              <i
-                key={`${zone.start}-${zone.end}`}
-                style={{
-                  left: `${zone.start * 100}%`,
-                  width: `${Math.max(0.2, (zone.end - zone.start) * 100)}%`,
-                  opacity: Math.min(0.9, zone.wear * 0.82),
-                }}
-              />
-            ))}
+            {record.glyphWear.map((zone) => {
+              const isInitialBand = zone.createdAt === 0;
+              return (
+                <i
+                  key={`${zone.start}-${zone.end}`}
+                  style={{
+                    left: `${zone.start * 100}%`,
+                    width: `${Math.max(0.2, (zone.end - zone.start) * 100)}%`,
+                    opacity: isInitialBand ? 1 : Math.min(0.9, zone.wear * 0.82),
+                    background: isInitialBand ? initialInputWearGradient(zone.wear) : undefined,
+                    filter: isInitialBand ? "blur(0.8px)" : undefined,
+                  }}
+                />
+              );
+            })}
           </span>
           <Input
             ref={inputRef}
