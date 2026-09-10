@@ -22,7 +22,6 @@
   --input: #3b433b;
   --ring: #c69a52;
   --radius: 0.25rem;
-  --font-display: "Segoe UI Variable Display", "Aptos Display", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Segoe UI Variable Text", Aptos, "Helvetica Neue", Arial, sans-serif;
   --font-lab-mono: "Cascadia Mono", "IBM Plex Mono", Consolas, monospace;
 }
@@ -112,13 +111,10 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .section-index { margin: 0; }
 .hero-copy h1 {
   margin: 29px 0 27px;
-  font-family: var(--font-display);
-  font-size: clamp(50px, 5.7vw, 86px);
-  font-weight: 300;
-  line-height: .99;
-  letter-spacing: -.058em;
+  font: 400 clamp(50px, 5.7vw, 86px)/1.1 Georgia, serif;
+  letter-spacing: -.04em;
 }
-.hero-copy h1 em { display: inline-block; margin-top: .12em; color: #c39a59; font-style: normal; font-weight: 620; letter-spacing: -.045em; }
+.hero-copy h1 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
