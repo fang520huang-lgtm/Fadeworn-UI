@@ -63,10 +63,10 @@ const TOGGLE_LEFT_TRACE_INDICES = [3, 4, 5];
 const TOGGLE_RIGHT_TRACE_INDICES = [18, 19, 20];
 const INPUT_GLYPH_WEAR_INCREMENT = 0.055;
 const INITIAL_SLIDER_TRACE = [
-  0.08, 0.07, 0.09, 0.08, 0.11, 0.17,
-  0.42, 0.25, 0.1, 0.08, 0.11, 0.12,
-  0.22, 0.5, 0.38, 0.17, 0.36, 0.82,
-  0.92, 0.54, 0.44, 0.18, 0.07, 0.04,
+  0.03, 0.04, 0.04, 0.05, 0.18, 0.42,
+  0.58, 0.62, 0.56, 0.48, 0.42, 0.36,
+  0.44, 0.58, 0.78, 0.88, 0.84, 0.88,
+  0.92, 0.72, 0.6, 0.5, 0.42, 0.2,
 ];
 
 function emptyRecord(): WearRecord {
