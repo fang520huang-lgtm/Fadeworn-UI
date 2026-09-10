@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
-import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
+import { getWearLevelForDisplay, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
 import { traceGradient } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
@@ -23,7 +23,7 @@ export function WearSliderSpecimen({ record, markUse, markTrace, onReset }: { re
   const sliderValue = isInitialPreset ? [INITIAL_SLIDER_VALUE] : value;
 
   return (
-    <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
+    <SpecimenFrame index="03" title="Linear Calibrator" material="BRASS / RUBBER" note="TRAVEL HEATMAP" record={record} meterLevel={getWearLevelForDisplay("slider", record)} onReset={onReset}>
       <div className="control-bay slider-bay">
         <div className="dial-readout"><span>OUTPUT</span><b>{String(sliderValue[0]).padStart(2, "0")}</b><small>%</small></div>
         <div className="slider-shell">
@@ -62,7 +62,7 @@ export function WearScrollbarSpecimen({ record, markUse, markTrace, onReset }: {
   const lastPosition = useRef(0);
   const lastSample = useRef(0);
   return (
-    <SpecimenFrame index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
+    <SpecimenFrame index="09" title="Travel Log" material="MACHINED RAIL" note="SCROLL PATH MEMORY" record={record} meterLevel={getWearLevelForDisplay("scrollbar", record)} onReset={onReset}>
       <div className="control-bay scroll-bay">
         <div className="scroll-frame">
           <ScrollArea

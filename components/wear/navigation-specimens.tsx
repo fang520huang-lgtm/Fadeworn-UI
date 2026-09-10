@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Activity, Archive, Radio, Settings2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
+import { getWearLevelForDisplay, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
 type Marks = {
@@ -15,29 +15,28 @@ type Resettable = { onReset: () => void };
 
 const tabItems = ["SIGNAL", "HISTORY", "NOTES"];
 
-export function WearTabsSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearTabsSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [tab, setTab] = useState("SIGNAL");
+  const tabWear = tabItems.map((_, index) => {
+    const traceIndex = Math.round((index / (tabItems.length - 1)) * (record.trace.length - 1));
+    return record.trace[traceIndex] ?? 0;
+  });
   return (
-    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
+    <SpecimenFrame index="05" title="Mode Register" material="PRINTED ABS" note="FREQUENCY EXPOSURE" record={record} meterLevel={getWearLevelForDisplay("tabs", record)} onReset={onReset}>
       <div className="control-bay tabs-bay">
         <Tabs
           value={tab}
-          onValueChange={(value) => {
-            setTab(value);
-            const index = tabItems.indexOf(value);
-            markUse("tabs", 1);
-            markTrace("tabs", index / (tabItems.length - 1), 1.6);
-          }}
+          onValueChange={setTab}
         >
           <TabsList className="lab-tabs-list">
             {tabItems.map((item, index) => {
-              const traceIndex = Math.round((index / (tabItems.length - 1)) * (record.trace.length - 1));
               return (
                 <TabsTrigger
                   key={item}
                   value={item}
                   className="lab-tab"
-                  style={{ "--tab-wear": record.trace[traceIndex] } as React.CSSProperties}
+                  style={{ "--tab-wear": tabWear[index] } as React.CSSProperties}
+                  onClick={() => markTrace("tabs", index / (tabItems.length - 1), 1, true)}
                 >{item}</TabsTrigger>
               );
             })}
@@ -61,24 +60,26 @@ const navItems = [
   { label: "CONFIG", icon: Settings2 },
 ];
 
-export function WearNavigationSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearNavigationSpecimen({ record, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [active, setActive] = useState(0);
+  const navigationWear = navItems.map((_, index) => {
+    const traceIndex = Math.round((index / (navItems.length - 1)) * (record.trace.length - 1));
+    return record.trace[traceIndex] ?? 0;
+  });
   return (
-    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
+    <SpecimenFrame index="06" title="Navigation Rail" material="POWDER COAT" note="ROUTE FREQUENCY" record={record} meterLevel={getWearLevelForDisplay("navigation", record)} onReset={onReset}>
       <div className="control-bay nav-bay">
         <nav className="lab-nav" aria-label="实验台导航">
           {navItems.map(({ label, icon: Icon }, index) => {
-            const traceIndex = Math.round((index / (navItems.length - 1)) * (record.trace.length - 1));
             return (
               <button
                 key={label}
                 type="button"
                 aria-current={active === index ? "page" : undefined}
-                style={{ "--nav-wear": record.trace[traceIndex] } as React.CSSProperties}
+                style={{ "--nav-wear": navigationWear[index] } as React.CSSProperties}
                 onClick={() => {
                   setActive(index);
-                  markUse("navigation", 1);
-                  markTrace("navigation", index / (navItems.length - 1), 3.8);
+                  markTrace("navigation", index / (navItems.length - 1), 1, true);
                 }}
               >
                 <Icon aria-hidden="true" />

@@ -22,7 +22,7 @@ import {
 import { WearScrollbarSpecimen, WearSliderSpecimen } from "@/components/wear/linear-specimens";
 import { WearNavigationSpecimen, WearTabsSpecimen } from "@/components/wear/navigation-specimens";
 import { WearCardSpecimen, WearKnobSpecimen } from "@/components/wear/object-specimens";
-import { COMPONENT_IDS, type ComponentId, useWearSystem } from "@/hooks/use-wear-system";
+import { COMPONENT_IDS, getWearLevelForDisplay, type ComponentId, useWearSystem } from "@/hooks/use-wear-system";
 
 const labels: Record<ComponentId, string> = {
   button: "Button",
@@ -136,7 +136,7 @@ export default function Home() {
           <div className="ledger-head"><span>COMPONENT</span><span>ACTUATIONS</span><span>WEAR</span></div>
           {COMPONENT_IDS.map((id, index) => {
             const record = wearState[id];
-            const percent = Math.round(record.wearLevel * 100);
+            const percent = Math.round(getWearLevelForDisplay(id, record) * 100);
             return (
               <div className="ledger-row" key={id}>
                 <span><i>{String(index + 1).padStart(2, "0")}</i>{labels[id]}</span>

@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { ChevronDown, FileText } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
+import { getWearLevelForDisplay, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
 type Marks = {
@@ -88,7 +88,7 @@ export function WearKnobSpecimen({ record, markUse, markTrace, onReset }: { reco
   };
 
   return (
-    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record} meterLevel={Math.max(0, ...record.trace)} onReset={onReset}>
+    <SpecimenFrame index="10" title="Rotary Attenuator" material="KNURLED ALUMINUM" note="ANGULAR MEMORY" record={record} meterLevel={getWearLevelForDisplay("knob", record)} onReset={onReset}>
       <div className="control-bay knob-bay">
         <div className="knob-scale" style={{ "--knob-wear": knobWearGradient(record.trace), "--knob-level": record.wearLevel } as React.CSSProperties}>
           <span className="knob-bezel-wear" aria-hidden="true" />

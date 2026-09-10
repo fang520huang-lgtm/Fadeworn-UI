@@ -62,6 +62,11 @@ const increments: Record<ComponentId, number> = {
 const TOGGLE_LEFT_TRACE_INDICES = [3, 4, 5];
 const TOGGLE_RIGHT_TRACE_INDICES = [18, 19, 20];
 const INPUT_GLYPH_WEAR_INCREMENT = 0.055;
+const CLICK_WEAR_INCREMENT = 0.1;
+const FOLIO_VISUAL_LIMIT = 0.62;
+const TAB_TRACE_INDICES = [0, 12, 23];
+const NAVIGATION_TRACE_INDICES = [0, 8, 15, 23];
+const DIRECT_CLICK_COMPONENTS = new Set<ComponentId>(["button", "card", "choice"]);
 const INITIAL_SLIDER_TRACE = [
   0.03, 0.04, 0.04, 0.05, 0.18, 0.42,
   0.58, 0.62, 0.56, 0.48, 0.42, 0.36,
@@ -102,6 +107,30 @@ function toggleWearLevel(trace: number[]) {
   return clamp(
     (averageAt(TOGGLE_LEFT_TRACE_INDICES) + averageAt(TOGGLE_RIGHT_TRACE_INDICES)) / 2,
   );
+}
+
+function visibleTraceLevel(id: "tabs" | "navigation", trace: number[]) {
+  const indices = id === "tabs" ? TAB_TRACE_INDICES : NAVIGATION_TRACE_INDICES;
+  return clamp(Math.max(0, ...indices.map((index) => trace[index] ?? 0)));
+}
+
+export function getWearLevelForDisplay(id: ComponentId, record: WearRecord) {
+  if (id === "input") {
+    return clamp(Math.max(0, ...record.glyphWear.map((zone) => zone.wear)));
+  }
+  if (id === "tabs" || id === "navigation") {
+    return visibleTraceLevel(id, record.trace);
+  }
+  if (id === "slider" || id === "scrollbar") {
+    return clamp(Math.max(0, ...record.trace));
+  }
+  if (id === "card") {
+    return clamp(Math.min(record.wearLevel, FOLIO_VISUAL_LIMIT) / FOLIO_VISUAL_LIMIT);
+  }
+  if (id === "knob") {
+    return clamp(Math.max(record.wearLevel, ...record.trace));
+  }
+  return clamp(record.wearLevel);
 }
 
 export function createInitialWearState(): WearState {
@@ -149,6 +178,22 @@ export function createInitialWearState(): WearState {
       return;
     }
 
+    if (id === "tabs") {
+      const tabTrace = record.trace.map((_, index) => {
+        if (index === TAB_TRACE_INDICES[0]) return 0.7;
+        if (index === TAB_TRACE_INDICES[1]) return 1;
+        if (index === TAB_TRACE_INDICES[2]) return 0.3;
+        return 0;
+      });
+      next[id] = {
+        ...record,
+        usageCount: 28 + componentIndex * 3,
+        wearLevel: visibleTraceLevel("tabs", tabTrace),
+        trace: tabTrace,
+      };
+      return;
+    }
+
     const focus = ((componentIndex * 7 + 5) % TRACE_SEGMENTS) / (TRACE_SEGMENTS - 1);
     const center = Math.round(focus * (TRACE_SEGMENTS - 1));
     const baseTrace = record.trace.map((value, index) =>
@@ -178,15 +223,16 @@ export function createInitialWearState(): WearState {
     if (id === "navigation") {
       const navigationCenters = [0, 1 / 3, 2 / 3, 1]
         .map((position) => Math.round(position * (TRACE_SEGMENTS - 1)));
+      const navigationTrace = baseTrace.map((value, index) => {
+        const distance = Math.min(...navigationCenters.map((clickCenter) => Math.abs(index - clickCenter)));
+        const addition = distance === 0 ? 0.055 : distance === 1 ? 0.024 : 0;
+        return clamp(value + addition * 3.8);
+      });
       next[id] = {
         ...record,
         usageCount: 28 + componentIndex * 3 + navigationCenters.length,
-        wearLevel: clamp(0.62 + (componentIndex % 3) * 0.08 + navigationCenters.length * increments.navigation),
-        trace: baseTrace.map((value, index) => {
-          const distance = Math.min(...navigationCenters.map((clickCenter) => Math.abs(index - clickCenter)));
-          const addition = distance === 0 ? 0.055 : distance === 1 ? 0.024 : 0;
-          return clamp(value + addition * 3.8);
-        }),
+        wearLevel: visibleTraceLevel("navigation", navigationTrace),
+        trace: navigationTrace,
       };
       return;
     }
@@ -263,7 +309,11 @@ export function useWearSystem() {
           [id]: {
             ...record,
             usageCount: record.usageCount + 1,
-            wearLevel: clamp(record.wearLevel + increments[id] * intensity),
+            wearLevel: clamp(record.wearLevel + (
+              DIRECT_CLICK_COMPONENTS.has(id)
+                ? id === "card" ? FOLIO_VISUAL_LIMIT * CLICK_WEAR_INCREMENT : CLICK_WEAR_INCREMENT
+                : increments[id] * intensity
+            )),
             lastUsed: Date.now(),
             hitPositions,
           },
@@ -281,11 +331,16 @@ export function useWearSystem() {
         const toggleIndices = center < TRACE_SEGMENTS / 2
           ? TOGGLE_LEFT_TRACE_INDICES
           : TOGGLE_RIGHT_TRACE_INDICES;
+        const isLocalClick = id === "tabs" || id === "navigation";
         const trace = record.trace.map((value, index) => {
           if (id === "toggle") {
             return toggleIndices.includes(index) ? clamp(value + 0.2) : value;
           }
           const distance = Math.abs(index - center);
+          if (isLocalClick) {
+            const addition = distance === 0 ? CLICK_WEAR_INCREMENT : distance === 1 ? 0.04 : 0;
+            return clamp(value + addition);
+          }
           const addition = distance === 0 ? 0.055 : distance === 1 ? 0.024 : 0;
           return clamp(value + addition * intensity);
         });
@@ -295,8 +350,10 @@ export function useWearSystem() {
             ...record,
             usageCount: record.usageCount + (countAsUse ? 1 : 0),
             wearLevel: id === "toggle"
-              ? clamp(record.wearLevel + 0.1)
-              : clamp(record.wearLevel + increments[id] * intensity),
+              ? clamp(record.wearLevel + CLICK_WEAR_INCREMENT)
+              : isLocalClick
+                ? visibleTraceLevel(id, trace)
+                : clamp(record.wearLevel + increments[id] * intensity),
             lastUsed: Date.now(),
             trace,
           },
@@ -365,7 +422,10 @@ export function useWearSystem() {
   const stats = useMemo(() => {
     const records = WEARABLE_COMPONENT_IDS.map((id) => wearState[id]);
     const interactions = records.reduce((sum, item) => sum + item.usageCount, 0);
-    const averageWear = records.reduce((sum, item) => sum + item.wearLevel, 0) / records.length;
+    const averageWear = WEARABLE_COMPONENT_IDS.reduce(
+      (sum, id) => sum + getWearLevelForDisplay(id, wearState[id]),
+      0,
+    ) / records.length;
     const mostUsed = WEARABLE_COMPONENT_IDS.reduce((best, id) =>
       wearState[id].usageCount > wearState[best].usageCount ? id : best,
     );
@@ -390,7 +450,7 @@ export function useWearSystem() {
               components: COMPONENT_IDS.map((id) => ({
                 id,
                 uses: stateRef.current[id].usageCount,
-                wearPercent: Math.round(stateRef.current[id].wearLevel * 100),
+                wearPercent: Math.round(getWearLevelForDisplay(id, stateRef.current[id]) * 100),
               })),
             };
           },

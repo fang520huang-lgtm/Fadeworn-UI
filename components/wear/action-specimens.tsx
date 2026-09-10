@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
-import type { ComponentId, WearRecord } from "@/hooks/use-wear-system";
+import { getWearLevelForDisplay, type ComponentId, type WearRecord } from "@/hooks/use-wear-system";
 import { SpecimenFrame } from "./specimen-frame";
 
 type Marks = {
@@ -197,7 +197,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
 
   const characterCount = splitGraphemes(value).length;
   return (
-    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} meterLevel={Math.max(0, ...record.glyphWear.map((zone) => zone.wear))} onReset={onReset}>
+    <SpecimenFrame index="04" title="Field Terminal" material="ANODIZED ALLOY" note="GLYPH-POSITION ABRASION" record={record} meterLevel={getWearLevelForDisplay("input", record)} onReset={onReset}>
       <div className="control-bay input-bay">
         <label htmlFor="field-terminal">OPERATOR NOTE</label>
         <div className="input-shell">
@@ -248,7 +248,7 @@ export function WearInputSpecimen({ record, markInputGlyph, onReset }: { record:
   );
 }
 
-export function WearChoiceSpecimen({ record, markUse, markTrace, onReset }: { record: WearRecord } & Marks & Resettable) {
+export function WearChoiceSpecimen({ record, markUse, onReset }: { record: WearRecord } & Marks & Resettable) {
   const [checked, setChecked] = useState(false);
   const [mode, setMode] = useState("a");
   return (
@@ -262,7 +262,6 @@ export function WearChoiceSpecimen({ record, markUse, markTrace, onReset }: { re
               onCheckedChange={(value) => {
                 setChecked(Boolean(value));
                 markUse("choice", 1);
-                markTrace("choice", 0.16, 1.2);
               }}
             />
           </span>
@@ -274,7 +273,6 @@ export function WearChoiceSpecimen({ record, markUse, markTrace, onReset }: { re
           onValueChange={(value) => {
             setMode(value);
             markUse("choice", 1);
-            markTrace("choice", value === "a" ? 0.55 : 0.88, 1.2);
           }}
         >
           <label><span className="choice-contact" data-hot={mode === "a" || undefined}><RadioGroupItem value="a" className="lab-radio" /></span>SOFT</label>
