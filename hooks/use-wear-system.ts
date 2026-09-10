@@ -149,6 +149,16 @@ export function createInitialWearState(): WearState {
       Math.max(value, 0.12 + Math.max(0, 0.76 - Math.abs(index - center) * 0.105)),
     );
 
+    if (id === "card") {
+      next[id] = {
+        ...record,
+        usageCount: 28 + componentIndex * 3,
+        wearLevel: 0.62 * 0.7,
+        trace: baseTrace,
+      };
+      return;
+    }
+
     if (id === "navigation") {
       const navigationCenters = [0, 1 / 3, 2 / 3, 1]
         .map((position) => Math.round(position * (TRACE_SEGMENTS - 1)));
