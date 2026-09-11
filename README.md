@@ -10,6 +10,10 @@ Fadeworn UI explores interfaces that retain a visible history of interaction. Cl
 
 ![Fadeworn UI slider comparison](docs/images/slider-comparison.png)
 
+![Fadeworn UI navigation comparison](docs/images/navigation-comparison.png)
+
+![Fadeworn UI knob comparison](docs/images/knob-comparison.png)
+
 The showcase starts with a curated wear preset. Wear is stored only for the current browser session: refreshing restores the preset, while **No Wear** clears every surface for comparison.
 
 ## What this repository provides
