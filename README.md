@@ -6,9 +6,9 @@
 
 Fadeworn UI explores interfaces that retain a visible history of interaction. Clicks, drags, selections, typing, and scrolling change each control through material-specific wear rather than randomly applied distress.
 
-![Fadeworn UI toggle comparison](docs/images/toggle-comparison.png)
+![Fadeworn UI Toggle wear demonstration](docs/images/toggle-wear-demo.gif)
 
-![Fadeworn UI slider comparison](docs/images/slider-comparison.png)
+![Fadeworn UI Slider wear demonstration](docs/images/slider-wear-demo.gif)
 
 ![Fadeworn UI navigation comparison](docs/images/navigation-comparison.png)
 
