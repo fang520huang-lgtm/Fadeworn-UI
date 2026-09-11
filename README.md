@@ -4,6 +4,8 @@
 
 **Live demo: [fang520huang-lgtm.github.io/Fadeworn-UI](https://fang520huang-lgtm.github.io/Fadeworn-UI/)**
 
+**License: Source-available for noncommercial use only. See [LICENSE](LICENSE).**
+
 Fadeworn UI explores interfaces that retain a visible history of interaction. Clicks, drags, selections, typing, and scrolling change each control through material-specific wear rather than randomly applied distress.
 
 The showcase starts with a curated wear preset. Wear is stored only for the current browser session: refreshing restores the preset, while **No Wear** clears every surface for comparison.
@@ -144,4 +146,8 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before openin
 
 ## License
 
-[MIT](LICENSE) © [@fang520huang-lgtm](https://github.com/fang520huang-lgtm)
+Fadeworn UI's original code is source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE) © [@fang520huang-lgtm](https://github.com/fang520huang-lgtm).
+
+Noncommercial use, modification, and redistribution are permitted subject to the license terms. Commercial use is not permitted unless you obtain a separate written license from the copyright holder. Third-party dependencies and vendored materials remain subject to their own licenses.
+
+This noncommercial license applies to versions released under it. Copies obtained from earlier MIT-licensed revisions retain the permissions granted with those revisions.
