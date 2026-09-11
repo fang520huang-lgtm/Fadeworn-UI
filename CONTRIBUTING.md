@@ -84,4 +84,4 @@ A pull request should explain:
 - how it was tested;
 - whether it changes any wear mapping, preset, or accessibility behavior.
 
-By contributing, you agree that your contribution may be distributed under the repository's [PolyForm Noncommercial License 1.0.0](LICENSE). Do not submit code that you do not have the right to contribute under those terms.
+By contributing, you agree that your work is released under the [MIT License](LICENSE).

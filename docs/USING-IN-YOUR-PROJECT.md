@@ -142,8 +142,4 @@ Wear should communicate interaction history without changing meaning or function
 
 ## Maintaining a source-based integration
 
-Copied source does not receive automatic updates. Record the commit you copied from, preserve the PolyForm Noncommercial license terms and required notice, and review upstream changes manually when upgrading.
-
-The current version may be used, modified, and redistributed only for purposes permitted by the [PolyForm Noncommercial License 1.0.0](../LICENSE). Commercial use requires a separate written license from the copyright holder. Third-party dependencies and vendored materials remain under their respective licenses.
-
-If the project later publishes a versioned package, this document will be updated with a package-based installation path.
+Copied source does not receive automatic updates. Record the commit you copied from, preserve the MIT license notice, and review upstream changes manually when upgrading. If the project later publishes a versioned package, this document will be updated with a package-based installation path.
