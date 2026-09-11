@@ -2,13 +2,17 @@
 
 **An interface that remembers how it was used.**
 
+*The interface remembers how it was used, until there is nothing left to remember.*
+
 **Live demo: [fang520huang-lgtm.github.io/Fadeworn-UI](https://fang520huang-lgtm.github.io/Fadeworn-UI/)**
 
 Fadeworn UI explores interfaces that retain a visible history of interaction. Clicks, drags, selections, typing, and scrolling change each control through material-specific wear rather than randomly applied distress.
 
-The showcase starts with a curated wear preset. Wear is stored only for the current browser session: refreshing restores the preset, while **No Wear** clears every surface for comparison.
+![Fadeworn UI toggle comparison](docs/images/toggle-comparison.png)
 
-> The interface remembers how it was used, until there is nothing left to remember.
+![Fadeworn UI slider comparison](docs/images/slider-comparison.png)
+
+The showcase starts with a curated wear preset. Wear is stored only for the current browser session: refreshing restores the preset, while **No Wear** clears every surface for comparison.
 
 ## What this repository provides
 
