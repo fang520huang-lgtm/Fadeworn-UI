@@ -1,7 +1,5 @@
 # Fadeworn UI
 
-**An interface that remembers how it was used.**
-
 *The interface remembers how it was used, until there is nothing left to remember.*
 
 **Live demo: [fang520huang-lgtm.github.io/Fadeworn-UI](https://fang520huang-lgtm.github.io/Fadeworn-UI/)**
