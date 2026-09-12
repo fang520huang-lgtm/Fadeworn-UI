@@ -133,29 +133,36 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
   overflow: hidden; border: 1px solid #343b34; background: #0d100e;
   box-shadow: inset 0 0 0 1px #171c17, 0 14px 32px #0004;
 }
-.hero-wear-preview__tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid #343b34; }
-.hero-wear-preview__tab {
-  min-width: 0; min-height: 39px; position: relative; overflow: hidden;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 0 10px; border: 0; color: #717a71; background: #111511; cursor: pointer;
-  font: 9px/1 var(--font-lab-mono); letter-spacing: .1em; text-transform: uppercase;
-}
-.hero-wear-preview__tab + .hero-wear-preview__tab { border-left: 1px solid #303730; }
-.hero-wear-preview__tab span { color: #685a3e; font-size: 8px; }
-.hero-wear-preview__tab b { overflow: hidden; font-weight: 500; text-overflow: ellipsis; }
-.hero-wear-preview__tab[aria-selected="true"] { color: #e0d8c3; background: #1a1f1a; }
-.hero-wear-preview__tab[aria-selected="true"] span { color: #c59a53; }
-.hero-wear-preview__tab::after {
-  content: ""; position: absolute; right: 0; bottom: 0; left: 0; height: 2px;
-  background: #c59a53; transform: scaleX(0); transform-origin: left;
-}
-.hero-wear-preview.is-running .hero-wear-preview__tab[aria-selected="true"]::after { animation: hero-preview-progress var(--preview-duration) linear forwards; }
 .hero-wear-preview__panel { aspect-ratio: 800 / 613; padding: 7px; background: #0b0e0c; }
 .hero-wear-preview__panel img {
   display: block; width: 100%; height: 100%; object-fit: contain;
   border: 1px solid #303730; background: #111511;
 }
-.hero-wear-preview + .hero-actions { margin-top: 28px; }
+.hero-wear-preview__indicators {
+  min-height: 31px; display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 0 11px; border-top: 1px solid #303730; background: #101410;
+}
+.hero-wear-preview__indicator {
+  width: 15px; height: 5px; position: relative; overflow: hidden; flex: 0 0 auto;
+  padding: 0; border: 1px solid #465046; border-radius: 99px; cursor: pointer;
+  background: linear-gradient(180deg, #525b52, #3a423b);
+  box-shadow: inset 0 1px #78807838, 0 1px 1px #0009;
+  transition: width .22s ease, border-color .18s ease, background .18s ease;
+}
+.hero-wear-preview__indicator:hover { border-color: #77745f; background: linear-gradient(180deg, #676b5e, #484b41); }
+.hero-wear-preview__indicator[aria-selected="true"] {
+  width: 28px; border-color: #8e713e; background: #4c3c24;
+}
+.hero-wear-preview__indicator::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, #a77b3d, #d3ad67 60%, #b88845);
+  box-shadow: inset 0 1px #f0d6a14d;
+  transform: scaleX(0); transform-origin: left;
+}
+.hero-wear-preview.is-running .hero-wear-preview__indicator[aria-selected="true"]::after { animation: hero-preview-progress var(--preview-duration) linear forwards; }
+.hero-wear-preview__indicator:focus-visible { outline: 1px solid #d5ad67; outline-offset: 4px; }
+.hero-wear-preview + .lede { margin-top: 22px; }
+.hero-wear-preview + .lede + .hero-actions { margin-top: 28px; }
 @keyframes hero-preview-progress { to { transform: scaleX(1); } }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
 .initial-wear-button, .reset-button, .github-button {
@@ -548,5 +555,5 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  .hero-wear-preview__tab::after { display: none; }
+  .hero-wear-preview__indicator::after { display: none; }
 }

@@ -5,7 +5,6 @@ import { useEffect, useState, type CSSProperties, type KeyboardEvent } from "rea
 const previews = [
   {
     id: "toggle",
-    number: "02",
     label: "Toggle",
     src: "./toggle-wear-demo.gif",
     alt: "A Toggle developing visible wear through repeated use",
@@ -13,7 +12,6 @@ const previews = [
   },
   {
     id: "slider",
-    number: "03",
     label: "Slider",
     src: "./slider-wear-demo.gif",
     alt: "A Slider developing a visible wear trail as it moves",
@@ -21,11 +19,10 @@ const previews = [
   },
   {
     id: "knob",
-    number: "10",
     label: "Knob",
     src: "./knob-wear-demo.gif",
-    alt: "A Knob turning from zero to one hundred as material wear develops",
-    durationMs: 5940,
+    alt: "A Knob turning from zero to one hundred and back as material wear develops",
+    durationMs: 8940,
   },
 ] as const;
 
@@ -72,28 +69,6 @@ export function HeroWearPreview() {
       style={{ "--preview-duration": `${activePreview.durationMs}ms` } as CSSProperties}
       aria-label="Animated wear demonstrations"
     >
-      <div className="hero-wear-preview__tabs" role="tablist" aria-label="Choose a component demonstration">
-        {previews.map((preview, index) => {
-          const selected = index === activeIndex;
-          return (
-            <button
-              key={preview.id}
-              id={`hero-preview-tab-${preview.id}`}
-              className="hero-wear-preview__tab"
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              aria-controls="hero-preview-panel"
-              tabIndex={selected ? 0 : -1}
-              onClick={() => selectPreview(index)}
-              onKeyDown={(event) => handleTabKey(event, index)}
-            >
-              <span>{preview.number}</span>
-              <b>{preview.label}</b>
-            </button>
-          );
-        })}
-      </div>
       <div
         id="hero-preview-panel"
         className="hero-wear-preview__panel"
@@ -112,6 +87,27 @@ export function HeroWearPreview() {
           fetchPriority={activeIndex === 0 ? "high" : "auto"}
           onLoad={() => setIsLoaded(true)}
         />
+      </div>
+      <div className="hero-wear-preview__indicators" role="tablist" aria-label="Choose a component demonstration">
+        {previews.map((preview, index) => {
+          const selected = index === activeIndex;
+          return (
+            <button
+              key={preview.id}
+              id={`hero-preview-tab-${preview.id}`}
+              className="hero-wear-preview__indicator"
+              type="button"
+              role="tab"
+              aria-label={`Show ${preview.label} demonstration`}
+              aria-selected={selected}
+              aria-controls="hero-preview-panel"
+              tabIndex={selected ? 0 : -1}
+              title={preview.label}
+              onClick={() => selectPreview(index)}
+              onKeyDown={(event) => handleTabKey(event, index)}
+            />
+          );
+        })}
       </div>
     </section>
   );

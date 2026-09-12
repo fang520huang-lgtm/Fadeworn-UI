@@ -51,8 +51,8 @@ export default function Home() {
         <div className="hero-copy">
           <p className="section-index">01 / ACTIVE SURFACE</p>
           <h1>Every touch<br /><em>leaves evidence.</em></h1>
-          <p className="lede">Use the controls below.<br />Every click, drag, keystroke, and scroll leaves a visible trace.</p>
           <HeroWearPreview />
+          <p className="lede">Use the controls below.<br />Every click, drag, keystroke, and scroll leaves a visible trace.</p>
           <div className="hero-actions">
             <Button className="initial-wear-button" onClick={applyInitialWear}>
               <Sparkles aria-hidden="true" /> INITIAL WEAR
