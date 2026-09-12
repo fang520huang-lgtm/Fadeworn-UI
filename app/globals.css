@@ -231,7 +231,6 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 }
 .specimen-card::before { top: 11px; left: 11px; }.specimen-card::after { right: 11px; bottom: 11px; }
 .specimen-card { scroll-margin-top: 26px; }
-.specimen-card:target { border-color: #8a6a3a !important; box-shadow: inset 0 0 0 4px #0d100e, inset 0 0 0 5px #6b5327, 0 18px 40px #0004 !important; }
 .specimen-card__head { grid-template-columns: 1fr auto !important; padding: 23px 27px 18px !important; border-bottom: 1px solid #333a33; }
 .specimen-card__head h3 { margin: 7px 0 0; font: 400 27px/1.1 Georgia, serif; letter-spacing: -.02em; }
 .specimen-head-actions { display: flex; align-items: center; gap: 13px; }
