@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 
 const previews = [
   {
@@ -30,7 +30,13 @@ export function HeroWearPreview() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [cycle, setCycle] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
   const activePreview = previews[activeIndex];
+
+  useEffect(() => {
+    const image = imageRef.current;
+    if (image?.complete && image.naturalWidth > 0) setIsLoaded(true);
+  }, [activeIndex, cycle]);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -78,6 +84,7 @@ export function HeroWearPreview() {
         {/* Relative public paths work both at / and under the GitHub Pages repository path. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
+          ref={imageRef}
           key={`${activePreview.id}-${cycle}`}
           src={activePreview.src}
           alt={activePreview.alt}
