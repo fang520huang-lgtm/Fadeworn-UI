@@ -128,6 +128,16 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 }
 .notes-grid h2 em { display: inline-block; margin-top: .07em; color: #bd9250; font-style: italic; font-weight: 400; }
 .lede { max-width: 600px; margin: 0; color: #adb4ab; font-family: var(--font-body); font-size: 17px; font-weight: 350; line-height: 1.72; letter-spacing: .006em; }
+.hero-wear-preview {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
+  margin-top: 30px; padding: 7px; border: 1px solid #303730;
+  background: #0d100e; box-shadow: inset 0 0 0 1px #171c17, 0 14px 32px #0004;
+}
+.hero-wear-preview img {
+  display: block; width: 100%; height: auto; min-width: 0;
+  border: 1px solid #303730; background: #111511;
+}
+.hero-wear-preview + .hero-actions { margin-top: 28px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
 .initial-wear-button, .reset-button, .github-button {
   height: 46px !important; padding: 0 19px !important; border-radius: 2px !important;
@@ -506,7 +516,7 @@ button, a, input, [role="button"] { -webkit-tap-highlight-color: transparent; }
 
 @media (max-width: 560px) {
   .brand-mark { width: 37px; height: 37px; }.brand-lockup small { font-size: 8px; }.brand-lockup b { font-size: 13px; }
-  .hero-copy h1 { font-size: 45px; }.lede { font-size: 16px; }.hero-actions { flex-direction: column; }.hero-actions [data-slot="button"] { width: 100%; }.github-button { margin-left: 0; }
+  .hero-copy h1 { font-size: 45px; }.lede { font-size: 16px; }.hero-wear-preview { gap: 6px; padding: 5px; }.hero-actions { flex-direction: column; }.hero-actions [data-slot="button"] { width: 100%; }.github-button { margin-left: 0; }
   .instrument-panel { padding: 11px; }.overall-gauge { padding: 36px 18px; }.material-strip { gap: 6px; }
   .section-heading h2, .inspector-copy h2 { font-size: 38px; }.specimen-card__head { padding: 21px 22px 16px !important; }.specimen-card__head h3 { font-size: 23px; }.specimen-card__body { padding: 11px !important; }.specimen-card__foot { padding-inline: 21px; }
   .control-bay { min-height: 320px; }.lab-push-button { width: 74% !important; }.slider-bay, .tabs-bay, .nav-bay, .choice-bay { padding-inline: 7%; }

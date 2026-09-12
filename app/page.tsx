@@ -51,6 +51,26 @@ export default function Home() {
           <p className="section-index">01 / ACTIVE SURFACE</p>
           <h1>Every touch<br /><em>leaves evidence.</em></h1>
           <p className="lede">Use the controls below.<br />Every click, drag, keystroke, and scroll leaves a visible trace.</p>
+          <div className="hero-wear-preview">
+            {/* Relative public paths work both at / and under the GitHub Pages repository path. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="./toggle-wear-demo.gif"
+              alt="A Toggle developing visible wear through repeated use"
+              width="800"
+              height="613"
+              loading="eager"
+              fetchPriority="high"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="./slider-wear-demo.gif"
+              alt="A Slider developing a visible wear trail as it moves"
+              width="800"
+              height="613"
+              loading="eager"
+            />
+          </div>
           <div className="hero-actions">
             <Button className="initial-wear-button" onClick={applyInitialWear}>
               <Sparkles aria-hidden="true" /> INITIAL WEAR
